@@ -15,8 +15,8 @@ skewness = [0.4, 0.8, 1.2]
 contention = ['low', 'med', 'high']
 data_structures = ['array-nonopaque', 'array']
 
-write_fracs = [0.1, 0.3, 0.5, 0.7, 0.9]
-readonly_fracs = [0.0, 0.2, 0.4, 0.6, 0.8]
+write_fracs = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
+readonly_fracs = [0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
 
 def run_tictoc(result_group, write_pct, ro_txn_pct):
     # make sure we are on the tictoc branch
