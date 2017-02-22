@@ -152,18 +152,37 @@ def new_result_group():
         result_group[c] = {}
     return result_group
 
-def make_figure_contour(result_matrices):
+def make_figure_contour(titles, result_matrices, filename):
     x = readonly_fracs
     y = write_fracs
     X, Y = numpy.meshgrid(x,y)
+    levels = numpy.linspace(0.4,1.3,19)
 
-    fig, axs = plt.subplots(1,len(result_matrices))
+    fig, axs = plt.subplots(1,len(result_matrices),figsize=((len(result_matrices)+1)*5,5))
 
     for idx, m in enumerate(result_matrices):
-        cs = axs[idx].contourf(X, Y, m)
-        fig.colorbar(cs, ax=axs[idx], format='%.3f')
+        cs = axs[idx].contourf(X, Y, m, levels=levels)
+        cbar = fig.colorbar(cs, ax=axs[idx], format='%.3f', fraction=0.046, pad=0.04)
+        axs[idx].set_title(titles[idx])
+        axs[idx].set_aspect('equal')
+        if idx == 0:
+            axs[idx].set_xlabel('fraction of read-only txns')
+            axs[idx].set_ylabel('fraction of writes in non-read-only txns')
+            cbar.ax.set_ylabel('speed up')
 
-    plt.show()
+    fig.subplots_adjust(wspace=0.4,
+                        hspace=0.3,
+                        left=0.05,
+                        right=0.95,
+                        top = 1.0,
+                        bottom=0.0)
+    plt.savefig(filename)
+
+def get_comparisons(overall_results, sot_name, base_name):
+    low_zmat = print_results_contour(overall_results, 'low', sot_name, base_name)
+    med_zmat = print_results_contour(overall_results, 'med', sot_name, base_name)
+    high_zmat = print_results_contour(overall_results, 'high', sot_name, base_name)
+    return (('low contention', 'med contention', 'high contention'), (low_zmat, med_zmat, high_zmat))
 
 def main():
     parser = optparse.OptionParser()
@@ -191,12 +210,12 @@ def main():
         with open('tictoc_results.json', 'w') as outfile:
             json.dump(overall_results, outfile)
 
-    low_zmat = print_results_contour(overall_results, 'low', sot_name='tictoc opaque', base_name='sto opaque')
-    med_zmat = print_results_contour(overall_results, 'med', sot_name='tictoc opaque', base_name='sto opaque')
-    high_zmat = print_results_contour(overall_results, 'high', sot_name='tictoc opaque', base_name='sto opaque')
+    r1 = get_comparisons(overall_results, 'tictoc', 'sto')
+    r2 = get_comparisons(overall_results, 'tictoc opaque', 'sto opaque')
 
     if options.f == True:
-        make_figure_contour([low_zmat, med_zmat, high_zmat])
+        make_figure_contour(r1[0], r1[1], 'nonopaque.pdf')
+        make_figure_contour(r2[0], r2[1], 'opaque.pdf')
 
 if __name__ == '__main__':
     main()
