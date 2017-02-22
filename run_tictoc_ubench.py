@@ -179,7 +179,7 @@ def make_figure_contour(titles, result_matrices, fig_title, filename):
                         bottom=0.1)
     fig.suptitle(fig_title, fontsize=16)
     plt.savefig(filename)
-    plt.show()
+    #plt.show()
 
 def get_comparisons(overall_results, sot_name, base_name):
     low_zmat = print_results_contour(overall_results, 'low', sot_name, base_name)
