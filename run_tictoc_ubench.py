@@ -139,7 +139,7 @@ def print_results_contour(overall_results, cont_level, sot_name, base_name):
         for x in range(len(readonly_fracs)):
             sot_throughput = 10000.0/16.0/overall_results[x][y][cont_level][sot_name]['time']
             base_throughput = 10000.0/16.0/overall_results[x][y][cont_level][base_name]['time']
-            spdup = sot_throughput / base_throughput
+            spdup = (sot_throughput - base_throughput)*100.0 / base_throughput
             ln += '{:.4f},'.format(spdup)
             larr.append(spdup)
         ret.append(larr)
@@ -152,17 +152,18 @@ def new_result_group():
         result_group[c] = {}
     return result_group
 
-def make_figure_contour(titles, result_matrices, filename):
+def make_figure_contour(titles, result_matrices, fig_title, filename):
     x = readonly_fracs
     y = write_fracs
     X, Y = numpy.meshgrid(x,y)
-    levels = numpy.linspace(0.4,1.3,19)
+    levels = numpy.linspace(-60,30,46)
 
-    fig, axs = plt.subplots(1,len(result_matrices),figsize=((len(result_matrices)+1)*5,5))
+    fig, axs = plt.subplots(1,len(result_matrices),figsize=((len(result_matrices))*5,5))
 
     for idx, m in enumerate(result_matrices):
-        cs = axs[idx].contourf(X, Y, m, levels=levels)
-        cbar = fig.colorbar(cs, ax=axs[idx], format='%.3f', fraction=0.046, pad=0.04)
+        cs = axs[idx].contour(X, Y, m, levels=levels)
+        cbar = fig.colorbar(cs, ax=axs[idx], format='%.0f%%', fraction=0.046, pad=0.04)
+        plt.clabel(cs, inline=True, fmt='%.0f%%')
         axs[idx].set_title(titles[idx])
         axs[idx].set_aspect('equal')
         if idx == 0:
@@ -170,13 +171,15 @@ def make_figure_contour(titles, result_matrices, filename):
             axs[idx].set_ylabel('fraction of writes in non-read-only txns')
             cbar.ax.set_ylabel('speed up')
 
-    fig.subplots_adjust(wspace=0.4,
+    fig.subplots_adjust(wspace=0.5,
                         hspace=0.3,
                         left=0.05,
                         right=0.95,
-                        top = 1.0,
-                        bottom=0.0)
+                        top=0.9,
+                        bottom=0.1)
+    fig.suptitle(fig_title, fontsize=16)
     plt.savefig(filename)
+    plt.show()
 
 def get_comparisons(overall_results, sot_name, base_name):
     low_zmat = print_results_contour(overall_results, 'low', sot_name, base_name)
@@ -214,8 +217,8 @@ def main():
     r2 = get_comparisons(overall_results, 'tictoc opaque', 'sto opaque')
 
     if options.f == True:
-        make_figure_contour(r1[0], r1[1], 'nonopaque.pdf')
-        make_figure_contour(r2[0], r2[1], 'opaque.pdf')
+        make_figure_contour(r1[0], r1[1], 'Speed up of TicToc over STO without opacity', 'nonopaque.pdf')
+        make_figure_contour(r2[0], r2[1], 'Speed up of TicToc over STO with opacity', 'opaque.pdf')
 
 if __name__ == '__main__':
     main()
