@@ -146,6 +146,22 @@ def print_results_contour(overall_results, cont_level, sot_name, base_name):
         print ln
     return numpy.array(ret)
 
+def print_result_array_by_key(overall_results, cont_level, key, sys_name):
+    ret = []
+    print '\n### Keyed results (key={}, sys={} -- {} contention) ###'.format(key, sys_name, cont_level)
+
+    print ',{},'.format(','.join(['{}'.format(n) for n in readonly_fracs]))
+    for y in range(len(write_fracs)):
+        ln = '{},'.format(write_fracs[y])
+        larr = []
+        for x in range(len(readonly_fracs)):
+            sys_keyed_val = overall_results[x][y][cont_level][sys_name][key]
+            ln += '{:.4f},'.format(sys_keyed_val)
+            larr.append(sys_keyed_val)
+        ret.append(larr)
+        print ln
+    return numpy.array(ret)
+
 def new_result_group():
     result_group = {}
     for c in contention:
@@ -182,15 +198,23 @@ def make_figure_contour(titles, result_matrices, fig_title, filename):
     #plt.show()
 
 def get_comparisons(overall_results, sot_name, base_name):
-    low_zmat = print_results_contour(overall_results, 'low', sot_name, base_name)
-    med_zmat = print_results_contour(overall_results, 'med', sot_name, base_name)
-    high_zmat = print_results_contour(overall_results, 'high', sot_name, base_name)
-    return (('low contention', 'med contention', 'high contention'), (low_zmat, med_zmat, high_zmat))
+    ret = [[],[]]
+    for c in contention:
+        ret[0].append('{} contention'.format(c))
+        ret[1].append(print_results_contour(overall_results, c, sot_name, base_name))
+    return ret
+
+def print_comparisons_by_key(overall_results, key, sys1_name, sys2_name):
+    print '\n### Comparing {} ###\n'.format(key)
+    for c in contention:
+        print_result_array_by_key(overall_results, c, key, sys1_name)
+        print_result_array_by_key(overall_results, c, key, sys2_name)
 
 def main():
     parser = optparse.OptionParser()
     parser.add_option('-l', action="store", dest="l", default='')
     parser.add_option('-f', action="store_true", dest="f", default=False)
+    parser.add_option('-a', action="store_true", dest="a", default=False)
     options, args = parser.parse_args()
 
     if options.l != '':
@@ -219,6 +243,9 @@ def main():
     if options.f == True:
         make_figure_contour(r1[0], r1[1], 'Speed up of TicToc over STO without opacity', 'nonopaque.pdf')
         make_figure_contour(r2[0], r2[1], 'Speed up of TicToc over STO with opacity', 'opaque.pdf')
+
+    if options.a == True:
+        print_comparisons_by_key(overall_results, 'abort', 'tictoc', 'sto')
 
 if __name__ == '__main__':
     main()
