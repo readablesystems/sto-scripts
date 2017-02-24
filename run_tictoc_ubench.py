@@ -237,7 +237,7 @@ def main():
     if options.f == True:
         make_figure_contour(r1[0], r1[1], 'Speed up of TicToc over STO without opacity', 'nonopaque.pdf')
         make_figure_contour(r2[0], r2[1], 'Speed up of TicToc over STO with opacity', 'opaque.pdf')
-    
+
     if options.a == True:
         print_comparisons_by_key(overall_results, 'abort', 'tictoc', 'sto')
 
