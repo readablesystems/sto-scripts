@@ -18,43 +18,29 @@ data_structures = ['array-nonopaque', 'array']
 write_fracs = [0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,1.0]
 readonly_fracs = [0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
 
-def run_tictoc(result_group, write_pct, ro_txn_pct):
-    # make sure we are on the tictoc branch
-    if not os.path.exists('./TicTocVersions.hh'):
-        print "No can do tictoc branch please"
+def build(sys_name):
+    err_msg = 'Branch error while building {}'
+    if sys_name == 'tictoc':
+        if not os.path.exists('./TicTocVersions.hh'):
+            print err_msg.format(sys_name)
+            exit()
+    elif sys_name == 'sto':
+        if os.path.exists('./TicTocVersions.hh'):
+            print err_msg.format(sys_name)
+            exit()
+    else:
+        print 'Unknown system name: {}'.format(sys_name)
         exit()
 
-    # build tictoc uncompressed
-    print 'building tictoc'
-    subprocess.check_output(['make', 'PROFILE_COUNTERS=1', 'concurrent'], stderr=subprocess.STDOUT)
-    results = benchmark_zipf('concurrent', 'tictoc', ntrails, write_pct, ro_txn_pct)
+    print 'building {}'.format(sys_name)
+    subprocess.check_output('make PROFILE_COUNTERS=1 concurrent'.split(' '), stderr=subprocess.STDOUT)
+
+def cleanup():
+    subprocess.check_output('make clean'.split(' '), stderr=subprocess.STDOUT)
+
+def run_sys(result_group, sys_name, write_pct, ro_txn_pct):
+    results = benchmark_zipf('concurrent', sys_name, ntrails, write_pct, ro_txn_pct)
     insert_results(result_group, results)
-
-    subprocess.check_output(['make', 'clean'], stderr=subprocess.STDOUT)
-
-    # ignoring compression for now
-
-    #build tictoc compressed
-    #print 'building tictoc compressed'
-    #subprocess.check_output(['make', 'PROFILE_COUNTERS=1', 'TICTOC_COMPOUND=1', 'concurrent'], stderr=subprocess.STDOUT)
-    #results = benchmark_zipf('concurrent', 'tictoc compressed', ntrails)
-    #insert_results(result_group, results)
-
-    #subprocess.check_output(['make', 'clean'], stderr=subprocess.STDOUT)
-
-def run_sto(result_group, write_pct, ro_txn_pct):
-    # make sure we are on master branch
-    if os.path.exists('./TicTocVersions.hh'):
-        print "No can do master branch please"
-        exit()
-
-    # build
-    print 'building sto'
-    subprocess.check_output(['make', 'PROFILE_COUNTERS=1', 'concurrent'], stderr=subprocess.STDOUT)
-    results = benchmark_zipf('concurrent', 'sto', ntrails, write_pct, ro_txn_pct)
-    insert_results(result_group, results)
-
-    subprocess.check_output(['make', 'clean'], stderr=subprocess.STDOUT)
 
 def benchmark_zipf(program, series_name, ntrails, write_pct, ro_txn_pct):
     results = {}
@@ -225,14 +211,22 @@ def main():
 
         print 'swicth to tictoc branch'
         os.system('git checkout tictoc')
+
+        build('tictoc')
         for x in range(len(readonly_fracs)):
             for y in range(len(write_fracs)):
-                run_tictoc(overall_results[x][y], write_fracs[y], readonly_fracs[x])
+                run_sys(overall_results[x][y], 'tictoc', write_fracs[y], readonly_fracs[x])
+        cleanup()
+
         print 'switch to master branch'
         os.system('git checkout master')
+
+        build('sto')
         for x in range(len(readonly_fracs)):
             for y in range(len(write_fracs)):
-                run_sto(overall_results[x][y], write_fracs[y], readonly_fracs[x])
+                run_sys(overall_results[x][y], 'sto', write_fracs[y], readonly_fracs[x])
+        cleanup()
+
         print 'ALL DONE'
         with open('tictoc_results.json', 'w') as outfile:
             json.dump(overall_results, outfile)
@@ -243,7 +237,7 @@ def main():
     if options.f == True:
         make_figure_contour(r1[0], r1[1], 'Speed up of TicToc over STO without opacity', 'nonopaque.pdf')
         make_figure_contour(r2[0], r2[1], 'Speed up of TicToc over STO with opacity', 'opaque.pdf')
-
+    
     if options.a == True:
         print_comparisons_by_key(overall_results, 'abort', 'tictoc', 'sto')
 
