@@ -158,7 +158,7 @@ def make_figure_contour(titles, result_matrices, fig_title, filename):
     x = readonly_fracs
     y = write_fracs
     X, Y = numpy.meshgrid(x,y)
-    levels = numpy.linspace(-60,30,46)
+    levels = numpy.linspace(-50,0,26)
 
     fig, axs = plt.subplots(1,len(result_matrices),figsize=((len(result_matrices))*5,5))
 
@@ -196,11 +196,62 @@ def print_comparisons_by_key(overall_results, key, sys1_name, sys2_name):
         print_result_array_by_key(overall_results, c, key, sys1_name)
         print_result_array_by_key(overall_results, c, key, sys2_name)
 
+def make_figure_barchart(overall_results, write_pct, ro_txn_pct):
+    series = ['tictoc', 'tictoc opaque', 'sto', 'sto opaque']
+
+    color_map = {
+        'tictoc': (153,216,201),
+        'tictoc opaque': (227,26,28),
+        'sto': (152,78,163),
+        'sto opaque': (251,180,174)
+    }
+
+    for key, value in color_map.iteritems():
+        r, g, b = value
+        color_map[key] = (r/255., g/255., b/255.)
+
+    throughputs = []
+    aborts = []
+    for s in series:
+        throughputs_sys = [10000.0/16.0/overall_results[readonly_fracs.index(ro_txn_pct)][write_fracs.index(write_pct)][c][s]['time'] for c in contention]
+        abort_sys = [overall_results[readonly_fracs.index(ro_txn_pct)][write_fracs.index(write_pct)][c][s]['abort'] for c in contention]
+        throughputs.append(throughputs_sys)
+        aborts.append(abort_sys)
+
+    # print abort rates
+    print '\n### Abort rates ###\n{:.0f}w{:.0f}ro'.format(write_pct*100, ro_txn_pct*100)
+    ln = ','
+    for c in contention:
+        ln += '{},'.format(c)
+    print ln
+
+    for s in series:
+        ln = '{},{},'.format(s, ','.join(['{:.3f}'.format(a) for a in aborts[series.index(s)]]))
+        print ln
+
+    # draw the bar graph
+    N = len(contention)
+    ind = numpy.arange(N)
+    width = 0.2
+
+    fig, ax = plt.subplots(figsize=(10, 6))
+    t_rects = [ax.bar(ind + width*i, throughputs[i], width, color=color_map[series[i]]) for i in range(len(series))]
+
+    ax.set_ylabel('Throughput (x1000 txns/second/thread)')
+    ax.set_title('Throughput comparison of different opacity schemes\n{:.0f}% write ops with {:.0f}% read-only txns'.format(write_pct*100, ro_txn_pct*100))
+    ax.set_xticks(ind + width*len(series)/2)
+    ax.set_xticklabels(['{} contention'.format(c) for c in contention])
+    ax.legend([r[0] for r in t_rects], series)
+
+    #plt.show()
+    plt.savefig('barchart-{:.0f}w{:.0f}ro.pdf'.format(write_pct*100, ro_txn_pct*100))
+
 def main():
     parser = optparse.OptionParser()
     parser.add_option('-l', action="store", dest="l", default='')
     parser.add_option('-f', action="store_true", dest="f", default=False)
     parser.add_option('-a', action="store_true", dest="a", default=False)
+    parser.add_option('-b', action="store_true", dest="b", default=False)
     options, args = parser.parse_args()
 
     if options.l != '':
@@ -237,6 +288,10 @@ def main():
     if options.f == True:
         make_figure_contour(r1[0], r1[1], 'Speed up of TicToc over STO without opacity', 'nonopaque.pdf')
         make_figure_contour(r2[0], r2[1], 'Speed up of TicToc over STO with opacity', 'opaque.pdf')
+
+    if options.b == True:
+        make_figure_barchart(overall_results, write_pct=0.1, ro_txn_pct=0.3)
+        make_figure_barchart(overall_results, write_pct=0.5, ro_txn_pct=0.0)
 
     if options.a == True:
         print_comparisons_by_key(overall_results, 'abort', 'tictoc', 'sto')
