@@ -10,7 +10,7 @@ DRY_RUN = False
 # Experiment configuration
 ntrails = 5
 opacity_types = ['tl2', 'gv7']
-contention = ['low', 'high']
+contention = ['ultra low', 'low', 'high']
 threads = [4,8,16]
 
 color_map = {
@@ -39,6 +39,7 @@ prog_name = {
 
 opts_contention = {
     'low': ' 3 array --ntrans=10000000 --opspertrans=10',
+    'ultra low': ' 10 array --ntrans=10000000',
     'high': ' 9 array --ntrans=10000000 --opspertrans=8 --readonlypercent=0.9'
 }
 
@@ -118,7 +119,8 @@ def graph_throughput(all_results, contention):
     y_min = {}
     y_max = {}
 
-    filename = 'throughput-{}-contention.png'.format(c)
+    fn_c = c.replace(' ', '')
+    filename = 'throughput-{}-contention.png'.format(fn_c)
 
     for o in opacity_types:
         for t in threads:
@@ -152,7 +154,7 @@ def graph_throughput(all_results, contention):
     ax.set_ylabel('Throughput (Mtxns/sec)')
     ax.set_xticks(ind+width)
     ax.set_xticklabels(['{} threads'.format(t) for t in threads])
-    if contention == 'low':
+    if contention == 'low' or contention == 'ultra low':
         ax.legend([r[0] for r in t_rects], opacity_types, loc='upper left')
     else:
         ax.legend([r[0] for r in t_rects], opacity_types)
@@ -171,8 +173,7 @@ def main():
 
     options, args = parser.parse_args()
 
-    if options.dry_run:
-        DRY_RUN = True
+    DRY_RUN = options.dry_run
 
     if options.load_file != '':
         with open(options.load_file, 'r') as input_file:
@@ -185,9 +186,9 @@ def main():
         with open('gv7_results.json', 'w') as outfile:
             json.dump(results, outfile)
 
-    # plot graphs
-    graph_throughput(results, 'low')
-    graph_throughput(results, 'high')
+    # plot graph
+    for c in contention:
+        graph_throughput(results, c)
 
 if __name__ == '__main__':
     main()
