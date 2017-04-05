@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import subprocess,json
+import subprocess,json,optparse
 import numpy as np
 from matplotlib import pyplot as plt
 from sto import profile_parser as parser
@@ -117,13 +117,16 @@ def graph_throughput(all_results, contention):
     y = {}
     y_min = {}
     y_max = {}
+
+    filename = 'throughput-{}-contention.png'.format(c)
+
     for o in opacity_types:
         for t in threads:
             throughput_series = []
             for n in range(ntrails):
                 time, aborts, hcos = all_results[exp_key(o,c,t,n)]
-                t = 10.0 / time # throughput in Mtxns/sec
-                throughput_series.append(t)
+                throughput = 10.0 / time # throughput in Mtxns/sec
+                throughput_series.append(throughput)
             throughput_min = np.amin(throughput_series)
             throughput_max = np.amax(throughput_series)
             throughput_med = np.median(throughput_series)
@@ -135,8 +138,8 @@ def graph_throughput(all_results, contention):
             if not o in y_max:
                 y_max[o] = []
             y[o].append(throughput_med)
-            y_min[o].append(throughput_min)
-            y_max[o].append(throughput_max)
+            y_min[o].append(throughput_med - throughput_min)
+            y_max[o].append(throughput_max - throughput_med)
 
     N = len(threads)
     ind = np.arange(N)
@@ -147,21 +150,44 @@ def graph_throughput(all_results, contention):
 
     ax.set_title('Throughput comparision of GV7 and TL2 opacity\n{} contention'.format(contention))
     ax.set_ylabel('Throughput (Mtxns/sec)')
-    ax.set_xticks(ind+width*len(threads)/2)
+    ax.set_xticks(ind+width)
     ax.set_xticklabels(['{} threads'.format(t) for t in threads])
-    ax.legend([r[0] for r in t_rects], opacity_types)
+    if contention == 'low':
+        ax.legend([r[0] for r in t_rects], opacity_types, loc='upper left')
+    else:
+        ax.legend([r[0] for r in t_rects], opacity_types)
 
-    plt.show()
+    #plt.show()
+    plt.savefig(filename)
 
 #def graph_aborts(all_results):
 
 #def graph_hco_passthrough(all_results):
 
-if __name__ == '__main__':
-    results = run_benchmark()
-    print 'ALL DONE'
-    if DRY_RUN:
-        exit()
+def main():
+    parser = optparse.OptionParser()
+    parser.add_option('-l', action="store", dest="load_file", default='')
+    parser.add_option('-d', action="store_true", dest="dry_run", default=False)
 
-    with open('gv7_results.json', 'w') as outfile:
-        json.dump(results, outfile)
+    options, args = parser.parse_args()
+
+    if options.dry_run:
+        DRY_RUN = True
+
+    if options.load_file != '':
+        with open(options.load_file, 'r') as input_file:
+            results = json.load(input_file)
+    else:
+        results = run_benchmark()
+        print 'ALL DONE'
+        if DRY_RUN:
+            exit()
+        with open('gv7_results.json', 'w') as outfile:
+            json.dump(results, outfile)
+
+    # plot graphs
+    graph_throughput(results, 'low')
+    graph_throughput(results, 'high')
+
+if __name__ == '__main__':
+    main()
