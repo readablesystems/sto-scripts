@@ -9,16 +9,21 @@ DRY_RUN = False
 
 # Experiment configuration
 ntrails = 5
-opacity_types = ['tl2', 'gv7']
-contention = ['ultra low', 'low', 'high']
+opacity_types = ['none', 'tl2', 'gv7', 'tl2-lesser', 'gv7-lesser', 'tictoc']
+contention = ['high']
 threads = [4,8,16]
 
 color_map = {
+    'none': (0,0,0),
     'tl2': (153,216,201),
-    'gv7': (227,26,28)
+    'tl2+cb': (152,78,163),
+    'tl2+reuse': (251,180,174),
+    'gv7': (227,26,28),
+    'tl2-lesser': (31,119,180),
+    'gv7-lesser': (255, 127, 14),
+    'tictoc': (174, 199, 232),
+    'noopt': (0,0,0)
 }
-    #(152,78,163),
-    #(251,180,174)
 
 for key, value in color_map.iteritems():
     r, g, b = value
@@ -33,8 +38,15 @@ sys_info = {
 }
 
 prog_name = {
-    'tl2': './concurrent',
-    'gv7': './concurrent-gv7'
+    'none'        : './concurrent-tl2',
+    'tl2'         : './concurrent-tl2',
+    'tl2+cb'      : './concurrent-cb',
+    'tl2+reuse'   : './concurrent-rt',
+    'gv7'         : './concurrent-gv7',
+    'noopt'       : './concurrent-noopt',
+    'tl2-lesser'  : './concurrent-tl2-lesser',
+    'gv7-lesser'  : './concurrent-gv7-lesser',
+    'tictoc'      : './concurrent-tictoc'
 }
 
 opts_contention = {
@@ -74,11 +86,18 @@ def get_cpu_list(policy, nthreads):
     return list(map(lambda x: '{}'.format(x), cl))
 
 def taskset_cmd(nthreads):
-    return 'taskset -c {}'.format(','.join(get_cpu_list('single-cpu', nthreads)))
+    policy = 'single-cpu'
+    if nthreads > sys_info['nthreads']:
+        policy = 'multi-cpu'
+    return 'taskset -c {}'.format(','.join(get_cpu_list(policy, nthreads)))
 
 def run_single(opacity_type, contention, nthreads):
+    global DRY_RUN
     cmd = prog_name[opacity_type]
     cmd += opts_contention[contention]
+
+    if opacity_type == 'none':
+        cmd = cmd.replace('array', 'array-nonopaque')
 
     cmd += ' --nthreads={}'.format(nthreads)
     cmd = taskset_cmd(nthreads) + ' ' + cmd
@@ -101,6 +120,7 @@ def exp_key(opacity, contention, nthreads, ntrail):
 
 # Compare results at 4, 8, 16 threads
 def run_benchmark():
+    global DRY_RUN
     all_results = {}
 
     for o in opacity_types:
@@ -113,25 +133,20 @@ def run_benchmark():
 
     return all_results
 
-def graph_throughput(all_results, contention):
+def graph_all_bars(all_results, contention, metric_func, y_title, title, filename):
     c = contention
     y = {}
     y_min = {}
     y_max = {}
 
-    fn_c = c.replace(' ', '')
-    filename = 'throughput-{}-contention.png'.format(fn_c)
-
     for o in opacity_types:
         for t in threads:
-            throughput_series = []
+            metric_series = []
             for n in range(ntrails):
-                time, aborts, hcos = all_results[exp_key(o,c,t,n)]
-                throughput = 10.0 / time # throughput in Mtxns/sec
-                throughput_series.append(throughput)
-            throughput_min = np.amin(throughput_series)
-            throughput_max = np.amax(throughput_series)
-            throughput_med = np.median(throughput_series)
+                metric_series.append(metric_func(all_results[exp_key(o,c,t,n)]))
+            metric_min = np.amin(metric_series)
+            metric_max = np.amax(metric_series)
+            metric_med = np.median(metric_series)
 
             if not o in y:
                 y[o] = []
@@ -139,34 +154,62 @@ def graph_throughput(all_results, contention):
                 y_min[o] = []
             if not o in y_max:
                 y_max[o] = []
-            y[o].append(throughput_med)
-            y_min[o].append(throughput_med - throughput_min)
-            y_max[o].append(throughput_max - throughput_med)
+            y[o].append(metric_med)
+            y_min[o].append(metric_med - metric_min)
+            y_max[o].append(metric_max - metric_med)
 
     N = len(threads)
-    ind = np.arange(N)
-    width = 0.2
+    width = 0.1
+    ind = np.arange(N) + 2*width
 
     fig, ax = plt.subplots(figsize=(10, 6))
     t_rects = [ax.bar(ind+width*opacity_types.index(o), y[o], width, color=color_map[o], yerr=[y_min[o], y_max[o]]) for o in opacity_types]
 
-    ax.set_title('Throughput comparision of GV7 and TL2 opacity\n{} contention'.format(contention))
-    ax.set_ylabel('Throughput (Mtxns/sec)')
-    ax.set_xticks(ind+width)
+    ax.set_title(title)
+    ax.set_ylabel(y_title)
+    ax.set_xticks(ind+width*len(opacity_types)/2)
     ax.set_xticklabels(['{} threads'.format(t) for t in threads])
-    if contention == 'low' or contention == 'ultra low':
-        ax.legend([r[0] for r in t_rects], opacity_types, loc='upper left')
-    else:
-        ax.legend([r[0] for r in t_rects], opacity_types)
+
+    box = ax.get_position()
+    ax.set_position([box.x0, box.y0, box.width*0.85, box.height])
+    ax.legend([r[0] for r in t_rects], opacity_types, loc='center left', bbox_to_anchor=(1, 0.5))
 
     #plt.show()
     plt.savefig(filename)
 
-#def graph_aborts(all_results):
+def calc_throughput(input_tuple):
+    time, aborts, hcos = input_tuple
+    return (10.0 / time)
 
-#def graph_hco_passthrough(all_results):
+def calc_aborts(input_tuple):
+    time, aborts, hcos = input_tuple
+    return aborts
+
+def calc_hcos(input_tuple):
+    time, aborts, hcos = input_tuple
+    return hcos
+
+def graph_throughput(all_results, contention):
+    graph_all_bars(all_results, contention, calc_throughput,
+        y_title='Throughput (Mtxns/sec)',
+        title='Throughput comparision of reordering schemes',
+        filename='throughput-{}-contention.png'.format(contention.replace(' ','')))
+
+def graph_aborts(all_results, contention):
+    graph_all_bars(all_results, contention, calc_aborts,
+        y_title='Abort rate (%)',
+        title='Abort rates of reordering schemes (lowers are better)',
+        filename='aborts-{}-contention.png'.format(contention.replace(' ','')))
+
+def graph_hcos(all_results, contention):
+    graph_all_bars(all_results, contention, calc_hcos,
+        y_title='# HCOs',
+        title='Number of Hard Checks (HCOs)',
+        filename='hcos-{}-contention.png'.format(contention.replace(' ','')))
 
 def main():
+    global DRY_RUN
+
     parser = optparse.OptionParser()
     parser.add_option('-l', action="store", dest="load_file", default='')
     parser.add_option('-d', action="store_true", dest="dry_run", default=False)
@@ -186,9 +229,10 @@ def main():
         with open('gv7_results.json', 'w') as outfile:
             json.dump(results, outfile)
 
-    # plot graph
+    # plot graph(s)
     for c in contention:
         graph_throughput(results, c)
+        graph_aborts(results, c)
 
 if __name__ == '__main__':
     main()
