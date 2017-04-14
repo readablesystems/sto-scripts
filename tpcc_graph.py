@@ -51,7 +51,7 @@ def graph_all_bars(results):
     width = 0.1
     ind = np.arange(N) + 2*width
 
-    fig, ax = plt.subplots(figsize=(25,6))
+    fig, ax = plt.subplots(figsize=(18,6))
     t_rects = [ax.bar(ind+width*tpcc.systems.index(s), y[s], width,
         color=tableau20[tpcc.systems.index(s)],
         yerr=[y_min[s], y_max[s]]) for s in tpcc.systems]
