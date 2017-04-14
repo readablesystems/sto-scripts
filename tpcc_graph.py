@@ -60,11 +60,13 @@ def graph_all_bars(results):
     ax.set_xticks(ind+width*len(tpcc.systems)/2)
     ax.set_xticklabels(['{} threads'.format(t) for t in tpcc.threads])
 
-    box = ax.get_position()
-    ax.set_position([box.x0, box.y0, box.width*0.85, box.height])
-    ax.legend([r[0] for r in t_rects], tpcc.systems, loc='center left', bbox_to_anchor=(1, 0.5))
+    #box = ax.get_position()
+    #ax.set_position([box.x0, box.y0, box.width*0.85, box.height])
+    ax.legend([r[0] for r in t_rects], tpcc.systems, loc='best')#, bbox_to_anchor=(1, 0.5))
 
-    plt.show()
+    fig.tight_layout()
+
+    plt.savefig('tpcc_4wh.pdf')
 
 if __name__ == '__main__':
     settings()

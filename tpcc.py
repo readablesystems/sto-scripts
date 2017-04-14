@@ -15,7 +15,7 @@ sys_names = {
 tpcc_opts = ' --runtime 30 --scale-factor=4 -dmbta --bench tpcc'
 
 threads = [4,8,12,16]
-systems = ['STO', 'STO/O', 'STO/O-', 'STO/O gv7', 'STO/O gv7-', 'TicToc']
+systems = ['STO', 'STO/O', 'STO/O gv7', 'TicToc']
 ntrails = 3
 
 cats = threads
