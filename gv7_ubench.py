@@ -8,6 +8,7 @@ from sto import profile_parser as parser
 from time import sleep as sys_sleep
 
 DRY_RUN = False
+TEST_DIR = 'test_dir'
 
 # Experiment configuration
 ntrails = 5
@@ -16,11 +17,16 @@ exp_names = ['singleton', 'reorder']
 
 opacity_types = {
     'singleton': ['tl2', 'tl2+cb', 'tl2+reuse', 'gv7'],
-    'reorder': ['none', 'tl2', 'tl2-lesser', 'tictoc']
+    'reorder': ['none', 'tl2', 'noopt', 'tl2-lesser', 'tl2+reuse', 'tl2+reuse-lesser', 'tictoc', 'tictoc-o']
 }
 contention = {
     'singleton': ['singleton low', 'singleton high'],
     'reorder': ['low-small', 'low-large', 'high-small', 'high-large']
+}
+
+draw_types = {
+    'singleton': ['tl2', 'tl2+cb', 'tl2+reuse', 'gv7'],
+    'reorder': ['none', 'tl2', 'tl2-lesser', 'tictoc', 'tictoc-o']
 }
 
 threads = [4,8,12]
@@ -35,6 +41,7 @@ color_map = {
     'tl2-lesser': (31,119,180),
     'gv7-lesser': (255, 127, 14),
     'tictoc': (174, 199, 232),
+    'tictoc-o': (74,59,276),
     'noopt': (152, 223, 138)
 }
 
@@ -43,16 +50,17 @@ for key, value in color_map.iteritems():
     color_map[key] = (r/255., g/255., b/255.)
 
 prog_name = {
-    'none'        : './concurrent-tl2',
-    'tl2'         : './concurrent-tl2',
-    'tl2+cb'      : './concurrent-cb',
-    'tl2+reuse'   : './concurrent-rt',
-    'tl2+reuse-lesser' : './concurrent-rt-lesser',
-    'gv7'         : './concurrent-gv7',
-    'noopt'       : './concurrent-tl2-noopt',
-    'tl2-lesser'  : './concurrent-tl2-lesser',
-    'gv7-lesser'  : './concurrent-gv7-lesser',
-    'tictoc'      : './concurrent-tictoc'
+    'none'        : 'concurrent-tl2',
+    'tl2'         : 'concurrent-tl2',
+    'tl2+cb'      : 'concurrent-cb',
+    'tl2+reuse'   : 'concurrent-rt',
+    'tl2+reuse-lesser' : 'concurrent-rt-lesser',
+    'gv7'         : 'concurrent-gv7',
+    'noopt'       : 'concurrent-tl2-noopt',
+    'tl2-lesser'  : 'concurrent-tl2-lesser',
+    'gv7-lesser'  : 'concurrent-gv7-lesser',
+    'tictoc'      : 'concurrent-tictoc',
+    'tictoc-o'    : 'concurrent-tictoc'
 }
 
 opts_contention = {
@@ -67,7 +75,7 @@ opts_contention = {
 
 def run_single(opacity_type, contention, nthreads):
     global DRY_RUN
-    cmd = prog_name[opacity_type]
+    cmd = '{}/{}'.format(TEST_DIR, prog_name[opacity_type])
     cmd += opts_contention[contention]
 
     if opacity_type == 'none' or opacity_type == 'tictoc':
