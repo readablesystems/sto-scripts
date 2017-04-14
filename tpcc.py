@@ -23,7 +23,7 @@ cats = threads
 DRY_RUN = False
 TEST_DIR = './test_dir'
 
-def run_single(sys_name, ntrail, nthr):
+def run_single(sys_name, nthr, ntrail):
     global DRY_RUN
     cmd = tsk.taskset_cmd(nthr)
     cmd += ' {}/'.format(TEST_DIR) + sys_names[sys_name]
@@ -41,15 +41,15 @@ def run_single(sys_name, ntrail, nthr):
 
     return xput
 
-def exp_key(sys_name, ntrail, nthr):
-    return '{}/{}/{}'.format(sys_name, ntrail, nthr)
+def exp_key(sys_name, nthr, ntrail):
+    return '{}/{}/{}'.format(sys_name, nthr, ntrail)
 
 def run_tpcc():
     results = {}
     for thr in threads:
         for sys in systems:
             for trl in range(ntrails):
-                xput = run_single(sys, trl, thr)
+                xput = run_single(sys, thr, trl)
                 results[exp_key(sys, thr, trl)] = xput
     return results
 
