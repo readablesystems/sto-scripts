@@ -11,8 +11,18 @@ DRY_RUN = False
 
 # Experiment configuration
 ntrails = 5
-opacity_types = ['none', 'tl2', 'tl2-lesser', 'tictoc']
-contention = ['high']
+
+exp_names = ['singleton', 'reorder']
+
+opacity_types = {
+    'singleton': ['tl2', 'tl2+cb', 'tl2+reuse', 'gv7'],
+    'reorder': ['none', 'tl2', 'tl2-lesser', 'tictoc']
+}
+contention = {
+    'singleton': ['singleton low', 'singleton high'],
+    'reorder': ['low-small', 'low-large', 'high-small', 'high-large']
+}
+
 threads = [4,8,12]
 
 color_map = {
@@ -46,11 +56,13 @@ prog_name = {
 }
 
 opts_contention = {
-    'low': ' 11 array --ntrans=10000000 --opspertrans=10 --skew=0.1 --readonlypercent=0.9',
+    'low-small': ' 11 array --ntrans=10000000 --opspertrans=10 --skew=0.1 --readonlypercent=0.9',
+    'low-large': ' 11 array --ntrans=10000000 --opspertrans=10 --opspertrans_ro=50 --skew=0.1 --readonlypercent=0.9',
     'singleton low': ' 10 array --ntrans=10000000 --skew=0.0',
     'singleton med': ' 10 array --ntrans=10000000 --skew=1.0',
     'singleton high': ' 10 array --ntrans=10000000 --skew=1.2',
-    'high': ' 8 array --ntrans=10000000 --opspertrans=9 --readonlypercent=0.9'
+    'high-small': ' 8 array --ntrans=10000000 --opspertrans=9 --readonlypercent=0.9',
+    'high-large': ' 8 array --ntrans=10000000 --opspertrans=9 --opspertrans_ro=49 --readonlypercent=0.9'
 }
 
 def run_single(opacity_type, contention, nthreads):
@@ -87,12 +99,14 @@ def run_benchmark():
     global DRY_RUN
     all_results = {}
 
-    for o in opacity_types:
-        for c in contention:
-            for t in threads:
-                for n in range(ntrails):
-                    result = run_single(o,c,t)
-                    if not DRY_RUN:
+    for e in exp_names:
+        for o in opacity_types[e]:
+            for c in contention[e]:
+                for t in threads:
+                    for n in range(ntrails):
+                        result = run_single(o,c,t)
+                        if DRY_RUN:
+                            continue
                         all_results[exp_key(o,c,t,n)] = result
 
     return all_results
@@ -199,14 +213,14 @@ def main():
         results = results_f.copy()
         results.update(results_r)
         with open('gv7_results.json', 'w') as outfile:
-            json.dump(results, outfile)
+            json.dump(results, outfile, indent=4, sort_keys=True)
     else:
         results = results_f
 
     # plot graph(s)
-    for c in contention:
-        graph_throughput(results, c)
-        graph_aborts(results, c)
+    #for c in contention:
+    #    graph_throughput(results, c)
+    #    graph_aborts(results, c)
 
 if __name__ == '__main__':
     main()
