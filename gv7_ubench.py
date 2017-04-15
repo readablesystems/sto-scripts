@@ -24,30 +24,7 @@ contention = {
     'reorder': ['low-small', 'low-large', 'high-small', 'high-large']
 }
 
-draw_types = {
-    'singleton': ['tl2', 'tl2+cb', 'tl2+reuse', 'gv7'],
-    'reorder': ['none', 'tl2', 'tl2-lesser', 'tictoc', 'tictoc-o']
-}
-
 threads = [4,8,12]
-
-color_map = {
-    'none': (0,0,0),
-    'tl2': (153,216,201),
-    'tl2+cb': (152,78,163),
-    'tl2+reuse': (251,180,174),
-    'tl2+reuse-lesser': (44, 160, 44),
-    'gv7': (227,26,28),
-    'tl2-lesser': (31,119,180),
-    'gv7-lesser': (255, 127, 14),
-    'tictoc': (174, 199, 232),
-    'tictoc-o': (74,59,276),
-    'noopt': (152, 223, 138)
-}
-
-for key, value in color_map.iteritems():
-    r, g, b = value
-    color_map[key] = (r/255., g/255., b/255.)
 
 prog_name = {
     'none'        : 'concurrent-tl2',
@@ -220,7 +197,7 @@ def main():
 
         results = results_f.copy()
         results.update(results_r)
-        with open('gv7_results.json', 'w') as outfile:
+        with open('ubench_results.json', 'w') as outfile:
             json.dump(results, outfile, indent=4, sort_keys=True)
     else:
         results = results_f
