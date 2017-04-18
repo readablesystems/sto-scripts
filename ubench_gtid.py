@@ -7,12 +7,12 @@ from sto import profile_parser as parser
 
 DRY_RUN = None
 
-threads = [4,8,12,16,20,24,28,32]
+threads = [4,8,12,16]
 
 wls = ['u-tiny', 'u-small', 'u-large', 'c-tiny', 'c-small', 'c-large']
 
-def scalability_opt(wl):
-    opt = ' 11 array --ntrans=12000000 --opspertrans={} --readonlypercent=0 --writepercent=1 --skew={}'
+def gtid_opt(wl):
+    opt = ' 11 array-nonopaque --ntrans=12000000 --opspertrans={} --readonlypercent=0.0 --writepercent=1.0 --skew={}'
     wll = wl.split('-')
     skew = None
     opspertrans = None
@@ -28,10 +28,10 @@ def scalability_opt(wl):
         opspertrans = 50
     return opt.format(opspertrans, skew)
 
-def run_single_scalability(wl, nthreads):
+def run_single_gtid(wl, nthreads):
     global DRY_RUN
-    cmd = '{}/{}'.format(ub.TEST_DIR, ub.prog_name['tl2'])
-    cmd += scalability_opt(wl)
+    cmd = '{}/{}'.format(ub.TEST_DIR, ub.prog_name['gtid'])
+    cmd += gtid_opt(wl)
     cmd += ' --nthreads={}'.format(nthreads)
 
     cmd = tsk.taskset_cmd(nthreads) + ' ' + cmd
@@ -52,7 +52,7 @@ def run_single_scalability(wl, nthreads):
 
     return (xput,aborts,hcos)
 
-def run_scalability():
+def run_gtid():
     global DRY_RUN
     results = {}
 
@@ -60,7 +60,7 @@ def run_scalability():
         for tr in threads:
             for n in range(ub.ntrails):
                 k = ub.exp_key('tl2',wl,tr,n)
-                res = run_single_scalability(wl,tr)
+                res = run_single_gtid(wl,tr)
                 if DRY_RUN:
                     continue
                 results[k] = res
@@ -72,7 +72,7 @@ if __name__ == '__main__':
     opts, args = psr.parse_args()
     DRY_RUN = opts.dry_run
 
-    r = run_scalability()
+    r = run_gtid()
     print 'ALL DONE'
 
     if DRY_RUN:
