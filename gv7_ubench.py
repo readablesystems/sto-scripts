@@ -71,15 +71,18 @@ def run_single(opacity_type, contention, nthreads):
     out = subprocess.check_output(cmd.split(' '), stderr=subprocess.STDOUT)
 
     time = parser.extract('time', out)
+    commits = parser.extract('commits', out)
     aborts = parser.extract('aborts', out)
     hcos = parser.extract('hcos', out)
+
+    xput = commits/time
 
     return (time, aborts, hcos)
 
 def exp_key(opacity, contention, nthreads, ntrail):
     return '{}/{}/{}/{}'.format(opacity, contention, nthreads, ntrail)
 
-# Compare results at 4, 8, 16 threads
+# Compare results at 4, 8, 12 threads
 def run_benchmark():
     global DRY_RUN
     all_results = {}
