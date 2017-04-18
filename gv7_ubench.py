@@ -37,7 +37,8 @@ prog_name = {
     'tl2-lesser'  : 'concurrent-tl2-lesser',
     'gv7-lesser'  : 'concurrent-gv7-lesser',
     'tictoc'      : 'concurrent-tictoc',
-    'tictoc-o'    : 'concurrent-tictoc'
+    'tictoc-o'    : 'concurrent-tictoc,',
+    'gtid'        : 'concurrent-gtid'
 }
 
 opts_contention = {

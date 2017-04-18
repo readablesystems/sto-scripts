@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 
-import subprocess,json,optparse
+import subprocess,json,os,optparse
 import gv7_ubench as ub
 import sys_taskset as tsk
 from sto import profile_parser as parser
 
 DRY_RUN = None
+RESULT_FILE = 'ubench_gtid_results.json'
 
+ntrails = 5
 threads = [4,8,12,16]
-
+systems = ['none', 'gtid']
 wls = ['u-tiny', 'u-small', 'u-large', 'c-tiny', 'c-small', 'c-large']
 
 def gtid_opt(wl):
@@ -17,7 +19,7 @@ def gtid_opt(wl):
     skew = None
     opspertrans = None
     if wll[0] == 'c':
-        skew = 1.2
+        skew = 0.8
     else:
         skew = 0.1
     if wll[1] == 'tiny':
@@ -28,9 +30,9 @@ def gtid_opt(wl):
         opspertrans = 50
     return opt.format(opspertrans, skew)
 
-def run_single_gtid(wl, nthreads):
+def run_single_gtid(sys, wl, nthreads):
     global DRY_RUN
-    cmd = '{}/{}'.format(ub.TEST_DIR, ub.prog_name['gtid'])
+    cmd = '{}/{}'.format(ub.TEST_DIR, ub.prog_name[sys])
     cmd += gtid_opt(wl)
     cmd += ' --nthreads={}'.format(nthreads)
 
@@ -52,18 +54,23 @@ def run_single_gtid(wl, nthreads):
 
     return (xput,aborts,hcos)
 
-def run_gtid():
-    global DRY_RUN
-    results = {}
+def key(system_name, workload, nthreads, trail):
+    return ub.exp_key(system_name, workload, nthreads, trail)
 
-    for wl in wls:
-        for tr in threads:
-            for n in range(ub.ntrails):
-                k = ub.exp_key('tl2',wl,tr,n)
-                res = run_single_gtid(wl,tr)
-                if DRY_RUN:
-                    continue
-                results[k] = res
+def run_gtid(results):
+    global DRY_RUN
+
+    for sys in systems:
+        for wl in wls:
+            for tr in threads:
+                for n in range(ntrails):
+                    k = key(sys,wl,tr,n)
+                    if k in results:
+                        continue # experiment done before
+                    res = run_single_gtid(sys,wl,tr)
+                    if DRY_RUN:
+                        continue
+                    results[k] = res
     return results
 
 if __name__ == '__main__':
@@ -72,11 +79,18 @@ if __name__ == '__main__':
     opts, args = psr.parse_args()
     DRY_RUN = opts.dry_run
 
-    r = run_gtid()
+    old_results = None
+    if os.path.exists(RESULT_FILE):
+        with open(RESULT_FILE, 'r') as rf:
+            old_results = json.load(rf)
+    else:
+        old_results = {}
+
+    r = run_gtid(old_results)
     print 'ALL DONE'
 
     if DRY_RUN:
         exit()
 
-    with open('ubench_scale_results.json', 'w') as ofile:
+    with open(RESULT_FILE, 'w') as ofile:
         json.dump(r,ofile,indent=4,sort_keys=True)
