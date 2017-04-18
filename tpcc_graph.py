@@ -22,23 +22,33 @@ def settings():
         r, g, b = tableau20[i]  
         tableau20[i] = (r / 255., g / 255., b / 255.)
 
-    with open('tpcc_results.json', 'r') as input_file:
-        results = json.load(input_file)
+    results = []
 
-def graph_all_bars(results):
+    with open('tpcc_4wh_results.json', 'r') as input_file:
+        results.append(json.load(input_file))
+    with open('tpcc_swh_results.json', 'r') as input_file:
+        results.append(json.load(input_file))
+
+def graph_all_bars(results, filename):
     y = {}
     y_min = {}
     y_max = {}
+    abrts = {}
 
     for s in tpcc.systems:
         y[s] = []
         y_min[s] = []
         y_max[s] = []
+        abrts[s] = []
 
         for tr in tpcc.threads:
             series = []
+            abrt_series = []
             for n in range(tpcc.ntrails):
-                series.append(results[tpcc.exp_key(s,tr,n)]/1000.0)
+                xput = results[tpcc.exp_key(s,tr,n)][0]
+                abrt = results[tpcc.exp_key(s,tr,n)][1]
+                series.append(xput/1000.0)
+                abrt_series.append(abrt)
             xput_min = np.amin(series)
             xput_max = np.amax(series)
             xput_med = np.median(series)
@@ -46,10 +56,17 @@ def graph_all_bars(results):
             y[s].append(xput_med)
             y_min[s].append(xput_med - xput_min)
             y_max[s].append(xput_max - xput_med)
+            abrts[s].append(abrt_series[series.index(xput_med)])
 
     N = len(tpcc.threads)
     width = 0.1
     ind = np.arange(N) + 2*width
+
+    print 'graph: {}'.format(filename)
+    for i in range(N):
+        print '\n{} threads:'.format(tpcc.threads[i])
+        for sys in tpcc.systems:
+            print '{}: x-{}, a-{}%'.format(sys, y[sys][i], abrts[sys][i])
 
     fig, ax = plt.subplots(figsize=(18,6))
     t_rects = [ax.bar(ind+width*tpcc.systems.index(s), y[s], width,
@@ -66,8 +83,10 @@ def graph_all_bars(results):
 
     fig.tight_layout()
 
-    plt.savefig('tpcc_4wh.pdf')
+    plt.savefig(filename)
 
 if __name__ == '__main__':
     settings()
-    graph_all_bars(results)
+    graph_all_bars(results[0], 'tpcc_4wh.pdf')
+    print ''
+    graph_all_bars(results[1], 'tpcc_swh.pdf')

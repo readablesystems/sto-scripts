@@ -96,80 +96,6 @@ def run_benchmark():
 
     return all_results
 
-def graph_all_bars(all_results, contention, metric_func, y_title, title, filename):
-    c = contention
-    y = {}
-    y_min = {}
-    y_max = {}
-
-    for o in opacity_types:
-        for t in threads:
-            metric_series = []
-            for n in range(ntrails):
-                metric_series.append(metric_func(all_results[exp_key(o,c,t,n)]))
-            metric_min = np.amin(metric_series)
-            metric_max = np.amax(metric_series)
-            metric_med = np.median(metric_series)
-
-            if not o in y:
-                y[o] = []
-            if not o in y_min:
-                y_min[o] = []
-            if not o in y_max:
-                y_max[o] = []
-            y[o].append(metric_med)
-            y_min[o].append(metric_med - metric_min)
-            y_max[o].append(metric_max - metric_med)
-
-    N = len(threads)
-    width = 0.1
-    ind = np.arange(N) + 2*width
-
-    fig, ax = plt.subplots(figsize=(10, 6))
-    t_rects = [ax.bar(ind+width*opacity_types.index(o), y[o], width, color=color_map[o], yerr=[y_min[o], y_max[o]]) for o in opacity_types]
-
-    ax.set_title(title)
-    ax.set_ylabel(y_title)
-    ax.set_xticks(ind+width*len(opacity_types)/2)
-    ax.set_xticklabels(['{} threads'.format(t) for t in threads])
-
-    box = ax.get_position()
-    ax.set_position([box.x0, box.y0, box.width*0.85, box.height])
-    ax.legend([r[0] for r in t_rects], opacity_types, loc='center left', bbox_to_anchor=(1, 0.5))
-
-    #plt.show()
-    plt.savefig(filename)
-
-def calc_throughput(input_tuple):
-    time, aborts, hcos = input_tuple
-    return (10.0 / time)
-
-def calc_aborts(input_tuple):
-    time, aborts, hcos = input_tuple
-    return aborts
-
-def calc_hcos(input_tuple):
-    time, aborts, hcos = input_tuple
-    return hcos
-
-def graph_throughput(all_results, contention):
-    graph_all_bars(all_results, contention, calc_throughput,
-        y_title='Throughput (Mtxns/sec)',
-        title='Throughput comparison of reordering schemes\n{} contention -- large RO txns'.format(contention),
-        filename='throughput-{}-contention.png'.format(contention.replace(' ','')))
-
-def graph_aborts(all_results, contention):
-    graph_all_bars(all_results, contention, calc_aborts,
-        y_title='Abort rate (%)',
-        title='Abort rates of reordering schemes (lowers are better)\n{} contention'.format(contention),
-        filename='aborts-{}-contention.png'.format(contention.replace(' ','')))
-
-def graph_hcos(all_results, contention):
-    graph_all_bars(all_results, contention, calc_hcos,
-        y_title='# HCOs',
-        title='Number of Hard Checks (HCOs)\n{} contention'.format(contention),
-        filename='hcos-{}-contention.png'.format(contention.replace(' ','')))
-
 def main():
     global DRY_RUN
 
@@ -201,11 +127,6 @@ def main():
             json.dump(results, outfile, indent=4, sort_keys=True)
     else:
         results = results_f
-
-    # plot graph(s)
-    #for c in contention:
-    #    graph_throughput(results, c)
-    #    graph_aborts(results, c)
 
 if __name__ == '__main__':
     main()
