@@ -9,6 +9,8 @@ from time import sleep as sys_sleep
 
 DRY_RUN = False
 TEST_DIR = 'test_dir'
+RESULTS_DIR = 'results/json'
+RESULTS_FILE = RESULTS_DIR + '/ubench_results.json'
 
 # Experiment configuration
 ntrails = 5
@@ -127,7 +129,7 @@ def main():
 
         results = results_f.copy()
         results.update(results_r)
-        with open('ubench_results.json', 'w') as outfile:
+        with open(RESULTS_FILE, 'w') as outfile:
             json.dump(results, outfile, indent=4, sort_keys=True)
     else:
         results = results_f

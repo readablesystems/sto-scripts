@@ -101,12 +101,12 @@ def graph_opacity_ubench(processed_exps):
             ax.set_xticks(ind+width*len(draw_types[exp])/2)
             ax.set_xticklabels(['{} threads'.format(t) for t in ub.threads])
 
-            if exp == 'singleton low' or exp == 'high-small':
+            if wl == 'singleton low' or wl == 'high-small':
                 ax.legend([r[0] for r in rects], [display_name[sys] for sys in draw_types[exp]], loc='best')
             plt.savefig(save_names[wl])
 
 if __name__ == '__main__':
-    with open('ubench_results.json', 'r') as infile:
+    with open(ub.RESULTS_FILE, 'r') as infile:
         results = json.load(infile)
     processed_exps = process(results)
     graph_opacity_ubench(processed_exps)
