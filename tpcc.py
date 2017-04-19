@@ -7,6 +7,7 @@ sys_names = {
     'STO': 'dbtest-sto',
     'STO/gTID': 'dbtest-gtid',
     'TicToc': 'dbtest-tictoc',
+    'TicToc/O': 'dbtest-tictoc-o',
     'STO/O': 'dbtest-tl2',
     'STO/O-': 'dbtest-tl2-lesser',
     'STO/O gv7': 'dbtest-gv7',
@@ -16,7 +17,7 @@ sys_names = {
 tpcc_opts = ' --runtime 30 -dmbta --bench tpcc'
 
 threads = [4,8,12,16]
-systems = ['STO', 'STO/O', 'STO/O gv7', 'TicToc']
+systems = ['STO', 'STO/O', 'STO/O-', 'STO/O gv7', 'TicToc', 'TicToc/O']
 gtid_systems = ['STO', 'STO/gTID']
 ntrails = 3
 
@@ -24,6 +25,9 @@ cats = threads
 
 DRY_RUN = False
 TEST_DIR = './test_dir'
+
+RESULT_DIR = 'results/json/'
+RESULT_FILES = [RESULT_DIR + 'tpcc_4wh_results.json', RESULT_DIR + 'tpcc_swh_results.json']
 
 def run_single(sys_name, nthr, ntrail, scale_wh):
     global DRY_RUN
@@ -51,57 +55,52 @@ def run_single(sys_name, nthr, ntrail, scale_wh):
 def exp_key(sys_name, nthr, ntrail):
     return '{}/{}/{}'.format(sys_name, nthr, ntrail)
 
-def run_tpcc():
-    return ({}, {})
-    results = {}
-    results_scale_wh = {}
+def run_tpcc(results):
+    results_4wh = results[0]
+    results_scale_wh = results[1]
     for thr in threads:
         for sys in systems:
             for trl in range(ntrails):
+                k = exp_key(sys, thr, trl)
+                if k in results_4wh:
+                    continue
                 res = run_single(sys, thr, trl, scale_wh=False)
-                results[exp_key(sys, thr, trl)] = res
+                results_4wh[k] = res
     for thr in threads:
         for sys in systems:
             for trl in range(ntrails):
+                k = exp_key(sys, thr, trl)
+                if k in results_scale_wh:
+                    continue
                 res = run_single(sys, thr, trl, scale_wh=True)
-                results_scale_wh[exp_key(sys, thr, trl)] = res
-    return (results, results_scale_wh)
+                results_scale_wh[k] = res
 
-def run_tpcc_gtid():
-    results_scale_wh = {}
-
+def run_tpcc_gtid(results_scale_wh):
     for thr in threads:
         for sys in gtid_systems:
             for trl in range(ntrails):
+                k = exp_key(sys,thr,trl)
+                if k in results_scale_wh:
+                    continue
                 res = run_single(sys,thr,trl,scale_wh=True)
-                results_scale_wh[exp_key(sys,thr,trl)] = res
-
-    return results_scale_wh
+                results_scale_wh[k] = res
 
 if __name__ == '__main__':
-    old_r = []
-    if os.path.exists('tpcc_4wh_results.json'):
-        with open('tpcc_4wh_results.json', 'r') as f:
-            old_r.append(json.load(f))
-    else:
-        old_r.append({})
+    results = []
 
-    if os.path.exists('tpcc_swh_results.json'):
-        with open('tpcc_swh_results.json', 'r') as f:
-            old_r.append(json.load(f))
-    else:
-        old_r.append({})
+    for resfile in RESULT_FILES:
+        if os.path.exists(resfile):
+            with open(resfile, 'r') as f:
+                results.append(json.load(f))
+        else:
+            results.append({})
 
-    r = run_tpcc()
-    r_gtid = run_tpcc_gtid()
-    r[1].update(r_gtid)
+    run_tpcc(results)
+    run_tpcc_gtid(results[1])
 
     if DRY_RUN:
         exit()
 
-    r[0].update(old_r[0])
-    r[1].update(old_r[1])
-    with open('tpcc_4wh_results.json', 'w') as rfile:
-        json.dump(r[0], rfile, indent=4, sort_keys=True)
-    with open('tpcc_swh_results.json', 'w') as rfile:
-        json.dump(r[1], rfile, indent=4, sort_keys=True)
+    for i in range(len(results)):
+        with open(RESULT_FILES[i], 'w') as rfile:
+            json.dump(results[i], rfile, indent=4, sort_keys=True)

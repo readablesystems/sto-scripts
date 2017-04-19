@@ -13,7 +13,7 @@ ubench_sys_names = [
     'gv7', 'gv7-lesser',
     'tictoc', 'tictoc-o',
     'gtid', 'noopt',
-    'none'
+    'none', 'abort'
 ]
 
 tpcc_sys_map = {
@@ -44,10 +44,12 @@ def settings():
     color_map = {}
 
     for i in range(len(ubench_sys_names)):
-        if ubench_sys_names[i] != 'none':
-            c = tableau20[i]
-        else:
+        if ubench_sys_names[i] == 'none':
             c = (.5,.5,.5)
+        elif ubench_sys_names[i] == 'abort':
+            c = (.78,.78,.78)
+        else:
+            c = tableau20[i]
         color_map[ubench_sys_names[i]] = c
 
     for tn in tpcc_sys_map:

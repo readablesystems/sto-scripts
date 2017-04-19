@@ -72,7 +72,7 @@ def draw(processed_exp):
         g_wls = g_wl_ticks[i]
         savename = g_savenames[i]
 
-        print '{} txns:'.format(graph_names[i])
+        print '{}:'.format(graph_names[i])
 
         y = {}
         y_min = {}
