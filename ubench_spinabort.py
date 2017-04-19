@@ -11,7 +11,7 @@ RESULT_DIR = 'results/json/'
 RESULT_FILE = RESULT_DIR + 'ubench_spinabort_results.json'
 
 ntrails = 5
-nthreads = [4,8,12]
+threads = [4,12]
 systems = ['none', 'abort']
 wls = ['l-small', 'h-small', 'l-large', 'h-large']
 
@@ -21,7 +21,7 @@ def exp_opt(wl):
     skew = None
     size = None
 
-    if wll[0] == 'c':
+    if wll[0] == 'h':
         skew = 1.2
     else:
         skew = 0.1
@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
     results = {}
     if os.path.exists(RESULT_FILE):
-        with open(RESULT_FILE, 'r') as rf
+        with open(RESULT_FILE, 'r') as rf:
             results = json.load(rf)
 
     run_benchmark(results)

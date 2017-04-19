@@ -23,6 +23,9 @@ g_wl_ticks = [
 
 g_savenames = ['ubench_spin_10.pdf', 'ubench_spin_50.pdf']
 
+def g_key(sys_name, wkld, nthr):
+    return '/'.join((sys_name, wkld, str(nthr)))
+
 # XXX more software engineering later...
 def process(results):
     processed_exp = {}
@@ -59,9 +62,9 @@ def wl_display_name(wl):
     cont, tsize, nthreads = wl.split('-')
     dname = None
     if cont == 'l':
-        dname = 'high'
-    else:
         dname = 'low'
+    else:
+        dname = 'high'
     dname += '-contention\n@{} threads'.format(nthreads)
     return dname
 

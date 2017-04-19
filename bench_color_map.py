@@ -23,7 +23,8 @@ tpcc_sys_map = {
     'STO/O-': 'tl2-lesser',
     'STO/O gv7': 'gv7',
     'STO/O gv7-': 'gv7-lesser',
-    'TicToc': 'tictoc'
+    'TicToc': 'tictoc',
+    'TicToc/O': 'tictoc-o'
 }
 
 def settings():

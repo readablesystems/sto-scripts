@@ -84,7 +84,7 @@ if __name__ == '__main__':
 
     results = {}
     if os.path.exists(RESULT_FILE):
-        with open(RESULT_FILE, 'r') as rf
+        with open(RESULT_FILE, 'r') as rf:
             results = json.load(rf)
 
     run_benchmark(results)
