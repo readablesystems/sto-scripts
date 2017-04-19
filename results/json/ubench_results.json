@@ -449,6 +449,156 @@
         0.0, 
         0.0
     ], 
+    "none/singleton high/12/0": [
+        2.153332, 
+        56.342, 
+        0.0
+    ], 
+    "none/singleton high/12/1": [
+        2.280867, 
+        53.425, 
+        0.0
+    ], 
+    "none/singleton high/12/2": [
+        2.162424, 
+        56.038, 
+        0.0
+    ], 
+    "none/singleton high/12/3": [
+        2.227659, 
+        52.633, 
+        0.0
+    ], 
+    "none/singleton high/12/4": [
+        2.190834, 
+        55.914, 
+        0.0
+    ], 
+    "none/singleton high/4/0": [
+        0.993155, 
+        11.793, 
+        0.0
+    ], 
+    "none/singleton high/4/1": [
+        0.949342, 
+        12.437, 
+        0.0
+    ], 
+    "none/singleton high/4/2": [
+        0.9939, 
+        11.882, 
+        0.0
+    ], 
+    "none/singleton high/4/3": [
+        0.947899, 
+        12.51, 
+        0.0
+    ], 
+    "none/singleton high/4/4": [
+        0.985983, 
+        11.972, 
+        0.0
+    ], 
+    "none/singleton high/8/0": [
+        1.579939, 
+        40.3, 
+        0.0
+    ], 
+    "none/singleton high/8/1": [
+        1.487433, 
+        42.123, 
+        0.0
+    ], 
+    "none/singleton high/8/2": [
+        1.502786, 
+        42.649, 
+        0.0
+    ], 
+    "none/singleton high/8/3": [
+        1.524278, 
+        43.106, 
+        0.0
+    ], 
+    "none/singleton high/8/4": [
+        1.504485, 
+        42.594, 
+        0.0
+    ], 
+    "none/singleton low/12/0": [
+        0.260516, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/12/1": [
+        0.291742, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/12/2": [
+        0.306661, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/12/3": [
+        0.269555, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/12/4": [
+        0.261939, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/4/0": [
+        0.679086, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/4/1": [
+        0.721614, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/4/2": [
+        0.721037, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/4/3": [
+        0.711596, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/4/4": [
+        0.681253, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/8/0": [
+        0.35567, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/8/1": [
+        0.404208, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/8/2": [
+        0.406702, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/8/3": [
+        0.400456, 
+        0.0, 
+        0.0
+    ], 
+    "none/singleton low/8/4": [
+        0.382743, 
+        0.0, 
+        0.0
+    ], 
     "noopt/high-large/12/0": [
         5.612021, 
         42.027, 

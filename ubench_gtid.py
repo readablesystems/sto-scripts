@@ -6,7 +6,8 @@ import sys_taskset as tsk
 from sto import profile_parser as parser
 
 DRY_RUN = None
-RESULT_FILE = 'ubench_gtid_results.json'
+RESULT_DIR = 'results/json/'
+RESULT_FILE = RESULT_DIR + 'ubench_gtid_results.json'
 
 ntrails = 5
 threads = [4,12]

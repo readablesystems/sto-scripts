@@ -7,7 +7,7 @@ import bench_color_map as cm
 import json
 
 draw_types = {
-    'singleton': ['tl2', 'tl2+cb', 'tl2+reuse', 'gv7'],
+    'singleton': ['none', 'tl2', 'tl2+cb', 'tl2+reuse', 'gv7'],
     'reorder': ['none', 'tl2', 'tl2-lesser', 'tictoc', 'tictoc-o']
 }
 

@@ -11,10 +11,9 @@ def settings():
     global results
     results = []
 
-    with open('tpcc_4wh_results.json', 'r') as input_file:
-        results.append(json.load(input_file))
-    with open('tpcc_swh_results.json', 'r') as input_file:
-        results.append(json.load(input_file))
+    for resfile in tpcc.RESULT_FILES:
+        with open(resfile, 'r') as input_file:
+            results.append(json.load(input_file))
 
 def graph_all_bars(results, systems, filename):
     y = {}

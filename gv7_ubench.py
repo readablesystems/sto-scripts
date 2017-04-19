@@ -9,8 +9,8 @@ from time import sleep as sys_sleep
 
 DRY_RUN = False
 TEST_DIR = 'test_dir'
-RESULTS_DIR = 'results/json'
-RESULTS_FILE = RESULTS_DIR + '/ubench_results.json'
+RESULTS_DIR = 'results/json/'
+RESULTS_FILE = RESULTS_DIR + 'ubench_results.json'
 
 # Experiment configuration
 ntrails = 5
@@ -18,7 +18,7 @@ ntrails = 5
 exp_names = ['singleton', 'reorder']
 
 opacity_types = {
-    'singleton': ['tl2', 'tl2+cb', 'tl2+reuse', 'gv7'],
+    'singleton': ['none', 'tl2', 'tl2+cb', 'tl2+reuse', 'gv7'],
     'reorder': ['none', 'tl2', 'noopt', 'tl2-lesser', 'tl2+reuse', 'tl2+reuse-lesser', 'tictoc', 'tictoc-o']
 }
 contention = {
@@ -40,7 +40,8 @@ prog_name = {
     'gv7-lesser'  : 'concurrent-gv7-lesser',
     'tictoc'      : 'concurrent-tictoc',
     'tictoc-o'    : 'concurrent-tictoc,',
-    'gtid'        : 'concurrent-gtid'
+    'gtid'        : 'concurrent-gtid',
+    'abort'       : 'concurrent-abort'
 }
 
 opts_contention = {
@@ -86,53 +87,44 @@ def exp_key(opacity, contention, nthreads, ntrail):
     return '{}/{}/{}/{}'.format(opacity, contention, nthreads, ntrail)
 
 # Compare results at 4, 8, 12 threads
-def run_benchmark():
+def run_benchmark(all_results):
     global DRY_RUN
-    all_results = {}
 
     for e in exp_names:
         for o in opacity_types[e]:
             for c in contention[e]:
                 for t in threads:
                     for n in range(ntrails):
+                        k = exp_key(o,c,t,n)
+                        if k in all_results:
+                            continue
                         result = run_single(o,c,t)
                         if DRY_RUN:
                             continue
-                        all_results[exp_key(o,c,t,n)] = result
-
-    return all_results
+                        all_results[k] = result
 
 def main():
     global DRY_RUN
 
     parser = optparse.OptionParser()
-    parser.add_option('-l', action="store", dest="load_file", default='')
     parser.add_option('-d', action="store_true", dest="dry_run", default=False)
-    parser.add_option('-a', action="store_true", dest="add_to_file", default=False)
 
     options, args = parser.parse_args()
 
     DRY_RUN = options.dry_run
 
-    results_f = {}
-    results_r = {}
+    results = {}
 
-    if options.load_file != '':
-        with open(options.load_file, 'r') as input_file:
-            results_f = json.load(input_file)
+    with open(RESULTS_FILE, 'r') as input_file:
+        results = json.load(input_file)
 
-    if options.add_to_file or options.load_file == '':
-        results_r = run_benchmark()
-        print 'ALL DONE'
-        if DRY_RUN:
-            exit()
+    run_benchmark(results)
+    print 'ALL DONE'
+    if DRY_RUN:
+        exit()
 
-        results = results_f.copy()
-        results.update(results_r)
-        with open(RESULTS_FILE, 'w') as outfile:
-            json.dump(results, outfile, indent=4, sort_keys=True)
-    else:
-        results = results_f
+    with open(RESULTS_FILE, 'w') as outfile:
+        json.dump(results, outfile, indent=4, sort_keys=True)
 
 if __name__ == '__main__':
     main()
