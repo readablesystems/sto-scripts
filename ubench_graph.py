@@ -3,6 +3,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 import gv7_ubench as ub
+import bench_color_map as cm
 import json
 
 draw_types = {
@@ -23,24 +24,6 @@ display_name = {
     'tictoc'      : 'TicToc',
     'tictoc-o'    : 'TicToc/O'
 }
-
-color_map = {
-    'none': (0,0,0),
-    'tl2': (153,216,201),
-    'tl2+cb': (152,78,163),
-    'tl2+reuse': (251,180,174),
-    'tl2+reuse-lesser': (44, 160, 44),
-    'gv7': (227,26,28),
-    'tl2-lesser': (31,119,180),
-    'gv7-lesser': (255, 127, 14),
-    'tictoc': (174, 199, 232),
-    'tictoc-o': (74,59,216),
-    'noopt': (152, 223, 138)
-}
-
-for key, value in color_map.iteritems():
-    r, g, b = value
-    color_map[key] = (r/255., g/255., b/255.)
 
 def exp_key_graph(sys,wl,nthr):
     return '{}/{}/{}'.format(sys,wl,nthr)
@@ -112,7 +95,7 @@ def graph_opacity_ubench(processed_exps):
 
             fig, ax = plt.subplots(figsize=(10, 6))
             rects = [ax.bar(ind+width*draw_types[exp].index(sys), y[sys], width,
-                color=color_map[sys], yerr=[y_min[sys], y_max[sys]]) for sys in draw_types[exp]]
+                color=cm.color_map[sys], yerr=[y_min[sys], y_max[sys]]) for sys in draw_types[exp]]
 
             ax.set_ylabel('Throughput (Mtxns/sec)')
             ax.set_xticks(ind+width*len(draw_types[exp])/2)
