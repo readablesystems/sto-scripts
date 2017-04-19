@@ -58,7 +58,7 @@ def graph_all_bars(results, systems, filename):
     fig, ax = plt.subplots(figsize=(18,6))
     t_rects = [ax.bar(ind+width*systems.index(s), y[s], width,
         color=cm.color_map[s],
-        yerr=[y_min[s], y_max[s]]) for s in systems]
+        yerr=[y_min[s], y_max[s]], error_kw=cm.ERROR_KW) for s in systems]
 
     ax.set_ylabel('Throughput (x1000 txns/sec)')
     ax.set_xticks(ind+width*len(systems)/2)

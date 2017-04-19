@@ -9,9 +9,9 @@ DRY_RUN = None
 RESULT_FILE = 'ubench_gtid_results.json'
 
 ntrails = 5
-threads = [4,8,12,16]
+threads = [4,12]
 systems = ['none', 'gtid']
-wls = ['u-tiny', 'u-small', 'u-large', 'c-tiny', 'c-small', 'c-large']
+wls = ['u-tiny', 'u-small', 'c-tiny', 'c-small']
 
 def gtid_opt(wl):
     opt = ' 11 array-nonopaque --ntrans=12000000 --opspertrans={} --readonlypercent=0.0 --writepercent=1.0 --skew={}'
@@ -19,7 +19,7 @@ def gtid_opt(wl):
     skew = None
     opspertrans = None
     if wll[0] == 'c':
-        skew = 0.8
+        skew = 1.0
     else:
         skew = 0.1
     if wll[1] == 'tiny':

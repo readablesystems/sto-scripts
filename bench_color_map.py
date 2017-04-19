@@ -4,6 +4,8 @@ tableau20 = None
 
 color_map = None
 
+ERROR_KW = None
+
 ubench_sys_names = [
     'tl2', 'tl2-lesser',
     'tl2+cb', 'tl2+cb-lesser',
@@ -27,6 +29,7 @@ tpcc_sys_map = {
 def settings():
     global tableau20
     global color_map
+    global ERROR_KW
 
     tableau20 = [(31,119,180), (174,199,232), (255,127,14), (255,187,120),
                  (44,160,44), (152,223,138), (214,39,40), (255,152,150),
@@ -44,10 +47,12 @@ def settings():
         if ubench_sys_names[i] != 'none':
             c = tableau20[i]
         else:
-            c = (0.,0.,0.)
+            c = (.5,.5,.5)
         color_map[ubench_sys_names[i]] = c
 
     for tn in tpcc_sys_map:
         color_map[tn] = color_map[tpcc_sys_map[tn]]
+
+    ERROR_KW = dict(ecolor='black', lw=1, capsize=5, capthick=1)
 
 settings()

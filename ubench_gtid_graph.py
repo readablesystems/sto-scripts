@@ -14,15 +14,14 @@ display_name = {
     'gtid': 'w/ gTID'
 }
 
-graph_names = ['Tiny txns', 'Small txns', 'Large txns']
+graph_names = ['Tiny txns', 'Small txns']
 
 g_wl_ticks = [
     ['u-tiny-4', 'c-tiny-4', 'u-tiny-12', 'c-tiny-12'], # x-axis of graph-1
-    ['u-small-4', 'c-small-4', 'u-small-12', 'c-small-12'], # ...    of graph-2
-    ['u-large-4', 'c-large-4', 'u-large-12', 'c-large-12']
+    ['u-small-4', 'c-small-4', 'u-small-12', 'c-small-12']  # ...    of graph-2
 ]
 
-g_savenames = ['ubench_gtid_01.pdf', 'ubench_gtid_10.pdf', 'ubench_gtid_50.pdf']
+g_savenames = ['ubench_gtid_singleton.pdf', 'ubench_gtid_10.pdf']
 
 def g_key(system_name, workload, nthreads):
     return '/'.join((system_name, workload, str(nthreads)))
@@ -104,7 +103,7 @@ def draw(processed_exp):
         fig, ax = plt.subplots(figsize=(10,6))
         rects = [ax.bar(ind+width*g_systems.index(sys), y[sys], width,
             color=cm.color_map[sys],
-            yerr=[y_min[sys],y_max[sys]]) for sys in g_systems]
+            yerr=[y_min[sys],y_max[sys]], error_kw=cm.ERROR_KW) for sys in g_systems]
 
         ax.set_ylabel('Throughput (x1000 txns/sec)')
         ax.set_xticks(ind+width*len(g_systems)/2)

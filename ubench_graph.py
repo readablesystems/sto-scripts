@@ -95,13 +95,14 @@ def graph_opacity_ubench(processed_exps):
 
             fig, ax = plt.subplots(figsize=(10, 6))
             rects = [ax.bar(ind+width*draw_types[exp].index(sys), y[sys], width,
-                color=cm.color_map[sys], yerr=[y_min[sys], y_max[sys]]) for sys in draw_types[exp]]
+                color=cm.color_map[sys], yerr=[y_min[sys], y_max[sys]], error_kw=cm.ERROR_KW) for sys in draw_types[exp]]
 
             ax.set_ylabel('Throughput (Mtxns/sec)')
             ax.set_xticks(ind+width*len(draw_types[exp])/2)
             ax.set_xticklabels(['{} threads'.format(t) for t in ub.threads])
 
-            ax.legend([r[0] for r in rects], [display_name[sys] for sys in draw_types[exp]], loc='best')
+            if exp == 'singleton low' or exp == 'high-small':
+                ax.legend([r[0] for r in rects], [display_name[sys] for sys in draw_types[exp]], loc='best')
             plt.savefig(save_names[wl])
 
 if __name__ == '__main__':
