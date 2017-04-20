@@ -16,7 +16,7 @@ systems = ['none', 'abort']
 wls = ['l-small', 'h-small', 'l-large', 'h-large']
 
 def exp_opt(wl):
-    opt = ' 11 array-nonopaque --ntrans=10000000 --opspertrans={} --readonlypercent=0.9 --skew={}'
+    opt = ' 11 array-nonopaque --ntrans=10000000 --opspertrans=10 --opspertrans_ro={} --readonlypercent=0.9 --skew={}'
     wll = wl.split('-')
     skew = None
     size = None
@@ -78,12 +78,13 @@ def run_benchmark(results):
 
 if __name__ == '__main__':
     psr = optparse.OptionParser()
+    psr.add_option('-f', action="store_true", dest="force_update", default=False)
     psr.add_option('-d', action="store_true", dest="dry_run", default=False)
     opts, args = psr.parse_args()
     DRY_RUN = opts.dry_run
 
     results = {}
-    if os.path.exists(RESULT_FILE):
+    if os.path.exists(RESULT_FILE) and not opts.force_update:
         with open(RESULT_FILE, 'r') as rf:
             results = json.load(rf)
 

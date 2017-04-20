@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import json
-import ubench_spinabort as exp
+import ubench_opoh as exp
 import bench_color_map as cm
 import numpy as np
 from matplotlib import pyplot as plt
@@ -13,6 +13,7 @@ display_name = {
     'none': 'No Opacity',
     'tl2': 'TL2/O',
     'gv7': 'GV7/O',
+    'tictoc': 'TicToc',
     'tictoc-o': 'TicToc/O'
 }
 
@@ -24,6 +25,9 @@ g_wl_ticks = [
 ]
 
 g_savenames = ['ubench_opoh_10.pdf', 'ubench_opoh_50.pdf']
+
+def g_key(sys_name, wkld, nthr):
+    return '/'.join((sys_name, wkld, str(nthr)))
 
 # XXX more software engineering later...
 def process(results):
@@ -61,9 +65,9 @@ def wl_display_name(wl):
     cont, tsize, nthreads = wl.split('-')
     dname = None
     if cont == 'l':
-        dname = 'high'
-    else:
         dname = 'low'
+    else:
+        dname = 'high'
     dname += '-contention\n@{} threads'.format(nthreads)
     return dname
 

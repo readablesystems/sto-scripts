@@ -15,7 +15,7 @@ systems = ['none', 'gtid']
 wls = ['u-tiny', 'u-small', 'c-tiny', 'c-small']
 
 def gtid_opt(wl):
-    opt = ' 11 array-nonopaque --ntrans=12000000 --opspertrans={} --readonlypercent=0.0 --writepercent=1.0 --skew={}'
+    opt = ' 11 array-nonopaque --ntrans=12000000 --opspertrans={} --readonlypercent=0.0 --writepercent=1.0 --skew={} --blindrandwrites'
     wll = wl.split('-')
     skew = None
     opspertrans = None
@@ -76,12 +76,13 @@ def run_gtid(results):
 
 if __name__ == '__main__':
     psr = optparse.OptionParser()
+    psr.add_option('-f', action="store_true", dest="force_update", default=False)
     psr.add_option('-d', action="store_true", dest="dry_run", default=False)
     opts, args = psr.parse_args()
     DRY_RUN = opts.dry_run
 
     old_results = None
-    if os.path.exists(RESULT_FILE):
+    if os.path.exists(RESULT_FILE) and not opts.force_update:
         with open(RESULT_FILE, 'r') as rf:
             old_results = json.load(rf)
     else:

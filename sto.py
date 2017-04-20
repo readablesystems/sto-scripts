@@ -5,7 +5,7 @@ import re
 class profile_parser:
     patterns = {
         'time': 'real time: ([0-9\.]*)',
-        'commits': '([0-9]*) commits,',
+        'commits': ', ([0-9]*) commits',
         'aborts': '[0-9]* \(([0-9\.]*)%\) aborts',
         'hcos': '\$ ([0-9]*) HCO',
         'hco_filter_rate': 'out of [0-9]* check attempts \(([0-9\.]*)%\)'

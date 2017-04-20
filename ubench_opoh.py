@@ -11,17 +11,17 @@ RESULT_DIR = 'results/json/'
 RESULT_FILE = RESULT_DIR + 'ubench_opacity_overhead_results.json'
 
 ntrails = 5
-nthreads = [4,8,12]
-systems = ['none', 'tl2', 'gv7', 'tictoc-o']
+threads = [4,12]
+systems = ['none', 'tl2', 'gv7', 'tictoc', 'tictoc-o']
 wls = ['l-small', 'h-small', 'l-large', 'h-large']
 
 def exp_opt(wl):
-    opt = ' 11 array-nonopaque --ntrans=10000000 --opspertrans={} --skew={}'
+    opt = ' 11 array --ntrans=10000000 --opspertrans={} --skew={} --blindrandwrites'
     wll = wl.split('-')
     skew = None
     size = None
 
-    if wll[0] == 'c':
+    if wll[0] == 'h':
         skew = 1.2
     else:
         skew = 0.1
@@ -38,6 +38,9 @@ def run_single(sys, wl, nthreads):
 
     cmd = '{}/{}'.format(ub.TEST_DIR, ub.prog_name[sys])
     cmd += exp_opt(wl)
+    if sys == 'none' or sys == 'tictoc':
+        cmd = cmd.replace('array', 'array-nonopaque')
+
     cmd += ' --nthreads={}'.format(nthreads)
 
     cmd = tsk.taskset_cmd(nthreads) + ' ' + cmd
@@ -78,12 +81,13 @@ def run_benchmark(results):
 
 if __name__ == '__main__':
     psr = optparse.OptionParser()
+    psr.add_option('-f', action="store_true", dest="force_update", default=False)
     psr.add_option('-d', action="store_true", dest="dry_run", default=False)
     opts, args = psr.parse_args()
     DRY_RUN = opts.dry_run
 
     results = {}
-    if os.path.exists(RESULT_FILE):
+    if os.path.exists(RESULT_FILE) and not opts.force_update:
         with open(RESULT_FILE, 'r') as rf:
             results = json.load(rf)
 

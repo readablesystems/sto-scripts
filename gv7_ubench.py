@@ -23,7 +23,7 @@ opacity_types = {
 }
 contention = {
     'singleton': ['singleton low', 'singleton high'],
-    'reorder': ['low-small', 'low-large', 'high-small', 'high-large']
+    'reorder': ['high-small', 'high-large']
 }
 
 threads = [4,8,12]
@@ -39,17 +39,17 @@ prog_name = {
     'tl2-lesser'  : 'concurrent-tl2-lesser',
     'gv7-lesser'  : 'concurrent-gv7-lesser',
     'tictoc'      : 'concurrent-tictoc',
-    'tictoc-o'    : 'concurrent-tictoc,',
+    'tictoc-o'    : 'concurrent-tictoc',
     'gtid'        : 'concurrent-gtid',
     'abort'       : 'concurrent-abort'
 }
 
 opts_contention = {
+    'singleton low': ' 10 array --ntrans=10000000 --skew=0.0 --blindrandwrites',
+    'singleton med': ' 10 array --ntrans=10000000 --skew=1.0 --blindrandwrites',
+    'singleton high': ' 10 array --ntrans=10000000 --skew=1.2 --blindrandwrites',
     'low-small': ' 11 array --ntrans=10000000 --opspertrans=10 --skew=0.1 --readonlypercent=0.9',
     'low-large': ' 11 array --ntrans=10000000 --opspertrans=10 --opspertrans_ro=50 --skew=0.1 --readonlypercent=0.9',
-    'singleton low': ' 10 array --ntrans=10000000 --skew=0.0',
-    'singleton med': ' 10 array --ntrans=10000000 --skew=1.0',
-    'singleton high': ' 10 array --ntrans=10000000 --skew=1.2',
     'high-small': ' 8 array --ntrans=10000000 --opspertrans=9 --readonlypercent=0.9',
     'high-large': ' 8 array --ntrans=10000000 --opspertrans=9 --opspertrans_ro=49 --readonlypercent=0.9'
 }
@@ -107,6 +107,7 @@ def main():
     global DRY_RUN
 
     parser = optparse.OptionParser()
+    parser.add_option('-f', action="store_true", dest="force_update", default=False)
     parser.add_option('-d', action="store_true", dest="dry_run", default=False)
 
     options, args = parser.parse_args()
@@ -115,8 +116,9 @@ def main():
 
     results = {}
 
-    with open(RESULTS_FILE, 'r') as input_file:
-        results = json.load(input_file)
+    if not options.force_update:
+        with open(RESULTS_FILE, 'r') as input_file:
+            results = json.load(input_file)
 
     run_benchmark(results)
     print 'ALL DONE'
