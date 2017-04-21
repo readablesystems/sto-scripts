@@ -2,11 +2,12 @@
 
 import json
 import ubench_opoh as exp
+import sys_taskset as tsk
 import bench_color_map as cm
 import numpy as np
 from matplotlib import pyplot as plt
 
-g_threads = [4,12]
+g_threads = exp.threads
 g_systems = exp.systems
 
 display_name = {
@@ -20,9 +21,15 @@ display_name = {
 graph_names = ['Small txns', 'Large txns']
 
 g_wl_ticks = [
-    ['l-small-4', 'h-small-4', 'l-small-12', 'h-small-12'], # x-axis of graph-1
-    ['l-large-4', 'h-large-4', 'l-large-12', 'h-large-12']  # ... of graph-2
+    [], # x-axis of graph-1
+    []  # ...    of graph-2
 ]
+
+for t in g_threads:
+    g_wl_ticks[0].append('l-small-{}'.format(t))
+    g_wl_ticks[0].append('h-small-{}'.format(t))
+    g_wl_ticks[1].append('l-large-{}'.format(t))
+    g_wl_ticks[1].append('h-large-{}'.format(t))
 
 g_savenames = ['ubench_opoh_10.pdf', 'ubench_opoh_50.pdf']
 
@@ -68,7 +75,7 @@ def wl_display_name(wl):
         dname = 'low'
     else:
         dname = 'high'
-    dname += '-contention\n@{} threads'.format(nthreads)
+    dname += '-contention\n@{}'.format(tsk.print_real_threads(nthreads))
     return dname
 
 def draw(processed_exp):
@@ -76,7 +83,9 @@ def draw(processed_exp):
         g_wls = g_wl_ticks[i]
         savename = g_savenames[i]
 
-        print '{}:'.format(graph_names[i])
+        if i > 0:
+            print '@'
+        print savename
 
         y = {}
         y_min = {}

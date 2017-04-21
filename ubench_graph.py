@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from matplotlib import pyplot as plt
+import sys_taskset as tsk
 import numpy as np
 import gv7_ubench as ub
 import bench_color_map as cm
@@ -41,7 +42,7 @@ def process(results):
                     hcos_series = []
                     for i in range(ub.ntrails):
                         x, a, h = results[ub.exp_key(sys,wl,nthr,i)]
-                        xput_series.append(x)
+                        xput_series.append(x/1000000.0)
                         abrts_series.append(a)
                         hcos_series.append(h)
                     xput_med = np.median(xput_series)
@@ -53,12 +54,6 @@ def process(results):
                         abrts_series[med_idx],
                         hcos_series[med_idx]]
     return processed_exps
-
-def real_threads(nthr):
-    if nthr == 13:
-        return '12m'
-    else:
-        return str(nthr)
 
 def graph_opacity_ubench(processed_exps):
     save_names = {
@@ -75,7 +70,10 @@ def graph_opacity_ubench(processed_exps):
         wls = ub.contention[exp]
 
         for wl in wls:
-            print 'Opacity -- {}'.format(wl)
+            if wls[0] != wl:
+                print '@'
+            print save_names[wl]
+
             y = {}
             y_min = {}
             y_max = {}
@@ -105,7 +103,7 @@ def graph_opacity_ubench(processed_exps):
 
             ax.set_ylabel('Throughput (Mtxns/sec)')
             ax.set_xticks(ind+width*len(draw_types[exp])/2)
-            ax.set_xticklabels(['{} threads'.format(real_threads(t)) for t in ub.threads])
+            ax.set_xticklabels([tsk.print_real_threads(t) for t in ub.threads])
 
             if wl == 'singleton low' or wl == 'high-small':
                 ax.legend([r[0] for r in rects], [display_name[sys] for sys in draw_types[exp]], loc='best')

@@ -2,11 +2,12 @@
 
 import json
 import ubench_gtid as exp
+import sys_taskset as tsk
 import bench_color_map as cm
 import numpy as np
 from matplotlib import pyplot as plt
 
-g_threads = [4,12,24]
+g_threads = exp.threads
 g_systems = exp.systems
 
 display_name = {
@@ -17,9 +18,15 @@ display_name = {
 graph_names = ['Tiny txns', 'Small txns']
 
 g_wl_ticks = [
-    ['u-tiny-4', 'c-tiny-4', 'u-tiny-12', 'c-tiny-12', 'u-tiny-24', 'c-tiny-24'], # x-axis of graph-1
-    ['u-small-4', 'c-small-4', 'u-small-12', 'c-small-12', 'u-small-24', 'c-small-24']  # ...    of graph-2
+    [], # x-axis of graph-1
+    []  # ...    of graph-2
 ]
+
+for t in g_threads:
+    g_wl_ticks[0].append('u-tiny-{}'.format(t))
+    g_wl_ticks[0].append('c-tiny-{}'.format(t))
+    g_wl_ticks[1].append('u-small-{}'.format(t))
+    g_wl_ticks[1].append('c-small-{}'.format(t))
 
 g_savenames = ['ubench_gtid_singleton.pdf', 'ubench_gtid_10.pdf']
 
@@ -64,7 +71,7 @@ def wl_display_name(wl):
         dname = 'high'
     else:
         dname = 'low'
-    dname += '-contention\n@{} threads'.format(nthreads)
+    dname += '-contention\n@{}'.format(tsk.print_real_threads(nthreads))
     return dname
 
 def draw(processed_exp):
@@ -72,7 +79,9 @@ def draw(processed_exp):
         g_wls = g_wl_ticks[i]
         savename = g_savenames[i]
 
-        print '{}:'.format(graph_names[i])
+        if i > 0:
+            print '@'
+        print savename
 
         y = {}
         y_min = {}
