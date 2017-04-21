@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import json
+import json,plot_helper
 import ubench_opoh as exp
 import sys_taskset as tsk
 import bench_color_map as cm
@@ -25,11 +25,13 @@ g_wl_ticks = [
     []  # ...    of graph-2
 ]
 
-for t in g_threads:
-    g_wl_ticks[0].append('l-small-{}'.format(t))
-    g_wl_ticks[0].append('h-small-{}'.format(t))
-    g_wl_ticks[1].append('l-large-{}'.format(t))
-    g_wl_ticks[1].append('h-large-{}'.format(t))
+for c in ['l', 'h']:
+    for t in g_threads:
+        g_wl_ticks[0].append('{}-small-{}'.format(c, t))
+        g_wl_ticks[1].append('{}-large-{}'.format(c, t))
+    if c != 'h':
+        g_wl_ticks[0].append('sep')
+        g_wl_ticks[1].append('sep')
 
 g_savenames = ['ubench_opoh_10.pdf', 'ubench_opoh_50.pdf']
 
@@ -69,14 +71,10 @@ def process(results):
     return processed_exp
 
 def wl_display_name(wl):
+    if wl == 'sep':
+        return ''
     cont, tsize, nthreads = wl.split('-')
-    dname = None
-    if cont == 'l':
-        dname = 'low'
-    else:
-        dname = 'high'
-    dname += '-contention\n@{}'.format(tsk.print_real_threads(nthreads))
-    return dname
+    return tsk.print_real_threads(int(nthreads))
 
 def draw(processed_exp):
     for i in range(len(g_savenames)):
@@ -97,30 +95,44 @@ def draw(processed_exp):
             y_max[sys] = []
 
         for wl in g_wls:
-            cont, tsize, thr = wl.split('-')
-            print '\n## {}@{}thr ##'.format(cont, thr)
-            exp_wl = '-'.join((cont, tsize))
-            nthr = int(thr)
+            if wl == 'sep':
+                separator = True
+            else:
+                separator = False
+
+            if not separator:
+                cont, tsize, thr = wl.split('-')
+                print '\n## {}@{}thr ##'.format(cont, thr)
+                exp_wl = '-'.join((cont, tsize))
+                nthr = int(thr)
 
             for sys in g_systems:
-                xput, abrts, hcos = processed_exp[g_key(sys,exp_wl,nthr)]
-                y[sys].append(xput[1]/1000.0)
-                y_min[sys].append((xput[1]-xput[0])/1000.0)
-                y_max[sys].append((xput[2]-xput[1])/1000.0)
-                print '{}: x-{}, a-{}, h-{}'.format(display_name[sys], xput[1], abrts, hcos)
+                if separator:
+                    xput  = [0,0,0]
+                else:
+                    xput, abrts, hcos = processed_exp[g_key(sys,exp_wl,nthr)]
+                y[sys].append(xput[1]/1000000.0)
+                y_min[sys].append((xput[1]-xput[0])/1000000.0)
+                y_max[sys].append((xput[2]-xput[1])/1000000.0)
+                if not separator:
+                    print '{}: x-{}, a-{}, h-{}'.format(display_name[sys], xput[1], abrts, hcos)
 
         N = len(g_wls)
         width = 0.1
         ind = np.arange(N) + 2*width
 
-        fig, ax = plt.subplots(figsize=(10,6))
+        fig, ax = plt.subplots(figsize=(7,4))
         rects = [ax.bar(ind+width*g_systems.index(sys), y[sys], width,
             color=cm.color_map[sys],
             yerr=[y_min[sys],y_max[sys]], error_kw=cm.ERROR_KW) for sys in g_systems]
 
-        ax.set_ylabel('Throughput (x1000 txns/sec)')
-        ax.set_xticks(ind+width*len(g_systems)/2)
+        first_tic_locs = ind+width*len(g_systems)/2
+        ax.set_ylabel('Throughput (Mtxns/sec)')
+        ax.set_xticks(first_tic_locs)
         ax.set_xticklabels(wl_display_name(wl) for wl in g_wls)
+
+        plot_helper.second_xtick_labels(fig, ax, first_tic_locs, ['low contention', 'high contention'])
+
         if i == 0:
             ax.legend([r[0] for r in rects], [display_name[sys] for sys in g_systems], loc='best')
 

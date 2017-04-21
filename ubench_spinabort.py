@@ -13,7 +13,7 @@ RESULT_FILE = RESULT_DIR + 'ubench_spinabort_results.json'
 ntrails = tsk.UBENCH_NTRAILS
 threads = [4,12,13,24]
 systems = ['none', 'abort']
-wls = ['l-small', 'h-small', 'l-large', 'h-large']
+wls = ['l-small', 'h-small', 'l-large', 'h-large', 'm-small', 'm-large']
 
 def exp_opt(wl):
     opt = ' 11 array-nonopaque --ntrans=10000000 --opspertrans=10 --opspertrans_ro={} --readonlypercent=0.9 --skew={} --timelimit=5'
@@ -23,6 +23,8 @@ def exp_opt(wl):
 
     if wll[0] == 'h':
         skew = 1.2
+    elif wll[0] == 'm':
+        skew = 0.8
     else:
         skew = 0.1
 

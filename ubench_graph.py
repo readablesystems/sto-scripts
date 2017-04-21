@@ -97,7 +97,7 @@ def graph_opacity_ubench(processed_exps):
             width = 0.1
             ind = np.arange(N) + 2*width
 
-            fig, ax = plt.subplots(figsize=(10, 6))
+            fig, ax = plt.subplots(figsize=(7, 4))
             rects = [ax.bar(ind+width*draw_types[exp].index(sys), y[sys], width,
                 color=cm.color_map[sys], yerr=[y_min[sys], y_max[sys]], error_kw=cm.ERROR_KW) for sys in draw_types[exp]]
 
@@ -105,8 +105,12 @@ def graph_opacity_ubench(processed_exps):
             ax.set_xticks(ind+width*len(draw_types[exp])/2)
             ax.set_xticklabels([tsk.print_real_threads(t) for t in ub.threads])
 
-            if wl == 'singleton low' or wl == 'high-small':
-                ax.legend([r[0] for r in rects], [display_name[sys] for sys in draw_types[exp]], loc='best')
+            if wl == 'singleton high':
+                ax.legend([r[0] for r in rects], [display_name[sys] for sys in draw_types[exp]], loc='upper right')
+            if wl == 'high-small':
+                ax.legend([r[0] for r in rects[0:3]], [display_name[sys] for sys in draw_types[exp]][0:3], loc='upper right', ncol=2)
+            if wl == 'high-large':
+                ax.legend([r[0] for r in rects[3:]], [display_name[sys] for sys in draw_types[exp]][3:], loc='best')
             plt.savefig(save_names[wl])
 
 if __name__ == '__main__':

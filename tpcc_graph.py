@@ -55,7 +55,7 @@ def graph_all_bars(results, systems, filename):
         for sys in systems:
             print '{}: x-{}, a-{}%'.format(sys, y[sys][i], abrts[sys][i])
 
-    fig, ax = plt.subplots(figsize=(18,6))
+    fig, ax = plt.subplots(figsize=(12,4))
     t_rects = [ax.bar(ind+width*systems.index(s), y[s], width,
         color=cm.color_map[s],
         yerr=[y_min[s], y_max[s]], error_kw=cm.ERROR_KW) for s in systems]
@@ -66,7 +66,8 @@ def graph_all_bars(results, systems, filename):
 
     #box = ax.get_position()
     #ax.set_position([box.x0, box.y0, box.width*0.85, box.height])
-    ax.legend([r[0] for r in t_rects], systems, loc='best')#, bbox_to_anchor=(1, 0.5))
+    if filename == 'tpcc_swh.pdf':
+        ax.legend([r[0] for r in t_rects], systems, loc='upper left', ncol=2)#, bbox_to_anchor=(1, 0.5))
 
     fig.tight_layout()
 
