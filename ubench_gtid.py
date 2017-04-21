@@ -10,12 +10,12 @@ RESULT_DIR = 'results/json/'
 RESULT_FILE = RESULT_DIR + 'ubench_gtid_results.json'
 
 ntrails = 5
-threads = [4,12]
+threads = [4,12,13,24]
 systems = ['none', 'gtid']
 wls = ['u-tiny', 'u-small', 'c-tiny', 'c-small']
 
 def gtid_opt(wl):
-    opt = ' 11 array-nonopaque --ntrans=12000000 --opspertrans={} --readonlypercent=0.0 --writepercent=1.0 --skew={} --blindrandwrites'
+    opt = ' 11 array-nonopaque --ntrans=12000000 --opspertrans={} --readonlypercent=0.0 --writepercent=1.0 --skew={} --timelimit=5'
     wll = wl.split('-')
     skew = None
     opspertrans = None
@@ -33,11 +33,14 @@ def gtid_opt(wl):
 
 def run_single_gtid(sys, wl, nthreads):
     global DRY_RUN
+
+    nthreads, p = tsk.get_policy(nthreads)
+
     cmd = '{}/{}'.format(ub.TEST_DIR, ub.prog_name[sys])
     cmd += gtid_opt(wl)
     cmd += ' --nthreads={}'.format(nthreads)
 
-    cmd = tsk.taskset_cmd(nthreads) + ' ' + cmd
+    cmd = tsk.taskset_cmd(nthreads, p) + ' ' + cmd
 
     print cmd
 

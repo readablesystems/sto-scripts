@@ -40,8 +40,22 @@ def get_cpu_list(policy, nthreads):
         print 'Info: Running {} threads on CPUs {}'.format(nthreads, cl)
     return list(map(lambda x: '{}'.format(x), cl))
 
-def taskset_cmd(nthreads):
-    policy = 'single-cpu'
-    if nthreads > sys_info['nthreads']:
-        policy = 'multi-cpu'
+def taskset_cmd(nthreads, in_policy=''):
+    if in_policy != '':
+        policy = in_policy
+    else:
+        policy = 'single-cpu'
+        if nthreads > sys_info['nthreads']:
+            policy = 'multi-cpu'
     return 'taskset -c {}'.format(','.join(get_cpu_list(policy, nthreads)))
+
+def get_policy(nthreads):
+    if nthreads > 12:
+        p = 'multi-cpu'
+    else:
+        p = 'single-cpu'
+
+    if nthreads == 13:
+        return (12, p)
+    else:
+        return (nthreads, p)

@@ -16,7 +16,7 @@ sys_names = {
 
 tpcc_opts = ' --runtime 30 -dmbta --bench tpcc'
 
-threads = [4,8,12,16]
+threads = [4,12,13,24]
 systems = ['STO', 'STO/O', 'STO/O-', 'STO/O gv7', 'TicToc', 'TicToc/O']
 gtid_systems = ['STO', 'STO/gTID']
 ntrails = 3
@@ -31,7 +31,10 @@ RESULT_FILES = [RESULT_DIR + 'tpcc_4wh_results.json', RESULT_DIR + 'tpcc_swh_res
 
 def run_single(sys_name, nthr, ntrail, scale_wh):
     global DRY_RUN
-    cmd = tsk.taskset_cmd(nthr)
+
+    nthr, p = tsk.get_policy(nthr)
+
+    cmd = tsk.taskset_cmd(nthr, p)
     cmd += ' {}/'.format(TEST_DIR) + sys_names[sys_name]
     cmd += tpcc_opts
     cmd += ' --num-threads {}'.format(nthr)

@@ -11,12 +11,12 @@ RESULT_DIR = 'results/json/'
 RESULT_FILE = RESULT_DIR + 'ubench_spinabort_results.json'
 
 ntrails = 5
-threads = [4,12]
+threads = [4,12,13,24]
 systems = ['none', 'abort']
 wls = ['l-small', 'h-small', 'l-large', 'h-large']
 
 def exp_opt(wl):
-    opt = ' 11 array-nonopaque --ntrans=10000000 --opspertrans=10 --opspertrans_ro={} --readonlypercent=0.9 --skew={}'
+    opt = ' 11 array-nonopaque --ntrans=10000000 --opspertrans=10 --opspertrans_ro={} --readonlypercent=0.9 --skew={} --timelimit=5'
     wll = wl.split('-')
     skew = None
     size = None
@@ -36,11 +36,13 @@ def exp_opt(wl):
 def run_single(sys, wl, nthreads):
     global DRY_RUN
 
+    nthreads, p = tsk.get_policy(nthreads)
+
     cmd = '{}/{}'.format(ub.TEST_DIR, ub.prog_name[sys])
     cmd += exp_opt(wl)
     cmd += ' --nthreads={}'.format(nthreads)
 
-    cmd = tsk.taskset_cmd(nthreads) + ' ' + cmd
+    cmd = tsk.taskset_cmd(nthreads, p) + ' ' + cmd
 
     print cmd
 

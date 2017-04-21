@@ -11,12 +11,12 @@ RESULT_DIR = 'results/json/'
 RESULT_FILE = RESULT_DIR + 'ubench_opacity_overhead_results.json'
 
 ntrails = 5
-threads = [4,12]
+threads = [4,12,13,24]
 systems = ['none', 'tl2', 'gv7', 'tictoc', 'tictoc-o']
 wls = ['l-small', 'h-small', 'l-large', 'h-large']
 
 def exp_opt(wl):
-    opt = ' 11 array --ntrans=10000000 --opspertrans={} --skew={} --blindrandwrites'
+    opt = ' 11 array --ntrans=10000000 --opspertrans={} --skew={} --timelimit=5'
     wll = wl.split('-')
     skew = None
     size = None
@@ -36,6 +36,8 @@ def exp_opt(wl):
 def run_single(sys, wl, nthreads):
     global DRY_RUN
 
+    nthreads, p = tsk.get_policy(nthreads)
+
     cmd = '{}/{}'.format(ub.TEST_DIR, ub.prog_name[sys])
     cmd += exp_opt(wl)
     if sys == 'none' or sys == 'tictoc':
@@ -43,7 +45,7 @@ def run_single(sys, wl, nthreads):
 
     cmd += ' --nthreads={}'.format(nthreads)
 
-    cmd = tsk.taskset_cmd(nthreads) + ' ' + cmd
+    cmd = tsk.taskset_cmd(nthreads, p) + ' ' + cmd
 
     print cmd
 

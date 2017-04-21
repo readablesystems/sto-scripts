@@ -13,7 +13,7 @@ RESULTS_DIR = 'results/json/'
 RESULTS_FILE = RESULTS_DIR + 'ubench_results.json'
 
 # Experiment configuration
-ntrails = 5
+ntrails = 1
 
 exp_names = ['singleton', 'reorder']
 
@@ -26,12 +26,13 @@ contention = {
     'reorder': ['high-small', 'high-large']
 }
 
-threads = [4,8,12]
+threads = [4,12,13,24]
 
 prog_name = {
     'none'        : 'concurrent-tl2',
     'tl2'         : 'concurrent-tl2',
     'tl2+cb'      : 'concurrent-cb',
+    'tl2+cb-lesser': 'concurrent-cb-lesser',
     'tl2+reuse'   : 'concurrent-rt',
     'tl2+reuse-lesser' : 'concurrent-rt-lesser',
     'gv7'         : 'concurrent-gv7',
@@ -45,17 +46,20 @@ prog_name = {
 }
 
 opts_contention = {
-    'singleton low': ' 10 array --ntrans=10000000 --skew=0.0 --blindrandwrites',
-    'singleton med': ' 10 array --ntrans=10000000 --skew=1.0 --blindrandwrites',
-    'singleton high': ' 10 array --ntrans=10000000 --skew=1.2 --blindrandwrites',
-    'low-small': ' 11 array --ntrans=10000000 --opspertrans=10 --skew=0.1 --readonlypercent=0.9',
-    'low-large': ' 11 array --ntrans=10000000 --opspertrans=10 --opspertrans_ro=50 --skew=0.1 --readonlypercent=0.9',
-    'high-small': ' 8 array --ntrans=10000000 --opspertrans=9 --readonlypercent=0.9',
-    'high-large': ' 8 array --ntrans=10000000 --opspertrans=9 --opspertrans_ro=49 --readonlypercent=0.9'
+    'singleton low': ' 10 array --ntrans=10000000 --skew=0.0 --timelimit=5',
+    'singleton med': ' 10 array --ntrans=10000000 --skew=1.0 --timelimit=5',
+    'singleton high': ' 10 array --ntrans=10000000 --skew=1.2 --timelimit=5',
+    'low-small': ' 11 array --ntrans=10000000 --opspertrans=10 --skew=0.1 --readonlypercent=0.9 --timelimit=5',
+    'low-large': ' 11 array --ntrans=10000000 --opspertrans=10 --opspertrans_ro=50 --skew=0.1 --readonlypercent=0.9 --timelimit=5',
+    'high-small': ' 8 array --ntrans=10000000 --opspertrans=9 --readonlypercent=0.9 --timelimit=5',
+    'high-large': ' 8 array --ntrans=10000000 --opspertrans=9 --opspertrans_ro=49 --readonlypercent=0.9 --timelimit=5'
 }
 
 def run_single(opacity_type, contention, nthreads):
     global DRY_RUN
+
+    nthreads, p = tsk.get_policy(nthreads)
+
     cmd = '{}/{}'.format(TEST_DIR, prog_name[opacity_type])
     cmd += opts_contention[contention]
 
@@ -63,7 +67,7 @@ def run_single(opacity_type, contention, nthreads):
         cmd = cmd.replace('array', 'array-nonopaque')
 
     cmd += ' --nthreads={}'.format(nthreads)
-    cmd = tsk.taskset_cmd(nthreads) + ' ' + cmd
+    cmd = tsk.taskset_cmd(nthreads, p) + ' ' + cmd
 
     print cmd
 
@@ -81,12 +85,11 @@ def run_single(opacity_type, contention, nthreads):
 
     xput = commits/time
 
-    return (time, aborts, hcos)
+    return (xput, aborts, hcos)
 
 def exp_key(opacity, contention, nthreads, ntrail):
     return '{}/{}/{}/{}'.format(opacity, contention, nthreads, ntrail)
 
-# Compare results at 4, 8, 12 threads
 def run_benchmark(all_results):
     global DRY_RUN
 

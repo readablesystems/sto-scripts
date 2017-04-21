@@ -6,7 +6,7 @@ import bench_color_map as cm
 import numpy as np
 from matplotlib import pyplot as plt
 
-g_threads = [4,12]
+g_threads = [4,12,24]
 g_systems = exp.systems
 
 display_name = {
@@ -17,8 +17,8 @@ display_name = {
 graph_names = ['Tiny txns', 'Small txns']
 
 g_wl_ticks = [
-    ['u-tiny-4', 'c-tiny-4', 'u-tiny-12', 'c-tiny-12'], # x-axis of graph-1
-    ['u-small-4', 'c-small-4', 'u-small-12', 'c-small-12']  # ...    of graph-2
+    ['u-tiny-4', 'c-tiny-4', 'u-tiny-12', 'c-tiny-12', 'u-tiny-24', 'c-tiny-24'], # x-axis of graph-1
+    ['u-small-4', 'c-small-4', 'u-small-12', 'c-small-12', 'u-small-24', 'c-small-24']  # ...    of graph-2
 ]
 
 g_savenames = ['ubench_gtid_singleton.pdf', 'ubench_gtid_10.pdf']
