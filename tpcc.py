@@ -99,7 +99,7 @@ if __name__ == '__main__':
             results.append({})
 
     run_tpcc(results)
-    run_tpcc_gtid(results[1])
+    #run_tpcc_gtid(results[1])
 
     if DRY_RUN:
         exit()

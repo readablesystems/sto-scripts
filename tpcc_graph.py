@@ -2,6 +2,7 @@
 
 from matplotlib import pyplot as plt
 import numpy as np
+import sys_taskset as tsk
 import bench_color_map as cm
 import json,tpcc
 
@@ -61,7 +62,7 @@ def graph_all_bars(results, systems, filename):
 
     ax.set_ylabel('Throughput (x1000 txns/sec)')
     ax.set_xticks(ind+width*len(systems)/2)
-    ax.set_xticklabels(['{} threads'.format(t) for t in tpcc.threads])
+    ax.set_xticklabels([tsk.print_real_threads(t) for t in tpcc.threads])
 
     #box = ax.get_position()
     #ax.set_position([box.x0, box.y0, box.width*0.85, box.height])
@@ -74,7 +75,7 @@ def graph_all_bars(results, systems, filename):
 if __name__ == '__main__':
     settings()
     graph_all_bars(results[0], tpcc.systems, 'tpcc_4wh.pdf')
-    print ''
+    print '@'
     graph_all_bars(results[1], tpcc.systems, 'tpcc_swh.pdf')
-    print ''
-    graph_all_bars(results[1], tpcc.gtid_systems, 'tpcc_gtid.pdf')
+    #print ''
+    #graph_all_bars(results[1], tpcc.gtid_systems, 'tpcc_gtid.pdf')
