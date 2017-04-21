@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import sys_taskset as tsk
-import subprocess,json,os
+import subprocess,json,os,optparse
 
 sys_names = {
     'STO': 'dbtest-sto',
@@ -23,7 +23,7 @@ ntrails = 3
 
 cats = threads
 
-DRY_RUN = False
+DRY_RUN = None
 TEST_DIR = './test_dir'
 
 RESULT_DIR = 'results/json/'
@@ -91,8 +91,16 @@ def run_tpcc_gtid(results_scale_wh):
 if __name__ == '__main__':
     results = []
 
+    psr = optparse.OptionParser()
+    psr.add_option('-f', action="store_true", dest="force_update", default=False)
+    psr.add_option('-d', action="store_true", dest="dry_run", default=False)
+
+    opts, args = psr.parse_args()
+
+    DRY_RUN = opts.dry_run
+
     for resfile in RESULT_FILES:
-        if os.path.exists(resfile):
+        if os.path.exists(resfile) and not opts.force_update:
             with open(resfile, 'r') as f:
                 results.append(json.load(f))
         else:
