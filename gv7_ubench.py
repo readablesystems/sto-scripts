@@ -13,7 +13,7 @@ RESULTS_DIR = 'results/json/'
 RESULTS_FILE = RESULTS_DIR + 'ubench_results.json'
 
 # Experiment configuration
-ntrails = 1
+ntrails = tsk.UBENCH_NTRAILS
 
 exp_names = ['singleton', 'reorder']
 

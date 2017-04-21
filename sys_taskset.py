@@ -59,3 +59,5 @@ def get_policy(nthreads):
         return (12, p)
     else:
         return (nthreads, p)
+
+UBENCH_NTRAILS = 3

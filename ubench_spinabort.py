@@ -10,7 +10,7 @@ DRY_RUN = None
 RESULT_DIR = 'results/json/'
 RESULT_FILE = RESULT_DIR + 'ubench_spinabort_results.json'
 
-ntrails = 5
+ntrails = tsk.UBENCH_NTRAILS
 threads = [4,12,13,24]
 systems = ['none', 'abort']
 wls = ['l-small', 'h-small', 'l-large', 'h-large']
