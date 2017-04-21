@@ -2,7 +2,9 @@
 
 import json
 
-affected = ['low-small', 'low-large', 'high-small', 'high-large']
+sys_affected = ['tictoc', 'tictoc-o']
+wl_affected = ['high-small']
+thr_affected = ['24']
 
 with open('./results/json/ubench_results.json', 'r') as rf:
     results = json.load(rf)
@@ -10,7 +12,8 @@ with open('./results/json/ubench_results.json', 'r') as rf:
 delkeys = []
 for k in results:
     kl = k.split('/')
-    if kl[2] == '12' and kl[1] in affected:
+    if (kl[0] in sys_affected) and (kl[1] in wl_affected) and (kl[2] in thr_affected):
+        print 'delete key: {}'.format(k)
         delkeys.append(k)
 
 for k in delkeys:
