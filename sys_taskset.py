@@ -62,8 +62,12 @@ def get_policy(nthreads):
 
 def print_real_threads(nthreads):
     if nthreads == 13:
-        return '12 threads(m)'
+        t = '6+6'
+    elif nthreads == 24:
+        t = '12+12'
     else:
-        return '{} threads'.format(nthreads)
+        t = str(nthreads)
+    t += 'T'
+    return t
 
 UBENCH_NTRAILS = 3
