@@ -114,7 +114,7 @@ def draw(processed_exp):
                     print '{}: x-{}, a-{}, h-{}'.format(display_name[sys], xput[1], abrts, hcos)
 
         N = len(g_wls)
-        width = 0.1
+        width = 0.1 * plot_helper.BAR_WIDTH_SACLE_FACTOR
         ind = np.arange(N) + 2*width
 
         fig, ax = plt.subplots(figsize=(7,4))

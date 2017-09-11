@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+BAR_WIDTH_SACLE_FACTOR = 1.3
+
 def second_xtick_labels(fig, orig_ax, first_tick_locations, labels):
     lim = orig_ax.get_xlim()
     ax2 = orig_ax.twiny()

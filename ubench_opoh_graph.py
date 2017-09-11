@@ -11,9 +11,9 @@ g_threads = exp.threads
 g_systems = exp.systems
 
 display_name = {
-    'none': 'No Opacity',
-    'tl2': 'TL2/O',
-    'gv7': 'GV7/O',
+    'none': 'STO/NO',
+    'tl2': 'STO/GV',
+    'gv7': 'STO/GV7',
     'tictoc': 'TicToc',
     'tictoc-o': 'TicToc/O'
 }
@@ -118,7 +118,7 @@ def draw(processed_exp):
                     print '{}: x-{}, a-{}, h-{}'.format(display_name[sys], xput[1], abrts, hcos)
 
         N = len(g_wls)
-        width = 0.1
+        width = 0.1 * plot_helper.BAR_WIDTH_SACLE_FACTOR
         ind = np.arange(N) + 2*width
 
         fig, ax = plt.subplots(figsize=(7,4))

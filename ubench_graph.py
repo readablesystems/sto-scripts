@@ -13,15 +13,15 @@ draw_types = {
 }
 
 display_name = {
-    'none'        : 'No Opacity',
-    'tl2'         : 'TL2/O',
-    'tl2+cb'      : 'TL2/O+CachedBound',
-    'tl2+reuse'   : 'TL2/O+TIDReuse',
-    'tl2+reuse-lesser' : 'TL2+TIDReuse-',
-    'gv7'         : 'GV7/O',
-    'noopt'       : 'TL2/O-ROOpt',
-    'tl2-lesser'  : 'TL2-',
-    'gv7-lesser'  : 'GV7-',
+    'none'        : 'STO/NO',
+    'tl2'         : 'STO/GV',
+    'tl2+cb'      : 'STO/GV+CachedBound',
+    'tl2+reuse'   : 'STO/GV+TIDReuse',
+    'tl2+reuse-lesser' : 'STO/GV+TIDReuse-',
+    'gv7'         : 'STO/GV7',
+    'noopt'       : 'STO/GV-ROOpt',
+    'tl2-lesser'  : 'STO/GV-',
+    'gv7-lesser'  : 'STO/GV7-',
     'tictoc'      : 'TicToc',
     'tictoc-o'    : 'TicToc/O'
 }
@@ -108,7 +108,7 @@ def graph_opacity_ubench(processed_exps):
             if wl == 'singleton high':
                 ax.legend([r[0] for r in rects], [display_name[sys] for sys in draw_types[exp]], loc='upper right')
             if wl == 'high-small':
-                ax.legend([r[0] for r in rects[0:3]], [display_name[sys] for sys in draw_types[exp]][0:3], loc='upper right', ncol=2)
+                ax.legend([r[0] for r in rects[0:3]], [display_name[sys] for sys in draw_types[exp]][0:3], loc='upper right')
             if wl == 'high-large':
                 ax.legend([r[0] for r in rects[3:]], [display_name[sys] for sys in draw_types[exp]][3:], loc='best')
             plt.savefig(save_names[wl])

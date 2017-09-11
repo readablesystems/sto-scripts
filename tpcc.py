@@ -3,6 +3,17 @@
 import sys_taskset as tsk
 import subprocess,json,os,optparse
 
+display_names = {
+    'STO': 'STO/NO',
+    'STO/gTID': 'XX',
+    'TicToc': 'TicToc',
+    'TicToc/O': 'TicToc/O',
+    'STO/O': 'STO/GV',
+    'STO/O-': 'STO/GV-',
+    'STO/O gv7': 'STO/GV7',
+    'STO/O gv7-': 'STO/GV7-'
+}
+
 sys_names = {
     'STO': 'dbtest-sto',
     'STO/gTID': 'dbtest-gtid',
