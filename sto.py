@@ -8,7 +8,12 @@ class profile_parser:
         'commits': ', ([0-9]*) commits',
         'aborts': '[0-9]* \(([0-9\.]*)%\) aborts',
         'hcos': '\$ ([0-9]*) HCO',
-        'hco_filter_rate': 'out of [0-9]* check attempts \(([0-9\.]*)%\)'
+        'hco_filter_rate': 'out of [0-9]* check attempts \(([0-9\.]*)%\)',
+        'commit_time_aborts' : '[0-9]* \(([0-9\.]*)%\) of aborts at commit time',
+        'lock_aborts' : '[0-9]* \(([0-9\.]*)%\) of aborts due to lock time-outs',
+        'observe_lock_aborts' : '[0-9]* \(([0-9\.]*)%\) of aborts due to observing write-locked versions',
+        'commit_attempts' : '([0-9]*) commit attempts',
+        'nonopaque' :  '[0-9]* \(([0-9\.]*)%\) nonopaque'
     }
 
     types = {
