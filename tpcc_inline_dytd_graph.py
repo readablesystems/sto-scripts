@@ -1,18 +1,13 @@
 #!/usr/bin/env python
 
 import json,plot_helper
-import ubench_adaptive as exp
+import tpcc_inline_dytd as exp
 import bench_color_map as cm
 import numpy as np
 from matplotlib import pyplot as plt
 
 g_threads = exp.threads
 g_systems = exp.systems
-
-def invariant(condition, msg):
-    if not condition:
-        print msg
-        exit()
 
 def g_key(sys_name, workload, nthreads):
     return '/'.join((sys_name, workload, str(nthreads)))
@@ -49,14 +44,13 @@ def process(results):
     return processed_exp
 
 graph_info_template = {
-    'graph_title': 'TArray throughput, {} contention',
+    'graph_title': 'TPC-C, {} contention',
     'x_label': '# threads',
-    'y_label': 'Throughput (Mtxns/sec)',
-    'series_names': ('TAdaptive', 'TNonopaque', 'TSwiss'),
-    'plot_colors': ('red', 'blue', 'green'),
-    'plot_shapes': ('-^', '-o', '-v'),
+    'y_label': 'Throughput (1000 txns/sec)',
+    'series_names': ('TNonopaque', 'TSwiss', 'TAdaptive', 'TicToc'),
+    'plot_colors': ('blue', 'green', 'red', 'grey'),
     'legends_on': True,
-    'save_name': 'ubench_adaptive_{}.pdf'
+    'save_name': 'tpcc_inline_dytd_{}.pdf'
 }
 
 def pack_plotting_data(processed_results, cont):
@@ -71,9 +65,9 @@ def pack_plotting_data(processed_results, cont):
         for tr in g_threads:
             res = processed_results[g_key(sys,cont,tr)]
             xput = res[0]
-            series_data.append(xput[1]/1000000.0)
-            series_error_down.append((xput[1]-xput[0])/1000000.0)
-            series_error_up.append((xput[2]-xput[1])/1000000.0)
+            series_data.append(xput[1]/1000.0)
+            series_error_down.append((xput[1]-xput[0])/1000.0)
+            series_error_up.append((xput[2]-xput[1])/1000.0)
         y_serieses.append(series_data)
         y_errors.append((series_error_down, series_error_up))
     meta['graph_title'] = meta['graph_title'].format(cont)
@@ -81,35 +75,30 @@ def pack_plotting_data(processed_results, cont):
 
     return (meta, common_x, y_serieses, y_errors)
 
-def draw_line(meta_info, common_x, y_serieses, y_errors):
-    # Sanity checks
-    for y in y_serieses:
-        invariant(len(y) == len(common_x), "Data dimension error!")
-    for y in y_errors:
-        for yy in y:
-            invariant(len(yy) == len(common_x), "Data dimension error!")
-    invariant(len(y_serieses) == len(y_errors), "Data dimension error!")
-
+def draw_bars(meta_info, common_x, y_serieses, y_errors):
     fig, ax = plt.subplots(figsize=(10,6))
 
-    N = len(y_serieses)
-    lines = []
+    N = len(common_x)
+    width = 0.1
+    ind = np.arange(N) + 2*width
 
-    for i in range(0,N):
-        y = y_serieses[i]
-        y_err_pair = y_errors[i]
-        lines.append(ax.errorbar(common_x, y,
-                color=meta_info['plot_colors'][i],
-                yerr=y_err_pair, fmt=meta_info['plot_shapes'][i]))
+    rects = []
+
+    for i in range(len(g_systems)):
+        r = ax.bar(ind+width*i, y_serieses[i], width,
+            color=meta_info['plot_colors'][i],
+            yerr=y_errors[i], error_kw=cm.ERROR_KW)
+        rects.append(r)
 
     ax.set_title(meta_info['graph_title'])
     ax.set_ylabel(meta_info['y_label'])
-    ax.set_xticks(common_x)
+    ax.set_xticks(ind + width*len(g_systems)/2)
+    ax.set_xticklabels(['{} threads'.format(t) for t in common_x])
     ax.set_xlabel(meta_info['x_label'])
 
     if meta_info['legends_on']:
-        ax.legend([l[0] for l in lines],
-                  [meta_info['series_names'][i] for i in range(N)],
+        ax.legend([r[0] for r in rects],
+                  [meta_info['series_names'][i] for i in range(len(g_systems))],
                   loc='best')
 
     #plt.show()
@@ -119,6 +108,6 @@ if __name__ == '__main__':
     with open(exp.RESULT_FILE, 'r') as rf:
         results = json.load(rf)
     processed_results = process(results)
-    for cont in ('low', 'med', 'high'):
+    for cont in ('low', 'high'):
         data = pack_plotting_data(processed_results, cont)
-        draw_line(*data)
+        draw_bars(*data)

@@ -3,8 +3,8 @@
 import subprocess,json,os,time,optparse
 from sto import profile_parser as parser
 
-TYPE = 'ubench'
-NAME = 'adaptive'
+TYPE = 'tpcc'
+NAME = 'inline_dytd'
 
 DRY_RUN = None
 RESULT_DIR = 'results/json/'
@@ -12,20 +12,18 @@ RESULT_FILE = RESULT_DIR + '{}_{}_results.json'.format(TYPE, NAME)
 
 ntrails = 5
 
-threads = [4,8,12,16,20,24]
-systems = ['array-adaptive', 'array-nonopaque', 'swissarray']
-levels = ['med', 'high', 'low']
+threads = [8,16,24]
+systems = ['default', 'swiss', 'adaptive', 'tictoc']
+levels = ['low', 'high']
 
-skew_vals = {'low':0.0, 'med':0.8, 'high':1.0}
+def cmd_opts(sys, nwhs, thrs):
+    opt = './tpcc_bench -t{0} -w{1} --time=10.0 --dbid={2}'
+    return opt.format(thrs, nwhs, sys)
 
-def cmd_opts(sys, skew, thrs):
-    opt = './concurrent 4 {0} --opspertrans=20 --ntrans=5000000 --nthreads={1} --skew={2}'
-    return opt.format(sys, thrs, skew)
-
-def run_single(sys, skew, thrs):
+def run_single(sys, nwhs, thrs):
     global DRY_RUN
 
-    cmd = cmd_opts(sys, skew, thrs)
+    cmd = cmd_opts(sys, nwhs, thrs)
     print cmd
 
     if DRY_RUN:
@@ -33,17 +31,14 @@ def run_single(sys, skew, thrs):
 
     out = subprocess.check_output(cmd.split(' '), stderr=subprocess.STDOUT)
 
-    time = parser.extract('time', out)
-    commits = parser.extract('commits', out)
+    xput = parser.extract('tpcc_xput', out)
     aborts = parser.extract('aborts', out)
     cabrts = parser.extract('commit_time_aborts', out)
-
-    xput = commits/time
 
     return (xput,aborts,cabrts)
 
 def key(system_name, workload, nthreads, trail):
-    return '{}/{}/{}/{}'.format(system_name,workload,nthreads,trail)
+    return '/'.join((system_name,workload,str(nthreads),str(trail)))
 
 def run_all(results):
     global DRY_RUN
@@ -55,12 +50,16 @@ def run_all(results):
                     k = key(sys,cont,tr,n)
                     if k in results:
                         continue
-                    res = run_single(sys, skew_vals[cont], tr)
+                    nwhs = 2
+                    if cont == 'low':
+                        nwhs = tr
+                    res = run_single(sys,nwhs,tr)
                     if DRY_RUN:
                         continue
                     results[k] = res
                     print "--gap--"
                     time.sleep(1)
+
     return results
 
 if __name__ == '__main__':

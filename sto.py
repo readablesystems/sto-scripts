@@ -4,6 +4,7 @@ import re
 
 class profile_parser:
     patterns = {
+        'tpcc_xput': 'Throughput: ([0-9\.]*) txns/sec',
         'time': 'real time: ([0-9\.]*)',
         'commits': ', ([0-9]*) commits',
         'aborts': '[0-9]* \(([0-9\.]*)%\) aborts',
