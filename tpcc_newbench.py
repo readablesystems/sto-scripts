@@ -4,7 +4,7 @@ import subprocess,json,os,time,optparse
 from sto import profile_parser as parser
 
 TYPE = 'tpcc'
-NAME = 'inline_dytd'
+NAME = 'sto_dytd'
 
 DRY_RUN = None
 RESULT_DIR = 'results/json/'
@@ -12,12 +12,12 @@ RESULT_FILE = RESULT_DIR + '{}_{}_results.json'.format(TYPE, NAME)
 
 ntrails = 5
 
-threads = [8,16,24]
+threads = [4,8,16,24]
 systems = ['default', 'swiss', 'adaptive', 'tictoc']
 levels = ['low', 'high']
 
 def cmd_opts(sys, nwhs, thrs):
-    opt = './tpcc_bench -t{0} -w{1} --time=10.0 --dbid={2}'
+    opt = './tpcc_bench_nocont -t{0} -w{1} --time=10.0 --dbid={2}'
     return opt.format(thrs, nwhs, sys)
 
 def run_single(sys, nwhs, thrs):

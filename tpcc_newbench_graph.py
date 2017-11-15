@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import json,plot_helper
-import tpcc_inline_dytd as exp
+import tpcc_newbench as exp
 import bench_color_map as cm
 import numpy as np
 from matplotlib import pyplot as plt
@@ -50,7 +50,7 @@ graph_info_template = {
     'series_names': ('TNonopaque', 'TSwiss', 'TAdaptive', 'TicToc'),
     'plot_colors': ('blue', 'green', 'red', 'grey'),
     'legends_on': True,
-    'save_name': 'tpcc_inline_dytd_{}.pdf'
+    'save_name': '{}_{}_{}.pdf'
 }
 
 def pack_plotting_data(processed_results, cont):
@@ -71,7 +71,7 @@ def pack_plotting_data(processed_results, cont):
         y_serieses.append(series_data)
         y_errors.append((series_error_down, series_error_up))
     meta['graph_title'] = meta['graph_title'].format(cont)
-    meta['save_name'] = meta['save_name'].format(cont)
+    meta['save_name'] = meta['save_name'].format(exp.TYPE, exp.NAME, cont)
 
     return (meta, common_x, y_serieses, y_errors)
 
@@ -101,8 +101,8 @@ def draw_bars(meta_info, common_x, y_serieses, y_errors):
                   [meta_info['series_names'][i] for i in range(len(g_systems))],
                   loc='best')
 
-    #plt.show()
-    plt.savefig(meta_info['save_name'])
+    plt.show()
+    #plt.savefig(meta_info['save_name'])
 
 if __name__ == '__main__':
     with open(exp.RESULT_FILE, 'r') as rf:
