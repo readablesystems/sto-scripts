@@ -8,6 +8,7 @@ from matplotlib import pyplot as plt
 
 g_threads = exp.threads
 g_systems = exp.systems
+#g_systems = ['default', 'tictoc']
 
 def g_key(sys_name, workload, nthreads):
     return '/'.join((sys_name, workload, str(nthreads)))
@@ -46,9 +47,11 @@ def process(results):
 graph_info_template = {
     'graph_title': 'TPC-C, {} contention',
     'x_label': '# threads',
-    'y_label': 'Throughput (1000 txns/sec)',
-    'series_names': ('TNonopaque', 'TSwiss', 'TAdaptive', 'TicToc'),
-    'plot_colors': ('blue', 'green', 'red', 'grey'),
+    'y_label': 'Throughput (Mtxns/sec)',
+    'series_names': ('OCC', 'SwissTM', 'Adaptive', '2PL', 'TicToc'),
+    'plot_colors': ('blue', 'green', 'red', 'purple', 'grey'),
+    #'series_names': ('OCC', 'TicToc'),
+    #'plot_colors': ('blue', 'grey'),
     'legends_on': True,
     'save_name': '{}_{}_{}.pdf'
 }
@@ -65,15 +68,35 @@ def pack_plotting_data(processed_results, cont):
         for tr in g_threads:
             res = processed_results[g_key(sys,cont,tr)]
             xput = res[0]
-            series_data.append(xput[1]/1000.0)
-            series_error_down.append((xput[1]-xput[0])/1000.0)
-            series_error_up.append((xput[2]-xput[1])/1000.0)
+            series_data.append(xput[1]/1000000.0)
+            series_error_down.append((xput[1]-xput[0])/1000000.0)
+            series_error_up.append((xput[2]-xput[1])/1000000.0)
         y_serieses.append(series_data)
         y_errors.append((series_error_down, series_error_up))
     meta['graph_title'] = meta['graph_title'].format(cont)
     meta['save_name'] = meta['save_name'].format(exp.TYPE, exp.NAME, cont)
 
     return (meta, common_x, y_serieses, y_errors)
+
+def pack_plotting_data_aborts(processed_results, cont):
+    meta = graph_info_template.copy()
+    common_x = g_threads
+    y_serieses = []
+    for sys in g_systems:
+        print sys
+        series_data = []
+        for tr in g_threads:
+            res = processed_results[g_key(sys,cont,tr)]
+            abrts = res[1]
+            series_data.append(abrts)
+        print series_data
+        y_serieses.append(series_data)
+    meta['graph_title'] = ''
+    meta['y_label'] = 'Aborts (%)'
+    meta['save_name'] = '{}_{}_{}_abort.pdf'.format(exp.TYPE, exp.NAME, cont)
+
+
+    return (meta, common_x, y_serieses)
 
 def draw_bars(meta_info, common_x, y_serieses, y_errors):
     fig, ax = plt.subplots(figsize=(10,6))
@@ -92,6 +115,7 @@ def draw_bars(meta_info, common_x, y_serieses, y_errors):
 
     ax.set_title(meta_info['graph_title'])
     ax.set_ylabel(meta_info['y_label'])
+    ax.set_ylim(ymin=0, ymax=3.0)
     ax.set_xticks(ind + width*len(g_systems)/2)
     ax.set_xticklabels(['{} threads'.format(t) for t in common_x])
     ax.set_xlabel(meta_info['x_label'])
@@ -101,8 +125,8 @@ def draw_bars(meta_info, common_x, y_serieses, y_errors):
                   [meta_info['series_names'][i] for i in range(len(g_systems))],
                   loc='best')
 
-    plt.show()
-    #plt.savefig(meta_info['save_name'])
+    #plt.show()
+    plt.savefig(meta_info['save_name'])
 
 if __name__ == '__main__':
     with open(exp.RESULT_FILE, 'r') as rf:
@@ -111,3 +135,4 @@ if __name__ == '__main__':
     for cont in ('low', 'high'):
         data = pack_plotting_data(processed_results, cont)
         draw_bars(*data)
+        pack_plotting_data_aborts(processed_results, cont)
