@@ -29,6 +29,7 @@ def run_single(sys, nwhs, thrs):
     if DRY_RUN:
         return (0,0,0)
 
+    out = ""
     while True:
         retries = 0
 
@@ -37,7 +38,7 @@ def run_single(sys, nwhs, thrs):
         except:
             retries += 1
             print "Subprocess error, retrying. ({})".format(retries)
-
+            continue
         break
 
     xput = parser.extract('tpcc_xput', out)
