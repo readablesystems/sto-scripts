@@ -29,7 +29,16 @@ def run_single(sys, nwhs, thrs):
     if DRY_RUN:
         return (0,0,0)
 
-    out = subprocess.check_output(cmd.split(' '), stderr=subprocess.STDOUT)
+    while True:
+        retries = 0
+
+        try:
+            out = subprocess.check_output(cmd.split(' '), stderr=subprocess.STDOUT)
+        except:
+            retries += 1
+            print "Subprocess error, retrying. ({})".format(retries)
+
+        break
 
     xput = parser.extract('tpcc_xput', out)
     aborts = parser.extract('aborts', out)
