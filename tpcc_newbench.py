@@ -10,14 +10,14 @@ DRY_RUN = None
 RESULT_DIR = 'results/json/'
 RESULT_FILE = RESULT_DIR + '{}_{}_results.json'.format(TYPE, NAME)
 
-ntrails = 5
+ntrails = 7
 
 threads = [8,16,24,32,64,96,128]
 systems = ['default', 'swiss', 'adaptive', '2pl', 'tictoc']
 levels = ['low', 'high']
 
 def cmd_opts(sys, nwhs, thrs):
-    opt = './tpcc_bench_fine -t{0} -w{1} --time=10.0 --dbid={2}'
+    opt = './tpcc_bench_fine -t{0} -w{1} --time=15.0 --dbid={2}'
     return opt.format(thrs, nwhs, sys)
 
 def run_single(sys, nwhs, thrs):
@@ -38,6 +38,7 @@ def run_single(sys, nwhs, thrs):
         except:
             retries += 1
             print "Subprocess error, retrying. ({})".format(retries)
+            time.sleep(2)
             continue
         break
 
@@ -68,7 +69,7 @@ def run_all(results):
                         continue
                     results[k] = res
                     print "--gap--"
-                    time.sleep(1)
+                    time.sleep(2)
 
     return results
 

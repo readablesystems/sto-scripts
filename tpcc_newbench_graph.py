@@ -57,11 +57,13 @@ graph_info_template = {
 }
 
 def pack_plotting_data(processed_results, cont):
+    print "xput:"
     meta = graph_info_template.copy()
     common_x = g_threads
     y_serieses = []
     y_errors = []
     for sys in g_systems:
+        print sys
         series_data = []
         series_error_down = []
         series_error_up = []
@@ -71,6 +73,7 @@ def pack_plotting_data(processed_results, cont):
             series_data.append(xput[1]/1000000.0)
             series_error_down.append((xput[1]-xput[0])/1000000.0)
             series_error_up.append((xput[2]-xput[1])/1000000.0)
+        print series_data
         y_serieses.append(series_data)
         y_errors.append((series_error_down, series_error_up))
     meta['graph_title'] = meta['graph_title'].format(cont)
@@ -79,6 +82,7 @@ def pack_plotting_data(processed_results, cont):
     return (meta, common_x, y_serieses, y_errors)
 
 def pack_plotting_data_aborts(processed_results, cont):
+    print "aborts:"
     meta = graph_info_template.copy()
     common_x = g_threads
     y_serieses = []
@@ -115,7 +119,7 @@ def draw_bars(meta_info, common_x, y_serieses, y_errors):
 
     ax.set_title(meta_info['graph_title'])
     ax.set_ylabel(meta_info['y_label'])
-    ax.set_ylim(ymin=0, ymax=3.0)
+    ax.set_ylim(ymin=0, ymax=6.0)
     ax.set_xticks(ind + width*len(g_systems)/2)
     ax.set_xticklabels(['{} threads'.format(t) for t in common_x])
     ax.set_xlabel(meta_info['x_label'])
@@ -132,7 +136,7 @@ if __name__ == '__main__':
     with open(exp.RESULT_FILE, 'r') as rf:
         results = json.load(rf)
     processed_results = process(results)
-    for cont in ('low', 'high'):
+    for cont in exp.levels:
         data = pack_plotting_data(processed_results, cont)
         draw_bars(*data)
         pack_plotting_data_aborts(processed_results, cont)
