@@ -3,7 +3,7 @@
 import subprocess,json,os,time,optparse
 from sto import profile_parser as parser
 
-TYPE = 'tpcc'
+TYPE = 'ycsb'
 NAME = 'fine_grain'
 
 DRY_RUN = None

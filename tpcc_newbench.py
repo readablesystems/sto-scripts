@@ -14,11 +14,11 @@ ntrails = 7
 
 threads = [8,16,24,32,64,96,128]
 systems = ['default', 'swiss', 'adaptive', '2pl', 'tictoc']
-levels = ['no', 'medium', 'high']
+levels = ['low', 'high']
 
-def cmd_opts(sys, mode, thrs):
-    opt = './tpcc_bench_fine -t{0} -m{1} --time=15.0 --dbid={2}'
-    return opt.format(thrs, mode, sys)
+def cmd_opts(sys, nwhs, thrs):
+    opt = './tpcc_bench_fine -t{0} -w{1} --time=15.0 --dbid={2}'
+    return opt.format(thrs, nwhs, sys)
 
 def run_single(sys, nwhs, thrs):
     global DRY_RUN
@@ -61,7 +61,10 @@ def run_all(results):
                     k = key(sys,cont,tr,n)
                     if k in results:
                         continue
-                    res = run_single(sys,levels.index(cont),tr)
+                    nwhs = 8
+                    if cont == 'low':
+                        nwhs = tr
+                    res = run_single(sys,nwhs,tr)
                     if DRY_RUN:
                         continue
                     results[k] = res
