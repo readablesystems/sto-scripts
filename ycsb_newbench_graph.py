@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import json,plot_helper
-import tpcc_newbench as exp
+import ycsb_newbench as exp
 import bench_color_map as cm
 import numpy as np
 from matplotlib import pyplot as plt
@@ -45,7 +45,7 @@ def process(results):
     return processed_exp
 
 graph_info_template = {
-    'graph_title': 'TPC-C, {} contention',
+    'graph_title': 'YCSB-like workload, {} contention',
     'x_label': '# threads',
     'y_label': 'Throughput (Mtxns/sec)',
     'series_names': ('OCC', 'SwissTM', 'Adaptive', '2PL', 'TicToc'),
@@ -126,9 +126,8 @@ def draw_bars(meta_info, common_x, y_serieses, y_errors):
             yerr=y_errors[i], error_kw=cm.ERROR_KW)
         rects.append(r)
 
-    #ax.set_title(meta_info['graph_title'])
     ax.set_ylabel(meta_info['y_label'])
-    ax.set_ylim(ymin=0, ymax=5.0)
+    ax.set_ylim(ymin=0)
     ax.set_xticks(ind + width*len(g_systems)/2)
     ax.set_xticklabels(['{}'.format(t) for t in common_x])
     ax.set_xlabel(meta_info['x_label'])
