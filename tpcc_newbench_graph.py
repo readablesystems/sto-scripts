@@ -6,7 +6,8 @@ import bench_color_map as cm
 import numpy as np
 from matplotlib import pyplot as plt
 
-g_threads = exp.threads
+#g_threads = exp.threads
+g_threads = [8,16,32,64,128]
 g_systems = exp.systems
 #g_systems = ['default', 'tictoc']
 
@@ -49,7 +50,10 @@ graph_info_template = {
     'x_label': '# threads',
     'y_label': 'Throughput (Mtxns/sec)',
     'series_names': ('OCC', 'SwissTM', 'Adaptive', '2PL', 'TicToc'),
-    'plot_colors': ('blue', 'green', 'red', 'purple', 'grey'),
+    #'plot_colors': ('blue', 'green', 'red', 'purple', 'grey'),
+    'fill_colors': ('black', 'white', 'white', 'white', 'white'),
+    #'edge_colors': ('blue', 'green', 'red', 'purple', 'grey'),
+    'hatches': ('', '++', '///', 'xx', ''),
     #'series_names': ('OCC', 'TicToc'),
     #'plot_colors': ('blue', 'grey'),
     'legends_on': True,
@@ -122,7 +126,9 @@ def draw_bars(meta_info, common_x, y_serieses, y_errors):
 
     for i in range(len(g_systems)):
         r = ax.bar(ind+width*i, y_serieses[i], width,
-            color=meta_info['plot_colors'][i],
+            color=meta_info['fill_colors'][i],
+            edgecolor='black',
+            hatch=meta_info['hatches'][i],
             yerr=y_errors[i], error_kw=cm.ERROR_KW)
         rects.append(r)
 

@@ -126,7 +126,9 @@ def draw_bars(meta_info, common_x, y_serieses, y_errors):
 
     for i in range(len(g_systems)):
         r = ax.bar(ind+width*i, y_serieses[i], width,
-            color=meta_info['fill_colors'][i], edgecolor='black', hatch=meta_info['hatches'][i],
+            color=meta_info['fill_colors'][i],
+            edgecolor='black',
+            hatch=meta_info['hatches'][i],
             yerr=y_errors[i], error_kw=cm.ERROR_KW)
         rects.append(r)
 
@@ -143,8 +145,8 @@ def draw_bars(meta_info, common_x, y_serieses, y_errors):
                   loc='best')
 
     plt.tight_layout()
-    plt.show()
-    #plt.savefig(meta_info['save_name'])
+    #plt.show()
+    plt.savefig(meta_info['save_name'])
 
 if __name__ == '__main__':
     with open(exp.RESULT_FILE, 'r') as rf:

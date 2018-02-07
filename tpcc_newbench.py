@@ -4,7 +4,7 @@ import subprocess,json,os,time,optparse
 from sto import profile_parser as parser
 
 TYPE = 'tpcc'
-NAME = 'fine_grain'
+NAME = 'coarse_grain'
 
 DRY_RUN = None
 RESULT_DIR = 'results/json/'
@@ -17,7 +17,7 @@ systems = ['default', 'swiss', 'adaptive', '2pl', 'tictoc']
 levels = ['low', 'high']
 
 def cmd_opts(sys, nwhs, thrs):
-    opt = './tpcc_bench_fine -t{0} -w{1} --time=15.0 --dbid={2}'
+    opt = './tpcc_bench_coarse -t{0} -w{1} --time=15.0 --dbid={2}'
     return opt.format(thrs, nwhs, sys)
 
 def run_single(sys, nwhs, thrs):
