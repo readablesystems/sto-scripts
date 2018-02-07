@@ -4,7 +4,7 @@ import subprocess,json,os,time,optparse
 from sto import profile_parser as parser
 
 TYPE = 'ycsb'
-NAME = 'coarse_grain'
+NAME = 'fine_grain'
 
 DRY_RUN = None
 RESULT_DIR = 'results/json/'

@@ -4,7 +4,7 @@ import subprocess,json,os,time,optparse
 from sto import profile_parser as parser
 
 TYPE = 'tpcc'
-NAME = 'fine_grain'
+NAME = 'coarse_grain'
 
 DRY_RUN = None
 RESULT_DIR = 'results/json/'
