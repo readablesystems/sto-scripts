@@ -56,6 +56,6 @@ def settings():
     for tn in tpcc_sys_map:
         color_map[tn] = color_map[tpcc_sys_map[tn]]
 
-    ERROR_KW = dict(ecolor='black', lw=1, capsize=3, capthick=1)
+    ERROR_KW = dict(ecolor='red', lw=2, capsize=4, capthick=2)
 
 settings()

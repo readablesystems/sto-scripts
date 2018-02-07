@@ -4,7 +4,22 @@ import json,plot_helper
 import ycsb_newbench as exp
 import bench_color_map as cm
 import numpy as np
+import matplotlib as mpl
 from matplotlib import pyplot as plt
+
+FONT_SIZE = 22
+    
+mpl.rcParams['figure.figsize'] = [10, 6]
+mpl.rcParams['figure.dpi'] = 80
+mpl.rcParams['savefig.dpi'] = 80
+
+mpl.rcParams['font.size'] = FONT_SIZE
+mpl.rcParams['axes.titlesize'] = FONT_SIZE
+mpl.rcParams['axes.labelsize'] = FONT_SIZE
+mpl.rcParams['xtick.labelsize'] = FONT_SIZE
+mpl.rcParams['ytick.labelsize'] = FONT_SIZE
+mpl.rcParams['legend.fontsize'] = FONT_SIZE
+mpl.rcParams['figure.titlesize'] = 'medium'
 
 #g_threads = exp.threads
 g_threads = [8,16,32,64,128]
@@ -108,15 +123,6 @@ def pack_plotting_data_aborts(processed_results, cont):
 
 def draw_bars(meta_info, common_x, y_serieses, y_errors):
     fig, ax = plt.subplots(figsize=(10,6))
-
-    SMALL_SIZE=20
-    MEDIUM_SIZE=22
-    plt.rc('font', size=SMALL_SIZE)          # controls default text sizes
-    plt.rc('axes', titlesize=SMALL_SIZE)     # fontsize of the axes title
-    plt.rc('axes', labelsize=MEDIUM_SIZE)    # fontsize of the x and y labels
-    plt.rc('xtick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-    plt.rc('ytick', labelsize=SMALL_SIZE)    # fontsize of the tick labels
-    plt.rc('legend', fontsize=SMALL_SIZE)    # legend fontsize
 
     N = len(common_x)
     width = 0.1
