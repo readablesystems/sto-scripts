@@ -48,6 +48,7 @@ if __name__ == '__main__':
 
     old_results = None
     if os.path.exists(result_file) and not opts.force_update:
+        print('Loading existing result file {}.'.format(result_file))
         with open(result_file, 'r') as rf:
             old_results = json.load(rf)
     else:
