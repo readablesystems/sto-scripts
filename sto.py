@@ -1,8 +1,6 @@
-#!/usr/bin/env python
-
 import re
 
-class profile_parser:
+class ProfileParser:
     patterns = {
         'bench_xput': 'Throughput: ([0-9\.]*) txns/sec',
         'time': 'real time: ([0-9\.]*)',

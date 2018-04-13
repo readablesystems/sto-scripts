@@ -1,7 +1,7 @@
 # benchrunner base class for all benchmark runners
 
 import subprocess,time
-from sto import profile_parser as parser
+from sto import ProfileParser as parser
 
 class BenchRunner:
 
@@ -55,7 +55,8 @@ class BenchRunner:
         while True:
             retries = 0
             try:
-                out = subprocess.check_output(cmd.split(' '), stderr=subprocess.STDOUT)
+                bytes_out = subprocess.check_output(cmd.split(' '), stderr=subprocess.STDOUT)
+                out = bytes_out.decode('utf-8')
             except:
                 retries += 1
                 print('Subprocess error, retrying... ({})'.format(retries))
