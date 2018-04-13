@@ -132,7 +132,7 @@ class BenchPlotter:
 
         # ax.set_title(meta_info['graph_title'])
         ax.set_ylabel(meta_info['y_label'])
-        ax.set_ylim(ymin=0, ymax=5.0)
+        ax.set_ylim(ymin=0)
         ax.set_xticks(ind + width * num_series / 2)
         ax.set_xticklabels(['{}'.format(t) for t in common_x])
         ax.set_xlabel(meta_info['x_label'])
