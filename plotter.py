@@ -1,13 +1,16 @@
-# Common files and definitions needed to process experiment result files and draw graphs
+#!/usr/bin/env python3
+import json
+import optparse
 
-import optparse, os, json, sys
-import numpy as np
 import matplotlib as mpl
+import numpy as np
 from matplotlib import pyplot as plt
 
 import config
-from runner import BenchRunner
 from config import WikiGraphConfig
+from runner import BenchRunner
+
+# Common files and definitions needed to process experiment result files and draw graphs
 
 plotter_map = {
     'wiki': WikiGraphConfig
