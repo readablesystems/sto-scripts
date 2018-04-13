@@ -1,20 +1,34 @@
 #!/usr/bin/env python3
 
-from BenchRunner import BenchRunner
-from BenchRunner import TPCCRunner
-import optparse,json,os
-import tpcc_config
+from runner import BenchRunner
+from runner import TPCCRunner
+from runner import WikiRunner
+import optparse, json, os
+import config as bc
+
+bm = {
+    'tpcc': bc.TPCCConfig(),
+    'wiki': bc.WikiConfig()
+}
+
+rm = {
+    'tpcc': TPCCRunner,
+    'wiki': WikiRunner
+}
+
 
 def result_file_name(name):
     return 'results/json/{}_results.json'.format(name)
 
+
 def get_runner_and_file(bench_name):
-    if bench_name == 'tpcc':
-        return (TPCCRunner(tpcc_config.NAME, tpcc_config.DIM1, tpcc_config.DIM2, tpcc_config.DIM3),
-                result_file_name(tpcc_config.NAME))
+    if bench_name in bm:
+        return (rm[bench_name](bm[bench_name].NAME, bm[bench_name].DIM1, bm[bench_name].DIM2, bm[bench_name].DIM3),
+                result_file_name(bm[bench_name].NAME))
     else:
         print('unknown benchmark: {}'.format(bench_name))
         exit()
+
 
 if __name__ == '__main__':
     psr = optparse.OptionParser()

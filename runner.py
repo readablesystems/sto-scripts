@@ -100,3 +100,15 @@ class TPCCRunner(BenchRunner):
             exe = 'tpcc_bench_fine'
 
         return './{0} -t{1} -w{2} --time=15.0 --dbid={3}'.format(exe, trs, whs, sys)
+
+class WikiRunner(BenchRunner):
+    def __init__(self, *args, **kwargs):
+        BenchRunner.__init__(self, *args, **kwargs)
+
+    def cmd_opts(self, trs, sys, cnf):
+        # ignore cnf
+        if sys == 'coarse':
+            exe = 'wiki_bench_coarse'
+        else:
+            exe = 'wiki_bench_fine'
+        return './{0} -t{1} --time=15.0'.format(exe, trs)
