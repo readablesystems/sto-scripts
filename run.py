@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-from runner import BenchRunner,TPCCRunner,WikiRunner
-from config import TPCCConfig,WikiConfig
-import optparse, json, os
+from runner import BenchRunner, TPCCRunner, WikiRunner
+import config
+from config import TPCCConfig, WikiConfig
+import optparse, json, os, sys
 
 brm = {
     'tpcc': (TPCCConfig, TPCCRunner),
@@ -10,18 +11,14 @@ brm = {
 }
 
 
-def result_file_name(name):
-    return 'results/json/{}_results.json'.format(name)
-
-
 def get_runner_and_file(bench_name):
     if bench_name in brm:
         cnf = brm[bench_name][0]
         rnr = brm[bench_name][1]
         return (rnr(cnf.NAME, cnf.DIM1, cnf.DIM2, cnf.DIM3),
-                result_file_name(cnf.NAME))
+                config.get_result_file(cnf.NAME))
     else:
-        print('unknown benchmark: {}'.format(bench_name))
+        print('Terrible.')
         exit()
 
 
@@ -39,11 +36,13 @@ if __name__ == '__main__':
     opts, args = psr.parse_args()
 
     if len(args) != 1:
-        psr.error("Incorrect number of arguments")
-
+        psr.error("Incorrect number of arguments.")
     BenchRunner.set_dry_run(opts.dry_run)
     if opts.ntrails[0] != 0:
         BenchRunner.set_num_trails(opts.dry_run)
+
+    if not args[0] in brm:
+        psr.error("Unknown benchmark: {}.".format(args[0]))
 
     (runner, result_file) = get_runner_and_file(args[0])
 
@@ -58,7 +57,7 @@ if __name__ == '__main__':
     print('ALL DONE')
 
     if opts.dry_run:
-        exit()
+        sys.exit(0)
 
     with open(result_file, 'w') as ofile:
         json.dump(new_results, ofile, indent=4, sort_keys=True)

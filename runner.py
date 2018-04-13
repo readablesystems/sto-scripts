@@ -1,10 +1,10 @@
 # benchrunner base class for all benchmark runners
 
-import subprocess,time
+import subprocess, time
 from sto import ProfileParser as parser
 
-class BenchRunner:
 
+class BenchRunner:
     # We have three dimensions for each data point in our experimental data
     # (d1, d2, d3)
     # d1 is the x-axis in the graphs (e.g. number of threads)
@@ -28,20 +28,21 @@ class BenchRunner:
     def set_sleep_interval(cls, t):
         cls.sleep_time = t
 
+    @classmethod
+    # generate a key uniquely identifying an experiment
+    # n is the trail id
+    def key(cls, d1, d2, d3, n):
+        return '{0}/{1}/{2}/{3}'.format(d3, d2, d1, n)
+
     def __init__(self, name, config_1, config_2, config_3):
         self.benchmark_name = name
         self.dimension1 = config_1
         self.dimension2 = config_2
         self.dimension3 = config_3
 
-    # The following two methods are for override
+    # This method is for override
     def cmd_opts(self, d1, d2, d3):
         return './example-program'
-
-    # generate a key uniquely identifying an experiment
-    # n is the trail id
-    def key(self, d1, d2, d3, n):
-        return '{0}/{1}/{2}/{3}/{4}'.format(self.benchmark_name, d3, d2, d1, n)
 
     # returns triple (xput, aborts, commit-time aborts)
     def run_single(self, d1, d2, d3):
@@ -74,7 +75,7 @@ class BenchRunner:
             for sys in self.dimension2:
                 for trs in self.dimension1:
                     for n in range(BenchRunner.num_trails):
-                        k = self.key(trs, sys, cnf, n)
+                        k = BenchRunner.key(trs, sys, cnf, n)
                         if k in results:
                             continue
                         res = self.run_single(trs, sys, cnf)
@@ -84,6 +85,7 @@ class BenchRunner:
                         print('--gap--')
                         time.sleep(BenchRunner.sleep_time)
         return results
+
 
 class TPCCRunner(BenchRunner):
     def __init__(self, *args, **kwargs):
@@ -101,6 +103,7 @@ class TPCCRunner(BenchRunner):
             exe = 'tpcc_bench_fine'
 
         return './{0} -t{1} -w{2} --time=15.0 --dbid={3}'.format(exe, trs, whs, sys)
+
 
 class WikiRunner(BenchRunner):
     def __init__(self, *args, **kwargs):
