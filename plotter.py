@@ -7,12 +7,13 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 import config
-from config import WikiGraphConfig
+from config import WikiGraphConfig, TPCCGraphConfig
 from runner import BenchRunner
 
 # Common files and definitions needed to process experiment result files and draw graphs
 
 plotter_map = {
+    'tpcc': TPCCGraphConfig,
     'wiki': WikiGraphConfig
 }
 
