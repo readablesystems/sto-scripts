@@ -92,17 +92,17 @@ class TPCCRunner(BenchRunner):
         BenchRunner.__init__(self, *args, **kwargs)
 
     def cmd_opts(self, trs, sys, cnf):
-        (c1, c2) = cnf.split(',')
-        if c1 == 'low':
+        (s1, s2) = sys.split(',')
+        if cnf == 'low':
             whs = trs
         else:
             whs = 8
-        if c2 == 'coarse':
+        if s2 == 'coarse':
             exe = 'tpcc_bench_coarse'
         else:
             exe = 'tpcc_bench_fine'
 
-        return './{0} -t{1} -w{2} --time=15.0 --dbid={3}'.format(exe, trs, whs, sys)
+        return './{0} -t{1} -w{2} --time=15.0 --dbid={3}'.format(exe, trs, whs, s1)
 
 
 class WikiRunner(BenchRunner):
