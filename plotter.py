@@ -128,6 +128,7 @@ class BenchPlotter:
             print(series_data)
             y_series.append(series_data)
 
+        meta['y_label'] = 'Abort Rate (%)'
         meta['graph_title'] = graph_title
         meta['save_name'] = save_name
 
