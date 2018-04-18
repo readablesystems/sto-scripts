@@ -62,5 +62,5 @@ class WikiGraphConfig:
     DIM1 = WikiConfig.DIM1
     DIM2 = WikiConfig.DIM2
     DIM3 = WikiConfig.DIM3
-    D3TITLES = ['untitled']
+    D3TITLES = ['Wikipedia benchmark']
     D3FNAMES = ['wiki_bench']

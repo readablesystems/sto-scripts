@@ -150,7 +150,8 @@ class BenchPlotter:
                        yerr=y_errors[i], error_kw=GraphGlobalConstants.ERROR_KW)
             rects.append(r)
 
-        # ax.set_title(meta_info['graph_title'])
+        if meta_info['graph_title'] != '':
+            ax.set_title(meta_info['graph_title'])
         ax.set_ylabel(meta_info['y_label'])
         ax.set_ylim(ymin=0)
         ax.set_xticks(ind + width * num_series / 2)
