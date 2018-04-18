@@ -20,6 +20,7 @@ plotter_map = {
 
 class GraphGlobalConstants:
     FONT_SIZE = 22
+    FIG_SIZE = (10, 6)
     BAR_WIDTH_SCALE_FACTOR = 1.3
     ERROR_KW = dict(ecolor='red', lw=2, capsize=4, capthick=2)
 
@@ -32,7 +33,7 @@ class BenchPlotter:
     def set_matplotlib_params(cls):
         fnt_sz = GraphGlobalConstants.FONT_SIZE
 
-        mpl.rcParams['figure.figsize'] = [10, 6]
+        mpl.rcParams['figure.figsize'] = GraphGlobalConstants.FIG_SIZE
         mpl.rcParams['figure.dpi'] = 80
         mpl.rcParams['savefig.dpi'] = 80
 
@@ -112,6 +113,24 @@ class BenchPlotter:
 
         return meta, common_x, y_series, y_errors
 
+    def pack_abrts_data(self, processed_results, d3, graph_title, save_name):
+        print("aborts:")
+        meta = self.graph_info.copy()
+        common_x = self.dimension1
+        y_series = []
+        for sut in self.dimension2:
+            print(sut)
+            series_data = []
+            for thr in self.dimension1:
+                res = processed_results[BenchPlotter.key(thr, sut, d3)]
+                series_data.append(res[1])
+
+            print(series_data)
+            y_series.append(series_data)
+
+        meta['graph_title'] = graph_title
+        meta['save_name'] = save_name
+
     def draw_bars(self, meta_info, common_x, y_series, y_errors):
         fig, ax = plt.subplots(figsize=(10, 6))
 
@@ -149,18 +168,52 @@ class BenchPlotter:
         else:
             plt.savefig('{}.{}'.format(meta_info['save_name'], BenchPlotter.img_fmt))
 
+    def draw_lines(self, meta_info, common_x, y_series):
+        fig, ax = plt.subplots(figsize=(10, 6))
+        num_series = len(self.dimension2)
+        lines = []
+        for i in range(num_series):
+            l = ax.plot(common_x, y_series[i], marker=meta_info['l_markers'][i], color=meta_info['l_color'][i])
+            lines.append(l)
+
+        if meta_info['graph_title'] != '':
+            ax.set_title(meta_info['graph_title'])
+        ax.set_ylabel(meta_info['y_label'])
+        ax.set_ylim(ymin=0)
+        ax.set_xlabel(meta_info['x_label'])
+
+        if meta_info['legends_on']:
+            ax.legend([l[0] for l in lines],
+                      [meta_info['series_names'][i] for i in range(num_series)],
+                      loc='best')
+        plt.tight_layout()
+        if BenchPlotter.show_only:
+            plt.show()
+        else:
+            plt.savefig('{}.{}'.format(meta_info['save_name'], BenchPlotter.img_fmt))
+
     def draw_all(self, results):
         processed = self.process(results)
+
+        print('--throughput graph(s)--')
         for idx in range(len(self.dimension3)):
             d3 = self.dimension3[idx]
             title = self.d3titles[idx]
             fname = self.d3fnames[idx]
             self.draw_bars(*self.pack_xput_data(processed, d3, title, fname))
 
+        print('--abort graph(s)--')
+        for idx in range(len(self.dimension3)):
+            d3 = self.dimension3[idx]
+            title = self.d3titles[idx] + ' (abort rates)'
+            fname = self.d3fnames[idx] + '_aborts'
+            self.draw_lines(*self.pack_abrts_data(processed, d3, title, fname))
+
 
 def get_plotter(bench_name):
     cnf = plotter_map[bench_name]
-    return BenchPlotter(cnf.INFO, cnf.DIM1, cnf.DIM2, cnf.DIM3, cnf.D3TITLES, cnf.D3FNAMES), config.get_result_file(bench_name)
+    return BenchPlotter(cnf.INFO, cnf.DIM1, cnf.DIM2, cnf.DIM3, cnf.D3TITLES, cnf.D3FNAMES), \
+           config.get_result_file(bench_name)
 
 
 if __name__ == '__main__':
