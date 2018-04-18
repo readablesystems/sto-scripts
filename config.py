@@ -41,6 +41,8 @@ class TPCCGraphConfig:
         'series_names': ('Coarse', 'Fine'),
         'fill_colors': ('black', 'white', 'white', 'white', 'white'),
         'hatches': ('', '++', '///', 'xx', ''),
+        'l_markers': ('o', '^', 's', '*'),
+        'l_colors': ('red', 'blue', 'green', 'orange'),
         'legends_on': True
     }
     DIM1 = TPCCConfig.DIM1
@@ -57,6 +59,8 @@ class WikiGraphConfig:
         'series_names': ('Coarse', 'Fine'),
         'fill_colors': ('black', 'white', 'white', 'white', 'white'),
         'hatches': ('', '++', '///', 'xx', ''),
+        'l_markers': ('o', '^', 's', '*'),
+        'l_colors': ('red', 'blue', 'green', 'orange'),
         'legends_on': True
     }
     DIM1 = WikiConfig.DIM1

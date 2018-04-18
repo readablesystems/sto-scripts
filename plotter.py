@@ -176,7 +176,7 @@ class BenchPlotter:
         num_series = len(self.dimension2)
         lines = []
         for i in range(num_series):
-            l = ax.plot(common_x, y_series[i], marker=meta_info['l_markers'][i], color=meta_info['l_color'][i])
+            l = ax.plot(common_x, y_series[i], marker=meta_info['l_markers'][i], color=meta_info['l_colors'][i])
             lines.append(l)
 
         if meta_info['graph_title'] != '':
