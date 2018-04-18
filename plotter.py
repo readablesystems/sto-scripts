@@ -131,6 +131,8 @@ class BenchPlotter:
         meta['graph_title'] = graph_title
         meta['save_name'] = save_name
 
+        return meta, common_x, y_series
+
     def draw_bars(self, meta_info, common_x, y_series, y_errors):
         fig, ax = plt.subplots(figsize=(10, 6))
 
