@@ -111,8 +111,9 @@ class WikiRunner(BenchRunner):
 
     def cmd_opts(self, trs, sys, cnf):
         # ignore cnf
-        if sys == 'coarse':
+        (s1, s2) = sys.split(',')
+        if s2 == 'coarse':
             exe = 'wiki_bench_coarse'
         else:
             exe = 'wiki_bench_fine'
-        return './{0} -t{1} --time=15.0'.format(exe, trs)
+        return './{0} --nthreads={1} --time=15.0 --dbid={2}'.format(exe, trs, s1)

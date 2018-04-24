@@ -20,14 +20,14 @@ class TPCCConfig:
     #DIM1 = [8, 16, 24, 32, 64, 96, 128]
     DIM1 = [8, 16, 24, 32, 48]
     #DIM2 = ['default', 'swiss', 'adaptive', '2pl', 'tictoc']
-    DIM2 = ['default,coarse', 'default,fine']
+    DIM2 = ['default,coarse', 'tictoc,coarse', 'default,fine']
     DIM3 = ['high']
 
 
 class WikiConfig:
     NAME = 'wiki'
     DIM1 = [8, 16, 24, 32, 48]
-    DIM2 = ['coarse', 'fine']
+    DIM2 = ['default,coarse', 'tictoc,coarse', 'default,fine']
     DIM3 = ['one']
 
 
@@ -38,7 +38,7 @@ class TPCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('Coarse', 'Fine'),
+        'series_names': ('Coarse', 'TicToc', 'Fine'),
         'fill_colors': ('black', 'white', 'white', 'white', 'white'),
         'hatches': ('', '++', '///', 'xx', ''),
         'l_markers': ('o', '^', 's', '*'),
@@ -56,7 +56,7 @@ class WikiGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('Coarse', 'Fine'),
+        'series_names': ('Coarse', 'TicToc', 'Fine'),
         'fill_colors': ('black', 'white', 'white', 'white', 'white'),
         'hatches': ('', '++', '///', 'xx', ''),
         'l_markers': ('o', '^', 's', '*'),
