@@ -22,7 +22,7 @@ class GraphGlobalConstants:
     FONT_SIZE = 22
     FIG_SIZE = (10, 6)
     BAR_WIDTH_SCALE_FACTOR = 1.3
-    ERROR_KW = dict(ecolor='red', lw=2, capsize=4, capthick=2)
+    ERROR_KW = dict(ecolor='red', elinewidth=2, capsize=4, capthick=2)
 
 
 class BenchPlotter:
@@ -118,6 +118,7 @@ class BenchPlotter:
         meta = self.graph_info.copy()
         common_x = self.dimension1
         y_series = []
+        y_errors = []
         for sut in self.dimension2:
             print(sut)
             series_data = []
@@ -127,12 +128,13 @@ class BenchPlotter:
 
             print(series_data)
             y_series.append(series_data)
+            y_errors.append(None)
 
         meta['y_label'] = 'Abort Rate (%)'
         meta['graph_title'] = graph_title
         meta['save_name'] = save_name
 
-        return meta, common_x, y_series
+        return meta, common_x, y_series, y_errors
 
     def draw_bars(self, meta_info, common_x, y_series, y_errors):
         fig, ax = plt.subplots(figsize=(10, 6))
@@ -172,12 +174,12 @@ class BenchPlotter:
         else:
             plt.savefig('{}.{}'.format(meta_info['save_name'], BenchPlotter.img_fmt))
 
-    def draw_lines(self, meta_info, common_x, y_series):
+    def draw_lines(self, meta_info, common_x, y_series, y_errors):
         fig, ax = plt.subplots(figsize=(10, 6))
         num_series = len(self.dimension2)
         lines = []
         for i in range(num_series):
-            l = ax.plot(common_x, y_series[i], marker=meta_info['l_markers'][i], color=meta_info['l_colors'][i])
+            l = ax.errorbar(common_x, y_series[i], marker=meta_info['l_markers'][i], color=meta_info['l_colors'][i], yerr=y_errors[i], *GraphGlobalConstants.ERROR_KW)
             lines.append(l)
 
         if meta_info['graph_title'] != '':
@@ -204,7 +206,8 @@ class BenchPlotter:
             d3 = self.dimension3[idx]
             title = self.d3titles[idx]
             fname = self.d3fnames[idx]
-            self.draw_bars(*self.pack_xput_data(processed, d3, title, fname))
+            #self.draw_bars(*self.pack_xput_data(processed, d3, title, fname))
+            self.draw_lines(*self.pack_xput_data(processed, d3, title, fname))
 
         print('--abort graph(s)--')
         for idx in range(len(self.dimension3)):
