@@ -7,14 +7,15 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 import config
-from config import WikiGraphConfig, TPCCGraphConfig
+from config import WikiGraphConfig, TPCCGraphConfig, MVSTOGraphConfig
 from runner import BenchRunner
 
 # Common files and definitions needed to process experiment result files and draw graphs
 
 plotter_map = {
     'tpcc': TPCCGraphConfig,
-    'wiki': WikiGraphConfig
+    'wiki': WikiGraphConfig,
+    'mvsto': MVSTOGraphConfig
 }
 
 
@@ -179,7 +180,7 @@ class BenchPlotter:
         num_series = len(self.dimension2)
         lines = []
         for i in range(num_series):
-            l = ax.errorbar(common_x, y_series[i], marker=meta_info['l_markers'][i], color=meta_info['l_colors'][i], yerr=y_errors[i], *GraphGlobalConstants.ERROR_KW)
+            l = ax.errorbar(common_x, y_series[i], marker=meta_info['l_markers'][i], color=meta_info['l_colors'][i], yerr=y_errors[i], ecolor=meta_info['l_colors'][i], capsize=4)
             lines.append(l)
 
         if meta_info['graph_title'] != '':
@@ -220,7 +221,7 @@ class BenchPlotter:
 def get_plotter(bench_name):
     cnf = plotter_map[bench_name]
     return BenchPlotter(cnf.INFO, cnf.DIM1, cnf.DIM2, cnf.DIM3, cnf.D3TITLES, cnf.D3FNAMES), \
-           config.get_result_file(bench_name)
+           config.get_result_file(cnf.NAME)
 
 
 if __name__ == '__main__':
