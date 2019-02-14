@@ -48,6 +48,31 @@ class MVSTOWikiConfig:
 # Graph config
 
 
+color_mapping = {
+    'o': 1,
+    'o.c': 3,
+    'o.s': 5,
+    'o.c.s': 7,
+    'm': 0,
+    'm.c': 2,
+    'm.s.i': 4,
+    'm.c.s.i': 6,
+    'c': 8
+}
+
+marker_mapping = {
+    'o':       'o',
+    'o.c':     '<',
+    'o.s':     's',
+    'o.c.s':   '*',
+    'm':       'h',
+    'm.c':     'H',
+    'm.s.i':   'D',
+    'm.c.s.i': 'x',
+    'c':       '^'
+}
+
+
 class TPCCGraphConfig:
     INFO = {
         'x_label': '# threads',
@@ -93,10 +118,6 @@ class MVSTOGraphConfig:
         'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV',
                          'MVCC', 'MVCC + CU', 'MVCC + SV + IV', 'MVCC + CU + SV + IV',
                          'Cicada'),
-        #'fill_colors': ('black', 'white', 'white', 'white', 'white'),
-        #'hatches': ('', '++', '///', 'xx', ''),
-        'l_markers': ('o', '<', 's', '*', 'h', 'H', 'D', 'x', '^'),
-        'l_colors': ('red', 'blue', 'green', 'orange', 'brown', 'purple', 'black', 'yellow', 'magenta'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -104,7 +125,38 @@ class MVSTOGraphConfig:
     DIM2 = MVSTOConfig.DIM2
     DIM3 = MVSTOConfig.DIM3
     D3TITLES = ['TPC-C one warehouse', 'TPC-C four warehouses']
-    D3FNAMES = ['tpcc_bench', 'tpcc_bench']
+    D3FNAMES = ['tpcc_w1', 'tpcc_w4']
+
+
+class MVSTOTPCCOCCGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['o', 'o.c', 'o.s', 'o.c.s']
+    DIM3 = MVSTOConfig.DIM3
+    D3TITLES = ['TPC-C one warehouse (OCC)', 'TPC-C four warehouses (OCC)']
+    D3FNAMES = ['tpcc_occ_w1', 'tpcc_occ_w4']
+
+
+class MVSTOTPCCMVCCGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('MVCC', 'MVCC + CU', 'MVCC + SV + IV', 'MVCC + CU + SV + IV',
+                         'Cicada'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['m', 'm.c', 'm.s.i', 'm.c.s.i', 'c']
+    DIM3 = MVSTOConfig.DIM3
+    D3TITLES = ['TPC-C one warehouse (MVCC)', 'TPC-C four warehouses (MVCC)']
+    D3FNAMES = ['tpcc_mvcc_w1', 'tpcc_mvcc_w4']
 
 
 class MVSTOWikiGraphConfig:
@@ -113,10 +165,6 @@ class MVSTOWikiGraphConfig:
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV',
                          'MVCC', 'MVCC + CU', 'MVCC + SV + IV', 'MVCC + CU + SV + IV'),
-        #'fill_colors': ('black', 'white', 'white', 'white', 'white'),
-        #'hatches': ('', '++', '///', 'xx', ''),
-        'l_markers': ('o', '<', 's', '*', 'h', 'H', 'D', 'x', '^'),
-        'l_colors': ('red', 'blue', 'green', 'orange', 'brown', 'purple', 'black', 'yellow', 'magenta'),
         'legends_on': True
     }
     NAME = MVSTOWikiConfig.NAME
@@ -124,4 +172,4 @@ class MVSTOWikiGraphConfig:
     DIM2 = MVSTOWikiConfig.DIM2
     DIM3 = MVSTOWikiConfig.DIM3
     D3TITLES = ['Wikipedia workload']
-    D3FNAMES = ['wiki_bench']
+    D3FNAMES = ['wiki']
