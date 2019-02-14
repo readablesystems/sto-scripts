@@ -38,6 +38,13 @@ class MVSTOConfig:
     DIM3 = ['1', '4'] # number of warehouses
 
 
+class MVSTOWikiConfig:
+    NAME = 'wiki_mvsto'
+    DIM1 = [1, 2, 4, 12, 23, 24, 36, 47, 48]
+    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s.i','m.c.s.i','c']
+    DIM3 = ['0'] # only one configuration
+
+
 # Graph config
 
 
@@ -98,3 +105,23 @@ class MVSTOGraphConfig:
     DIM3 = MVSTOConfig.DIM3
     D3TITLES = ['TPC-C one warehouse', 'TPC-C four warehouses']
     D3FNAMES = ['tpcc_bench', 'tpcc_bench']
+
+
+class MVSTOWikiGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV',
+                         'MVCC', 'MVCC + CU', 'MVCC + SV + IV', 'MVCC + CU + SV + IV'),
+        #'fill_colors': ('black', 'white', 'white', 'white', 'white'),
+        #'hatches': ('', '++', '///', 'xx', ''),
+        'l_markers': ('o', '<', 's', '*', 'h', 'H', 'D', 'x', '^'),
+        'l_colors': ('red', 'blue', 'green', 'orange', 'brown', 'purple', 'black', 'yellow', 'magenta'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = MVSTOConfig.DIM2
+    DIM3 = MVSTOConfig.DIM3
+    D3TITLES = ['Wikipedia workload']
+    D3FNAMES = ['wiki_bench']

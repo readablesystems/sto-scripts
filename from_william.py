@@ -5,11 +5,11 @@ import json
 import csv
 
 from runner import BenchRunner as br
-from plotter import BenchPlotter as bp
 
 WILLIAM_TRIALS = 5
 
-sys_name_map = {
+tpcc_sys_name_map = {
+    'name': 'tpcc',
     'OCC (W1)': 'o/1',
     'OCC + CU (W1)': 'o.c/1',
     'OCC (W4)': 'o/4',
@@ -28,51 +28,86 @@ sys_name_map = {
     'MVCC + CU (W4) + ST + IV': 'm.c.s.i/4'
 }
 
-outfile = config.get_result_file(config.MVSTOConfig.NAME)
-infile = 'results.txt'
+wiki_sys_name_map = {
+    'name': 'wiki',
+    'OCC': 'o/1',
+    'OCC + CU': 'o.c/1',
+    'OCC + SV': 'o.s/1',
+    'OCC + CU + SV': 'o.c.s/1',
+    'MVCC': 'm/1',
+    'MVCC + ST + IV': 'm.s.i/1',
+    'MVCC + CU': 'm.c/1',
+    'MVCC + CU + ST + IV': 'm.c.s.i/1',
+}
 
-sys_name_reverse_map = {}
-sys_short_names = []
+tpcc_out_file = config.get_result_file(config.MVSTOConfig.NAME)
+tpcc_result_file = 'tpcc_results.txt'
+wiki_out_file = config.get_result_file(config.MVSTOWikiConfig.NAME)
+wiki_result_file = 'wiki_results.txt'
 
-compatible_results = {}
 
-for k,v in sys_name_map.items():
-    sys_name_reverse_map[v] = k;
-    sys_short_names.append(v)
+def convert(infile, sys_name_map, compatible_results):
+    is_tpcc = sys_name_map['name'] == 'tpcc'
 
-with open(infile, 'r') as rf:
-    reader = csv.DictReader(rf)
-    for row in reader:
-        d1 = row['# Threads']
-        for v in sys_short_names:
-            long_name = sys_name_reverse_map[v]
+    sys_name_reverse_map = {}
+    sys_short_names = []
+
+    for k,v in sys_name_map.items():
+        if k == 'name':
+            continue
+        sys_name_reverse_map[v] = k
+        sys_short_names.append(v)
+
+    with open(infile, 'r') as rf:
+        reader = csv.DictReader(rf)
+        for row in reader:
+            d1 = row['# Threads']
+            for v in sys_short_names:
+                long_name = sys_name_reverse_map[v]
+                for i in range(WILLIAM_TRIALS):
+                    (d2, d3) = v.split('/')
+                    runner_key = br.key(d1, d2, d3, i)
+                    col_key = long_name
+                    if is_tpcc:
+                        col_key += ' + OB'
+                    col_key += ' [T{}]'.format(i+1)
+                    xput = float(row[col_key])
+                    compatible_results[runner_key] = (xput, 0.0, 0.0)
+    return compatible_results
+
+
+def convert_cicada(compatible_results):
+    with open('c-1w-results.txt', 'r') as rf:
+        reader = csv.DictReader(rf)
+        for row in reader:
+            d1 = row['# Threads']
+            d2 = 'c'
+            d3 = '1'
             for i in range(WILLIAM_TRIALS):
-                (d2, d3) = v.split('/')
-                runner_key = br.key(d1, d2, d3, i)
-                xput = float(row[long_name + ' + OB [T{}]'.format(i+1)])
+                runner_key = br.key(d1,d2,d3,i)
+                xput = float(row['Cicada (W1)' + ' [T{}]'.format(i+1)]) * 1000000.0
                 compatible_results[runner_key] = (xput, 0.0, 0.0)
 
-with open('c-1w-results.txt', 'r') as rf:
-    reader = csv.DictReader(rf)
-    for row in reader:
-        d1 = row['# Threads']
-        d2 = 'c'
-        d3 = '1'
-        for i in range(WILLIAM_TRIALS):
-            runner_key = br.key(d1,d2,d3,i)
-            xput = float(row['Cicada (W1)' + ' [T{}]'.format(i+1)]) * 1000000.0
-            compatible_results[runner_key] = (xput, 0.0, 0.0)
+    with open('c-4w-results.txt', 'r') as rf:
+        reader = csv.DictReader(rf)
+        for row in reader:
+            d1 = row['# Threads']
+            d2 = 'c'
+            d3 = '4'
+            for i in range(WILLIAM_TRIALS):
+                runner_key = br.key(d1,d2,d3,i)
+                xput = float(row['Cicada (W4)' + ' [T{}]'.format(i+1)]) * 1000000.0
+                compatible_results[runner_key] = (xput, 0.0, 0.0)
+    return compatible_results
 
-with open('c-4w-results.txt', 'r') as rf:
-    reader = csv.DictReader(rf)
-    for row in reader:
-        d1 = row['# Threads']
-        d2 = 'c'
-        d3 = '4'
-        for i in range(WILLIAM_TRIALS):
-            runner_key = br.key(d1,d2,d3,i)
-            xput = float(row['Cicada (W4)' + ' [T{}]'.format(i+1)]) * 1000000.0
-            compatible_results[runner_key] = (xput, 0.0, 0.0)
 
-with open(outfile, 'w') as wf:
-    json.dump(compatible_results, wf, indent=4, sort_keys=True)
+if __name__ == '__main__':
+    results = {}
+    results = convert(tpcc_result_file, tpcc_sys_name_map, results)
+    results = convert_cicada(results)
+    with open(tpcc_out_file, 'w') as wf:
+        json.dump(results, wf, indent=4, sort_keys=True)
+    results = {}
+    results = convert(wiki_result_file, wiki_sys_name_map, results)
+    with open(wiki_out_file, 'w') as wf:
+        json.dump(results, wf, indent=4, sort_keys=True)
