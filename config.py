@@ -41,8 +41,8 @@ class MVSTOConfig:
 class MVSTOWikiConfig:
     NAME = 'wiki_mvsto'
     DIM1 = [1, 2, 4, 12, 23, 24, 36, 47, 48]
-    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s.i','m.c.s.i','c']
-    DIM3 = ['0'] # only one configuration
+    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s.i','m.c.s.i']
+    DIM3 = ['1'] # only one configuration
 
 
 # Graph config
@@ -119,9 +119,9 @@ class MVSTOWikiGraphConfig:
         'l_colors': ('red', 'blue', 'green', 'orange', 'brown', 'purple', 'black', 'yellow', 'magenta'),
         'legends_on': True
     }
-    NAME = MVSTOConfig.NAME
-    DIM1 = MVSTOConfig.DIM1
-    DIM2 = MVSTOConfig.DIM2
-    DIM3 = MVSTOConfig.DIM3
+    NAME = MVSTOWikiConfig.NAME
+    DIM1 = MVSTOWikiConfig.DIM1
+    DIM2 = MVSTOWikiConfig.DIM2
+    DIM3 = MVSTOWikiConfig.DIM3
     D3TITLES = ['Wikipedia workload']
     D3FNAMES = ['wiki_bench']

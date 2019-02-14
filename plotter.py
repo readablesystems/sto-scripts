@@ -7,7 +7,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 import config
-from config import WikiGraphConfig, TPCCGraphConfig, MVSTOGraphConfig
+from config import WikiGraphConfig, TPCCGraphConfig, MVSTOGraphConfig, MVSTOWikiGraphConfig
 from runner import BenchRunner
 
 # Common files and definitions needed to process experiment result files and draw graphs
@@ -15,7 +15,8 @@ from runner import BenchRunner
 plotter_map = {
     'tpcc': TPCCGraphConfig,
     'wiki': WikiGraphConfig,
-    'mvsto': MVSTOGraphConfig
+    'mvsto': MVSTOGraphConfig,
+    'mvstowiki': MVSTOWikiGraphConfig
 }
 
 
@@ -24,6 +25,17 @@ class GraphGlobalConstants:
     FIG_SIZE = (10, 6)
     BAR_WIDTH_SCALE_FACTOR = 1.3
     ERROR_KW = dict(ecolor='red', elinewidth=2, capsize=4, capthick=2)
+    TABLEAU20 = [(31,119,180), (174,199,232), (255,127,14), (255,187,120),
+                 (44,160,44), (152,223,138), (214,39,40), (255,152,150),
+                 (148,103,189), (197,176,213), (140,86,75), (196,156,148),
+                 (227,119,194), (247,182,210), (127,127,127), (199,199,199),
+                 (188,189,34), (219,219,141), (23,190,207), (158,218,229)]
+
+    @classmethod
+    def set_tableau20(cls):
+        for i in range(len(cls.TABLEAU20)):
+            r,g,b = cls.TABLEAU20[i]
+            cls.TABLEAU20[i] = (r/255., g/255., b/255.)
 
 
 class BenchPlotter:
@@ -180,7 +192,8 @@ class BenchPlotter:
         num_series = len(self.dimension2)
         lines = []
         for i in range(num_series):
-            l = ax.errorbar(common_x, y_series[i], marker=meta_info['l_markers'][i], color=meta_info['l_colors'][i], yerr=y_errors[i], ecolor=meta_info['l_colors'][i], capsize=4)
+            l_color = GraphGlobalConstants.TABLEAU20[i]
+            l = ax.errorbar(common_x, y_series[i], marker=meta_info['l_markers'][i], color=l_color, yerr=y_errors[i], ecolor=l_color, capsize=4)
             lines.append(l)
 
         if meta_info['graph_title'] != '':
@@ -225,6 +238,7 @@ def get_plotter(bench_name):
 
 
 if __name__ == '__main__':
+    GraphGlobalConstants.set_tableau20()
     usage = "Usage: %prog benchmark\n\nSupported benchmarks: "
     usage += ', '.join(plotter_map.keys())
     psr = optparse.OptionParser(usage=usage)

@@ -30,14 +30,14 @@ tpcc_sys_name_map = {
 
 wiki_sys_name_map = {
     'name': 'wiki',
-    'OCC': 'o/1',
-    'OCC + CU': 'o.c/1',
-    'OCC + SV': 'o.s/1',
-    'OCC + CU + SV': 'o.c.s/1',
-    'MVCC': 'm/1',
-    'MVCC + ST + IV': 'm.s.i/1',
-    'MVCC + CU': 'm.c/1',
-    'MVCC + CU + ST + IV': 'm.c.s.i/1',
+    'OCC (W1)': 'o/1',
+    'OCC + CU (W1)': 'o.c/1',
+    'OCC (W1) + SV': 'o.s/1',
+    'OCC + CU (W1) + SV': 'o.c.s/1',
+    'MVCC (W1)': 'm/1',
+    'MVCC (W1) + ST + IV': 'm.s.i/1',
+    'MVCC + CU (W1)': 'm.c/1',
+    'MVCC + CU (W1) + ST + IV': 'm.c.s.i/1',
 }
 
 tpcc_out_file = config.get_result_file(config.MVSTOConfig.NAME)
