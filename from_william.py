@@ -72,61 +72,70 @@ def convert(infile, sys_name_map, compatible_results):
         sys_name_reverse_map[v] = k
         sys_short_names.append(v)
 
-    with open(infile, 'r') as rf:
-        reader = csv.DictReader(rf)
-        for row in reader:
-            d1 = row['# Threads']
-            for v in sys_short_names:
-                long_name = sys_name_reverse_map[v]
-                for i in range(WILLIAM_TRIALS):
-                    (d2, d3) = v.split('/')
-                    runner_key = br.key(d1, d2, d3, i)
-                    col_key = long_name
-                    if is_tpcc:
-                        col_key += ' + OB'
-                    col_key += ' [T{}]'.format(i+1)
-                    xput = float(row[col_key])
-                    compatible_results[runner_key] = (xput, 0.0, 0.0)
+    try:
+        with open(infile, 'r') as rf:
+            reader = csv.DictReader(rf)
+            for row in reader:
+                d1 = row['# Threads']
+                for v in sys_short_names:
+                    long_name = sys_name_reverse_map[v]
+                    for i in range(WILLIAM_TRIALS):
+                        (d2, d3) = v.split('/')
+                        runner_key = br.key(d1, d2, d3, i)
+                        col_key = long_name
+                        if is_tpcc:
+                            col_key += ' + OB'
+                        col_key += ' [T{}]'.format(i+1)
+                        xput = float(row[col_key])
+                        compatible_results[runner_key] = (xput, 0.0, 0.0)
+    except (FileNotFoundError, IOError):
+        return {}
     return compatible_results
 
 
 def convert_cicada(compatible_results):
-    with open('c-1w-results.txt', 'r') as rf:
-        reader = csv.DictReader(rf)
-        for row in reader:
-            d1 = row['# Threads']
-            d2 = 'c'
-            d3 = '1'
-            for i in range(WILLIAM_TRIALS):
-                runner_key = br.key(d1,d2,d3,i)
-                xput = float(row['Cicada (W1)' + ' [T{}]'.format(i+1)]) * 1000000.0
-                compatible_results[runner_key] = (xput, 0.0, 0.0)
+    try:
+        with open('c-1w-results.txt', 'r') as rf:
+            reader = csv.DictReader(rf)
+            for row in reader:
+                d1 = row['# Threads']
+                d2 = 'c'
+                d3 = '1'
+                for i in range(WILLIAM_TRIALS):
+                    runner_key = br.key(d1,d2,d3,i)
+                    xput = float(row['Cicada (W1)' + ' [T{}]'.format(i+1)]) * 1000000.0
+                    compatible_results[runner_key] = (xput, 0.0, 0.0)
 
-    with open('c-4w-results.txt', 'r') as rf:
-        reader = csv.DictReader(rf)
-        for row in reader:
-            d1 = row['# Threads']
-            d2 = 'c'
-            d3 = '4'
-            for i in range(WILLIAM_TRIALS):
-                runner_key = br.key(d1,d2,d3,i)
-                xput = float(row['Cicada (W4)' + ' [T{}]'.format(i+1)]) * 1000000.0
-                compatible_results[runner_key] = (xput, 0.0, 0.0)
+        with open('c-4w-results.txt', 'r') as rf:
+            reader = csv.DictReader(rf)
+            for row in reader:
+                d1 = row['# Threads']
+                d2 = 'c'
+                d3 = '4'
+                for i in range(WILLIAM_TRIALS):
+                    runner_key = br.key(d1,d2,d3,i)
+                    xput = float(row['Cicada (W4)' + ' [T{}]'.format(i+1)]) * 1000000.0
+                    compatible_results[runner_key] = (xput, 0.0, 0.0)
+    except (FileNotFoundError, IOError):
+        return {}
     return compatible_results
 
 
 if __name__ == '__main__':
-    #results = {}
-    #results = convert(tpcc_result_file, tpcc_sys_name_map, results)
-    #results = convert_cicada(results)
-    #with open(tpcc_out_file, 'w') as wf:
-    #    json.dump(results, wf, indent=4, sort_keys=True)
-    #results = {}
-    #results = convert(wiki_result_file, wiki_sys_name_map, results)
-    #with open(wiki_out_file, 'w') as wf:
-    #    json.dump(results, wf, indent=4, sort_keys=True)
+    results = {}
+    results = convert(tpcc_result_file, tpcc_sys_name_map, results)
+    results = convert_cicada(results)
+    if results:
+        with open(tpcc_out_file, 'w') as wf:
+            json.dump(results, wf, indent=4, sort_keys=True)
+    results = {}
+    results = convert(wiki_result_file, wiki_sys_name_map, results)
+    if results:
+        with open(wiki_out_file, 'w') as wf:
+            json.dump(results, wf, indent=4, sort_keys=True)
     results = {}
     results = convert(rubis_result_file, rubis_sys_name_map, results)
-    with open(rubis_out_file, 'w') as wf:
-        json.dump(results, wf, indent=4, sort_keys=True)
+    if results:
+        with open(rubis_out_file, 'w') as wf:
+            json.dump(results, wf, indent=4, sort_keys=True)
 
