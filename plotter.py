@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 
 import config
 from config import WikiGraphConfig, TPCCGraphConfig, MVSTOGraphConfig, MVSTOWikiGraphConfig
-from config import MVSTOTPCCOCCGraphConfig, MVSTOTPCCMVCCGraphConfig
+from config import MVSTOTPCCOCCGraphConfig, MVSTOTPCCMVCCGraphConfig, MVSTORubisGraphConfig
 from config import color_mapping, marker_mapping
 from runner import BenchRunner
 
@@ -20,7 +20,8 @@ plotter_map = {
     'mvsto': MVSTOGraphConfig,
     'mvsto-occ': MVSTOTPCCOCCGraphConfig,
     'mvsto-mvcc': MVSTOTPCCMVCCGraphConfig,
-    'mvstowiki': MVSTOWikiGraphConfig
+    'mvstowiki': MVSTOWikiGraphConfig,
+    'mvstorubis': MVSTORubisGraphConfig
 }
 
 
@@ -246,6 +247,7 @@ def get_plotter(bench_name):
 
 if __name__ == '__main__':
     GraphGlobalConstants.set_tableau20()
+    BenchPlotter.set_matplotlib_params()
     usage = "Usage: %prog benchmark\n\nSupported benchmarks: "
     usage += ', '.join(plotter_map.keys())
     psr = optparse.OptionParser(usage=usage)
@@ -270,6 +272,9 @@ if __name__ == '__main__':
             BenchPlotter.show_only = False
         else:
             psr.error("Unsupported image file extension: {}.".format(opts.ext))
+
+    if len(args) == 0:
+        psr.error("Please specificy at least one benchmark to plot.");
 
     for arg in args:
         if not arg in plotter_map:

@@ -45,6 +45,13 @@ class MVSTOWikiConfig:
     DIM3 = ['1'] # only one configuration
 
 
+class MVSTORubisConfig:
+    NAME = 'rubis_mvsto'
+    DIM1 = [1, 2, 4, 12, 23, 24, 36, 47, 48]
+    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s.i','m.c.s.i']
+    DIM3 = ['1'] # only one configuration
+
+
 # Graph config
 
 
@@ -173,3 +180,19 @@ class MVSTOWikiGraphConfig:
     DIM3 = MVSTOWikiConfig.DIM3
     D3TITLES = ['Wikipedia workload']
     D3FNAMES = ['wiki']
+
+
+class MVSTORubisGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV',
+                         'MVCC', 'MVCC + CU', 'MVCC + SV + IV', 'MVCC + CU + SV + IV'),
+        'legends_on': True
+    }
+    NAME = MVSTORubisConfig.NAME
+    DIM1 = MVSTORubisConfig.DIM1
+    DIM2 = MVSTORubisConfig.DIM2
+    DIM3 = MVSTORubisConfig.DIM3
+    D3TITLES = ['Rubis-like workload']
+    D3FNAMES = ['rubis']

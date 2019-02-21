@@ -1,4 +1,4 @@
-#/usr/bin/env python3
+#!/usr/bin/env python3
 
 import config
 import json
@@ -40,10 +40,24 @@ wiki_sys_name_map = {
     'MVCC + CU (W1) + ST + IV': 'm.c.s.i/1',
 }
 
+rubis_sys_name_map = {
+    'name': 'rubis',
+    'OCC (W1)': 'o/1',
+    'OCC + CU (W1)': 'o.c/1',
+    'OCC (W1) + SV': 'o.s/1',
+    'OCC + CU (W1) + SV': 'o.c.s/1',
+    'MVCC (W1)': 'm/1',
+    'MVCC (W1) + ST + IV': 'm.s.i/1',
+    'MVCC + CU (W1)': 'm.c/1',
+    'MVCC + CU (W1) + ST + IV': 'm.c.s.i/1',
+}
+
 tpcc_out_file = config.get_result_file(config.MVSTOConfig.NAME)
 tpcc_result_file = 'tpcc_results.txt'
 wiki_out_file = config.get_result_file(config.MVSTOWikiConfig.NAME)
 wiki_result_file = 'wiki_results.txt'
+rubis_out_file = config.get_result_file(config.MVSTORubisConfig.NAME)
+rubis_result_file = 'rubis_results.txt'
 
 
 def convert(infile, sys_name_map, compatible_results):
@@ -102,12 +116,17 @@ def convert_cicada(compatible_results):
 
 
 if __name__ == '__main__':
+    #results = {}
+    #results = convert(tpcc_result_file, tpcc_sys_name_map, results)
+    #results = convert_cicada(results)
+    #with open(tpcc_out_file, 'w') as wf:
+    #    json.dump(results, wf, indent=4, sort_keys=True)
+    #results = {}
+    #results = convert(wiki_result_file, wiki_sys_name_map, results)
+    #with open(wiki_out_file, 'w') as wf:
+    #    json.dump(results, wf, indent=4, sort_keys=True)
     results = {}
-    results = convert(tpcc_result_file, tpcc_sys_name_map, results)
-    results = convert_cicada(results)
-    with open(tpcc_out_file, 'w') as wf:
+    results = convert(rubis_result_file, rubis_sys_name_map, results)
+    with open(rubis_out_file, 'w') as wf:
         json.dump(results, wf, indent=4, sort_keys=True)
-    results = {}
-    results = convert(wiki_result_file, wiki_sys_name_map, results)
-    with open(wiki_out_file, 'w') as wf:
-        json.dump(results, wf, indent=4, sort_keys=True)
+
