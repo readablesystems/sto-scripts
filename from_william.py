@@ -19,13 +19,13 @@ tpcc_sys_name_map = {
     'OCC (W4) + SV': 'o.s/4',
     'OCC + CU (W4) + SV': 'o.c.s/4',
     'MVCC (W1)': 'm/1',
-    'MVCC (W1) + ST + IV': 'm.s.i/1',
+    'MVCC (W1) + ST': 'm.s/1',
     'MVCC + CU (W1)': 'm.c/1',
     'MVCC (W4)': 'm/4',
-    'MVCC (W4) + ST + IV': 'm.s.i/4',
+    'MVCC (W4) + ST': 'm.s/4',
     'MVCC + CU (W4)': 'm.c/4',
-    'MVCC + CU (W1) + ST + IV': 'm.c.s.i/1',
-    'MVCC + CU (W4) + ST + IV': 'm.c.s.i/4'
+    'MVCC + CU (W1) + ST': 'm.c.s/1',
+    'MVCC + CU (W4) + ST': 'm.c.s/4'
 }
 
 ycsb_sys_name_map = {
@@ -103,6 +103,7 @@ def convert(infile, sys_name_map, compatible_results):
                         xput = float(row[col_key])
                         compatible_results[runner_key] = (xput, 0.0, 0.0)
     except (FileNotFoundError, IOError):
+        print('Input file {} not found, not processed.'.format(infile))
         return {}
     return compatible_results
 
@@ -131,6 +132,7 @@ def convert_cicada(compatible_results):
                     xput = float(row['Cicada (W4)' + ' [T{}]'.format(i+1)]) * 1000000.0
                     compatible_results[runner_key] = (xput, 0.0, 0.0)
     except (FileNotFoundError, IOError):
+        print('Cicada results files not found, not processed.')
         return {}
     return compatible_results
 

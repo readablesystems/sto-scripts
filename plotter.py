@@ -251,7 +251,7 @@ def get_plotter(bench_name):
 
 if __name__ == '__main__':
     GraphGlobalConstants.set_tableau20()
-    BenchPlotter.set_matplotlib_params()
+    #BenchPlotter.set_matplotlib_params()
     usage = "Usage: %prog benchmark\n\nSupported benchmarks: "
     usage += ', '.join(plotter_map.keys())
     psr = optparse.OptionParser(usage=usage)
