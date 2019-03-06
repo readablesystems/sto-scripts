@@ -38,6 +38,13 @@ class MVSTOConfig:
     DIM3 = ['1', '4'] # number of warehouses
 
 
+class MVSTOYCSBConfig:
+    NAME = 'ycsb_mvsto'
+    DIM1 = [1, 2, 4, 12, 23, 24, 36, 47, 48]
+    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s.i','m.c.s.i']
+    DIM3 = ['1'] # number of warehouses
+
+
 class MVSTOWikiConfig:
     NAME = 'wiki_mvsto'
     DIM1 = [1, 2, 4, 12, 23, 24, 36, 47, 48]
@@ -164,6 +171,52 @@ class MVSTOTPCCMVCCGraphConfig:
     DIM3 = MVSTOConfig.DIM3
     D3TITLES = ['TPC-C one warehouse (MVCC)', 'TPC-C four warehouses (MVCC)']
     D3FNAMES = ['tpcc_mvcc_w1', 'tpcc_mvcc_w4']
+
+
+class MVSTOYCSBGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV',
+                         'MVCC', 'MVCC + CU', 'MVCC + SV + IV', 'MVCC + CU + SV + IV'),
+        'legends_on': True
+    }
+    NAME = MVSTOYCSBConfig.NAME
+    DIM1 = MVSTOYCSBConfig.DIM1
+    DIM2 = MVSTOYCSBConfig.DIM2
+    DIM3 = MVSTOYCSBConfig.DIM3
+    D3TITLES = ['YCSB']
+    D3FNAMES = ['ycsb']
+
+
+class MVSTOYCSBOCCGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV'),
+        'legends_on': True
+    }
+    NAME = MVSTOYCSBConfig.NAME
+    DIM1 = MVSTOYCSBConfig.DIM1
+    DIM2 = ['o', 'o.c', 'o.s', 'o.c.s']
+    DIM3 = MVSTOYCSBConfig.DIM3
+    D3TITLES = ['YCSB (OCC)']
+    D3FNAMES = ['ycsb_occ']
+
+
+class MVSTOYCSBMVCCGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('MVCC', 'MVCC + CU', 'MVCC + SV + IV', 'MVCC + CU + SV + IV'),
+        'legends_on': True
+    }
+    NAME = MVSTOYCSBConfig.NAME
+    DIM1 = MVSTOYCSBConfig.DIM1
+    DIM2 = ['m', 'm.c', 'm.s.i', 'm.c.s.i']
+    DIM3 = MVSTOYCSBConfig.DIM3
+    D3TITLES = ['YCSB (MVCC)']
+    D3FNAMES = ['ycsb_mvcc']
 
 
 class MVSTOWikiGraphConfig:

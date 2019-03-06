@@ -8,7 +8,8 @@ from matplotlib import pyplot as plt
 
 import config
 from config import WikiGraphConfig, TPCCGraphConfig, MVSTOGraphConfig, MVSTOWikiGraphConfig
-from config import MVSTOTPCCOCCGraphConfig, MVSTOTPCCMVCCGraphConfig, MVSTORubisGraphConfig
+from config import MVSTOTPCCOCCGraphConfig, MVSTOTPCCMVCCGraphConfig, MVSTOYCSBGraphConfig
+from config import MVSTOYCSBOCCGraphConfig, MVSTOYCSBMVCCGraphConfig, MVSTORubisGraphConfig
 from config import color_mapping, marker_mapping
 from runner import BenchRunner
 
@@ -20,6 +21,9 @@ plotter_map = {
     'mvsto': MVSTOGraphConfig,
     'mvsto-occ': MVSTOTPCCOCCGraphConfig,
     'mvsto-mvcc': MVSTOTPCCMVCCGraphConfig,
+    'mvstoycsb': MVSTOYCSBGraphConfig,
+    'mvstoycsb-occ': MVSTOYCSBOCCGraphConfig,
+    'mvstoycsb-mvcc': MVSTOYCSBMVCCGraphConfig,
     'mvstowiki': MVSTOWikiGraphConfig,
     'mvstorubis': MVSTORubisGraphConfig
 }

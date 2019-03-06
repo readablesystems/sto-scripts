@@ -28,6 +28,18 @@ tpcc_sys_name_map = {
     'MVCC + CU (W4) + ST + IV': 'm.c.s.i/4'
 }
 
+ycsb_sys_name_map = {
+    'name': 'ycsb',
+    'OCC': 'o/1',
+    'OCC + CU': 'o.c/1',
+    'OCC + SV': 'o.s/1',
+    'OCC + CU + SV': 'o.c.s/1',
+    'MVCC': 'm/1',
+    'MVCC + ST + IV': 'm.s.i/1',
+    'MVCC + CU': 'm.c/1',
+    'MVCC + CU + ST + IV': 'm.c.s.i/1',
+}
+
 wiki_sys_name_map = {
     'name': 'wiki',
     'OCC (W1)': 'o/1',
@@ -54,6 +66,8 @@ rubis_sys_name_map = {
 
 tpcc_out_file = config.get_result_file(config.MVSTOConfig.NAME)
 tpcc_result_file = 'tpcc_results.txt'
+ycsb_out_file = config.get_result_file(config.MVSTOYCSBConfig.NAME)
+ycsb_result_file = 'ycsb_results.txt'
 wiki_out_file = config.get_result_file(config.MVSTOWikiConfig.NAME)
 wiki_result_file = 'wiki_results.txt'
 rubis_out_file = config.get_result_file(config.MVSTORubisConfig.NAME)
@@ -127,6 +141,11 @@ if __name__ == '__main__':
     results = convert_cicada(results)
     if results:
         with open(tpcc_out_file, 'w') as wf:
+            json.dump(results, wf, indent=4, sort_keys=True)
+    results = {}
+    results = convert(ycsb_result_file, ycsb_sys_name_map, results)
+    if results:
+        with open(ycsb_out_file, 'w') as wf:
             json.dump(results, wf, indent=4, sort_keys=True)
     results = {}
     results = convert(wiki_result_file, wiki_sys_name_map, results)
