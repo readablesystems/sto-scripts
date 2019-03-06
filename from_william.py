@@ -35,9 +35,9 @@ ycsb_sys_name_map = {
     'OCC + SV': 'o.s/1',
     'OCC + CU + SV': 'o.c.s/1',
     'MVCC': 'm/1',
-    'MVCC + ST + IV': 'm.s.i/1',
+    'MVCC + ST': 'm.s/1',
     'MVCC + CU': 'm.c/1',
-    'MVCC + CU + ST + IV': 'm.c.s.i/1',
+    'MVCC + CU + ST': 'm.c.s/1',
 }
 
 wiki_sys_name_map = {

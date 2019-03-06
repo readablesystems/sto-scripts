@@ -41,7 +41,7 @@ class MVSTOConfig:
 class MVSTOYCSBConfig:
     NAME = 'ycsb_mvsto'
     DIM1 = [1, 2, 4, 12, 23, 24, 36, 47, 48]
-    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s.i','m.c.s.i']
+    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s']
     DIM3 = ['1'] # number of warehouses
 
 
@@ -182,7 +182,7 @@ class MVSTOYCSBGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV',
-                         'MVCC', 'MVCC + CU', 'MVCC + SV + IV', 'MVCC + CU + SV + IV'),
+                         'MVCC', 'MVCC + CU', 'MVCC + SV', 'MVCC + CU + SV'),
         'legends_on': True
     }
     NAME = MVSTOYCSBConfig.NAME
@@ -212,12 +212,12 @@ class MVSTOYCSBMVCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('MVCC', 'MVCC + CU', 'MVCC + SV + IV', 'MVCC + CU + SV + IV'),
+        'series_names': ('MVCC', 'MVCC + CU', 'MVCC + SV', 'MVCC + CU + SV'),
         'legends_on': True
     }
     NAME = MVSTOYCSBConfig.NAME
     DIM1 = MVSTOYCSBConfig.DIM1
-    DIM2 = ['m', 'm.c', 'm.s.i', 'm.c.s.i']
+    DIM2 = ['m', 'm.c', 'm.s', 'm.c.s']
     DIM3 = MVSTOYCSBConfig.DIM3
     D3TITLES = ['YCSB (MVCC)']
     D3FNAMES = ['ycsb_mvcc']
