@@ -33,7 +33,7 @@ class WikiConfig:
 
 class MVSTOConfig:
     NAME = 'tpcc_mvsto'
-    DIM1 = [1, 2, 4, 12, 23, 24, 36, 47, 48]
+    DIM1 = [1, 2, 4, 12, 23, 24, 31, 32, 36, 47, 48, 63, 64]
     DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s','c']
     DIM3 = ['1', '4'] # number of warehouses
 
@@ -47,15 +47,15 @@ class MVSTOYCSBConfig:
 
 class MVSTOWikiConfig:
     NAME = 'wiki_mvsto'
-    DIM1 = [1, 2, 4, 12, 23, 24, 36, 47, 48]
-    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s.i','m.c.s.i']
+    DIM1 = [1, 2, 4, 12, 23, 24, 31, 32, 36, 47, 48, 63, 64]
+    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s']
     DIM3 = ['1'] # only one configuration
 
 
 class MVSTORubisConfig:
     NAME = 'rubis_mvsto'
-    DIM1 = [1, 2, 4, 12, 23, 24, 36, 47, 48]
-    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s.i','m.c.s.i']
+    DIM1 = [1, 2, 4, 12, 23, 24, 31, 32, 36, 47, 48, 63, 64]
+    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s']
     DIM3 = ['1'] # only one configuration
 
 
@@ -228,7 +228,7 @@ class MVSTOWikiGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV',
-                         'MVCC', 'MVCC + CU', 'MVCC + SV + IV', 'MVCC + CU + SV + IV'),
+                         'MVCC', 'MVCC + CU', 'MVCC + SV', 'MVCC + CU + SV'),
         'legends_on': True
     }
     NAME = MVSTOWikiConfig.NAME
@@ -244,7 +244,7 @@ class MVSTORubisGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV',
-                         'MVCC', 'MVCC + CU', 'MVCC + SV + IV', 'MVCC + CU + SV + IV'),
+                         'MVCC', 'MVCC + CU', 'MVCC + SV', 'MVCC + CU + SV'),
         'legends_on': True
     }
     NAME = MVSTORubisConfig.NAME

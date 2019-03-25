@@ -47,9 +47,9 @@ wiki_sys_name_map = {
     'OCC (W1) + SV': 'o.s/1',
     'OCC + CU (W1) + SV': 'o.c.s/1',
     'MVCC (W1)': 'm/1',
-    'MVCC (W1) + ST + IV': 'm.s.i/1',
+    'MVCC (W1) + ST': 'm.s/1',
     'MVCC + CU (W1)': 'm.c/1',
-    'MVCC + CU (W1) + ST + IV': 'm.c.s.i/1',
+    'MVCC + CU (W1) + ST': 'm.c.s/1',
 }
 
 rubis_sys_name_map = {
@@ -59,9 +59,9 @@ rubis_sys_name_map = {
     'OCC (W1) + SV': 'o.s/1',
     'OCC + CU (W1) + SV': 'o.c.s/1',
     'MVCC (W1)': 'm/1',
-    'MVCC (W1) + ST + IV': 'm.s.i/1',
+    'MVCC (W1) + ST': 'm.s/1',
     'MVCC + CU (W1)': 'm.c/1',
-    'MVCC + CU (W1) + ST + IV': 'm.c.s.i/1',
+    'MVCC + CU (W1) + ST': 'm.c.s/1',
 }
 
 tpcc_out_file = config.get_result_file(config.MVSTOConfig.NAME)
