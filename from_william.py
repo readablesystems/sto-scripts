@@ -10,21 +10,29 @@ WILLIAM_TRIALS = 5
 
 tpcc_sys_name_map = {
     'name': 'tpcc',
+    'OCC (W0)': 'o/0',
+    'OCC + CU (W0)': 'o.c/0',
+    'OCC (W0) + SV': 'o.s/0',
+    'OCC + CU (W0) + SV': 'o.c.s/0',
     'OCC (W1)': 'o/1',
     'OCC + CU (W1)': 'o.c/1',
-    'OCC (W4)': 'o/4',
-    'OCC + CU (W4)': 'o.c/4',
     'OCC (W1) + SV': 'o.s/1',
     'OCC + CU (W1) + SV': 'o.c.s/1',
+    'OCC (W4)': 'o/4',
+    'OCC + CU (W4)': 'o.c/4',
     'OCC (W4) + SV': 'o.s/4',
     'OCC + CU (W4) + SV': 'o.c.s/4',
+    'MVCC (W0)': 'm/0',
+    'MVCC (W0) + ST': 'm.s/0',
+    'MVCC + CU (W0)': 'm.c/0',
+    'MVCC + CU (W0) + ST': 'm.c.s/0',
     'MVCC (W1)': 'm/1',
     'MVCC (W1) + ST': 'm.s/1',
     'MVCC + CU (W1)': 'm.c/1',
+    'MVCC + CU (W1) + ST': 'm.c.s/1',
     'MVCC (W4)': 'm/4',
     'MVCC (W4) + ST': 'm.s/4',
     'MVCC + CU (W4)': 'm.c/4',
-    'MVCC + CU (W1) + ST': 'm.c.s/1',
     'MVCC + CU (W4) + ST': 'm.c.s/4'
 }
 
@@ -130,6 +138,20 @@ def convert_cicada(compatible_results):
                 for i in range(WILLIAM_TRIALS):
                     runner_key = br.key(d1,d2,d3,i)
                     xput = float(row['Cicada (W4)' + ' [T{}]'.format(i+1)]) * 1000000.0
+                    compatible_results[runner_key] = (xput, 0.0, 0.0)
+
+        with open('c-0w-results.txt', 'r') as rf:
+            reader = csv.DictReader(rf)
+            for row in reader:
+                d1 = row['# Threads']
+                d2 = 'c'
+                d3 = '0'
+                for i in range(WILLIAM_TRIALS):
+                    runner_key = br.key(d1,d2,d3,i)
+                    cell_val = row['Cicada (W0)' + ' [T{}]'.format(i+1)]
+                    if cell_val == "":
+                        cell_val = '0.0'
+                    xput = float(cell_val) * 1000000.0
                     compatible_results[runner_key] = (xput, 0.0, 0.0)
     except (FileNotFoundError, IOError):
         print('Cicada results files not found, not processed.')

@@ -35,7 +35,7 @@ class MVSTOConfig:
     NAME = 'tpcc_mvsto'
     DIM1 = [1, 2, 4, 12, 23, 24, 31, 32, 36, 47, 48, 63, 64]
     DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s','c']
-    DIM3 = ['1', '4'] # number of warehouses
+    DIM3 = ['1', '4', '0'] # number of warehouses
 
 
 class MVSTOYCSBConfig:
@@ -142,8 +142,8 @@ class MVSTOGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = MVSTOConfig.DIM2
     DIM3 = MVSTOConfig.DIM3
-    D3TITLES = ['TPC-C one warehouse', 'TPC-C four warehouses']
-    D3FNAMES = ['tpcc_w1', 'tpcc_w4']
+    D3TITLES = ['TPC-C one warehouse', 'TPC-C four warehouses', 'TPC-C partitioned']
+    D3FNAMES = ['tpcc_w1', 'tpcc_w4', 'tpcc_part']
 
 
 class MVSTOTPCCOCCGraphConfig:
@@ -157,8 +157,8 @@ class MVSTOTPCCOCCGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['o', 'o.c', 'o.s', 'o.c.s']
     DIM3 = MVSTOConfig.DIM3
-    D3TITLES = ['TPC-C one warehouse (OCC)', 'TPC-C four warehouses (OCC)']
-    D3FNAMES = ['tpcc_occ_w1', 'tpcc_occ_w4']
+    D3TITLES = ['TPC-C one warehouse (OCC)', 'TPC-C four warehouses (OCC)', 'TPC-C partitioned (OCC)']
+    D3FNAMES = ['tpcc_occ_w1', 'tpcc_occ_w4', 'tpcc_occ_part']
 
 
 class MVSTOTPCCMVCCGraphConfig:
@@ -173,8 +173,8 @@ class MVSTOTPCCMVCCGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['m', 'm.c', 'm.s', 'm.c.s', 'c']
     DIM3 = MVSTOConfig.DIM3
-    D3TITLES = ['TPC-C one warehouse (MVCC)', 'TPC-C four warehouses (MVCC)']
-    D3FNAMES = ['tpcc_mvcc_w1', 'tpcc_mvcc_w4']
+    D3TITLES = ['TPC-C one warehouse (MVCC)', 'TPC-C four warehouses (MVCC)', 'TPC-C partitioned (MVCC)']
+    D3FNAMES = ['tpcc_mvcc_w1', 'tpcc_mvcc_w4', 'tpcc_mvcc_part']
 
 
 class MVSTOYCSBGraphConfig:
