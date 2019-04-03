@@ -158,11 +158,59 @@ def convert_cicada(compatible_results):
         return {}
     return compatible_results
 
+def convert_ermia(compatible_results):
+    try:
+        with open('e-1w-results.txt', 'r') as rf:
+            reader = csv.DictReader(rf)
+            for row in reader:
+                d1 = row['# Threads']
+                d2 = 'e'
+                d3 = '1'
+                for i in range(WILLIAM_TRIALS):
+                    runner_key = br.key(d1,d2,d3,i)
+                    cell_val = row['ERMIA (W1)' + ' [T{}]'.format(i+1)]
+                    if cell_val == "":
+                        cell_val = '0.0'
+                    xput = float(cell_val)
+                    compatible_results[runner_key] = (xput, 0.0, 0.0)
+
+        with open('e-4w-results.txt', 'r') as rf:
+            reader = csv.DictReader(rf)
+            for row in reader:
+                d1 = row['# Threads']
+                d2 = 'e'
+                d3 = '4'
+                for i in range(WILLIAM_TRIALS):
+                    runner_key = br.key(d1,d2,d3,i)
+                    cell_val = row['ERMIA (W4)' + ' [T{}]'.format(i+1)]
+                    if cell_val == "":
+                        cell_val = '0.0'
+                    xput = float(cell_val)
+                    compatible_results[runner_key] = (xput, 0.0, 0.0)
+
+        with open('e-0w-results.txt', 'r') as rf:
+            reader = csv.DictReader(rf)
+            for row in reader:
+                d1 = row['# Threads']
+                d2 = 'e'
+                d3 = '0'
+                for i in range(WILLIAM_TRIALS):
+                    runner_key = br.key(d1,d2,d3,i)
+                    cell_val = row['ERMIA (W0)' + ' [T{}]'.format(i+1)]
+                    if cell_val == "":
+                        cell_val = '0.0'
+                    xput = float(cell_val)
+                    compatible_results[runner_key] = (xput, 0.0, 0.0)
+    except (FileNotFoundError, IOError):
+        print('ERMIA results files not found, not processed.')
+        return {}
+    return compatible_results
 
 if __name__ == '__main__':
     results = {}
     results = convert(tpcc_result_file, tpcc_sys_name_map, results)
     results = convert_cicada(results)
+    results = convert_ermia(results)
     if results:
         with open(tpcc_out_file, 'w') as wf:
             json.dump(results, wf, indent=4, sort_keys=True)
