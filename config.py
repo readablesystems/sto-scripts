@@ -34,7 +34,7 @@ class WikiConfig:
 class MVSTOConfig:
     NAME = 'tpcc_mvsto'
     DIM1 = [1, 2, 4, 12, 23, 24, 31, 32, 36, 47, 48, 63, 64]
-    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s','c']
+    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s','c', 'e']
     DIM3 = ['1', '4', '0'] # number of warehouses
 
 
@@ -73,7 +73,8 @@ color_mapping = {
     'm.s.i': 4,
     'm.c.s': 6,
     'm.c.s.i': 6,
-    'c': 8
+    'c': 8,
+    'e': 10
 }
 
 marker_mapping = {
@@ -83,11 +84,12 @@ marker_mapping = {
     'o.c.s':   '*',
     'm':       'h',
     'm.c':     'H',
-    'm.s':   'D',
+    'm.s':     'D',
     'm.s.i':   'D',
-    'm.c.s': 'x',
-    'm.c.s.i':   'x',
-    'c':       '^'
+    'm.c.s':   'x',
+    'm.c.s.i': 'x',
+    'c':       '^',
+    'e':       '>'
 }
 
 
@@ -135,7 +137,7 @@ class MVSTOGraphConfig:
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV',
                          'MVCC', 'MVCC + CU', 'MVCC + SV', 'MVCC + CU + SV',
-                         'Cicada'),
+                         'Cicada', 'ERMIA'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -166,12 +168,12 @@ class MVSTOTPCCMVCCGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('MVCC', 'MVCC + CU', 'MVCC + SV', 'MVCC + CU + SV',
-                         'Cicada'),
+                         'Cicada', 'ERMIA'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['m', 'm.c', 'm.s', 'm.c.s', 'c']
+    DIM2 = ['m', 'm.c', 'm.s', 'm.c.s', 'c', 'e']
     DIM3 = MVSTOConfig.DIM3
     D3TITLES = ['TPC-C one warehouse (MVCC)', 'TPC-C four warehouses (MVCC)', 'TPC-C partitioned (MVCC)']
     D3FNAMES = ['tpcc_mvcc_w1', 'tpcc_mvcc_w4', 'tpcc_mvcc_part']

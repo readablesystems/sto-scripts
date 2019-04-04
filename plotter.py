@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import optparse
+import datetime
 
 import matplotlib as mpl
 import numpy as np
@@ -27,6 +28,11 @@ plotter_map = {
     'mvstowiki': MVSTOWikiGraphConfig,
     'mvstorubis': MVSTORubisGraphConfig
 }
+
+
+def file_timestamp_str():
+    dt_now = datetime.datetime.now()
+    return '{:04d}{:02d}{:02d}{:02d}'.format(dt_now.year, dt_now.month, dt_now.day, dt_now.hour)
 
 
 class GraphGlobalConstants:
@@ -195,7 +201,7 @@ class BenchPlotter:
         if BenchPlotter.show_only:
             plt.show()
         else:
-            plt.savefig('{}.{}'.format(meta_info['save_name'], BenchPlotter.img_fmt))
+            plt.savefig('{}_{}.{}'.format(meta_info['save_name'], file_timestamp_str(), BenchPlotter.img_fmt))
 
     def draw_lines(self, meta_info, common_x, y_series, y_errors):
         fig, ax = plt.subplots(figsize=(10, 6))
@@ -221,7 +227,7 @@ class BenchPlotter:
         if BenchPlotter.show_only:
             plt.show()
         else:
-            plt.savefig('{}.{}'.format(meta_info['save_name'], BenchPlotter.img_fmt))
+            plt.savefig('{}_{}.{}'.format(meta_info['save_name'], file_timestamp_str(), BenchPlotter.img_fmt))
 
     def draw_all(self, results):
         processed = self.process(results)
