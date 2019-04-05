@@ -40,7 +40,7 @@ class MVSTOConfig:
 
 class MVSTOYCSBConfig:
     NAME = 'ycsb_mvsto'
-    DIM1 = [1, 2, 4, 12, 23, 24, 36, 47, 48]
+    DIM1 = [1, 2, 4, 12, 23, 24, 31, 32, 36, 47, 48, 63, 64]
     DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s']
     DIM3 = ['1'] # number of warehouses
 
