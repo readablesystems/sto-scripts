@@ -144,8 +144,81 @@ class MVSTOGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = MVSTOConfig.DIM2
     DIM3 = MVSTOConfig.DIM3
+    LEGENDS = [True, False, False]
     D3TITLES = ['TPC-C one warehouse', 'TPC-C four warehouses', 'TPC-C partitioned']
     D3FNAMES = ['tpcc_w1', 'tpcc_w4', 'tpcc_part']
+
+
+# TPC-C Figure 1:
+# Self comparisons, CU + SV with baselines only.
+# All contention levels, 3 subfigures.
+class TPCCF1GraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'OCC + CU + SV',
+                         'MVCC', 'MVCC + CU + SV'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['o','o.c.s','m','m.c.s']
+    DIM3 = MVSTOConfig.DIM3
+    LEGENDS = [True, False, False]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_f1_w1', 'tpcc_f1_w4', 'tpcc_f1_part']
+
+
+# TPC-C Figure 2:
+# Factor comparisons at 4 warehouses
+# 3 subfigures: OCC schemes, MVCC schemes, OCC+MVCC highlights
+class TPCCF2AGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['o','o.c','o.s','o.c.s']
+    DIM3 = ['4']
+    LEGENDS = [True]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_f2a_w4']
+
+
+class TPCCF2BGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('MVCC', 'MVCC + CU', 'MVCC + SV', 'MVCC + CU + SV',
+                         'Cicada', 'ERMIA'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['m','m.c','m.s','m.c.s', 'c', 'e']
+    DIM3 = ['4']
+    LEGENDS = [True]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_f2b_w4']
+
+
+class TPCCF2CGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC + CU + SV', 'MVCC + CU + SV', 'Cicada', 'ERMIA'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['o.c.s', 'm.c.s', 'c', 'e']
+    DIM3 = ['4']
+    LEGENDS = [True]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_f2c_w4']
 
 
 class MVSTOTPCCOCCGraphConfig:
@@ -159,6 +232,7 @@ class MVSTOTPCCOCCGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['o', 'o.c', 'o.s', 'o.c.s']
     DIM3 = MVSTOConfig.DIM3
+    LEGENDS = [True, False, False]
     D3TITLES = ['TPC-C one warehouse (OCC)', 'TPC-C four warehouses (OCC)', 'TPC-C partitioned (OCC)']
     D3FNAMES = ['tpcc_occ_w1', 'tpcc_occ_w4', 'tpcc_occ_part']
 
@@ -175,6 +249,7 @@ class MVSTOTPCCMVCCGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['m', 'm.c', 'm.s', 'm.c.s', 'c', 'e']
     DIM3 = MVSTOConfig.DIM3
+    LEGENDS = [True, False, False]
     D3TITLES = ['TPC-C one warehouse (MVCC)', 'TPC-C four warehouses (MVCC)', 'TPC-C partitioned (MVCC)']
     D3FNAMES = ['tpcc_mvcc_w1', 'tpcc_mvcc_w4', 'tpcc_mvcc_part']
 
@@ -191,6 +266,7 @@ class MVSTOYCSBGraphConfig:
     DIM1 = MVSTOYCSBConfig.DIM1
     DIM2 = MVSTOYCSBConfig.DIM2
     DIM3 = MVSTOYCSBConfig.DIM3
+    LEGENDS = [True]
     D3TITLES = ['YCSB']
     D3FNAMES = ['ycsb']
 
@@ -206,6 +282,7 @@ class MVSTOYCSBOCCGraphConfig:
     DIM1 = MVSTOYCSBConfig.DIM1
     DIM2 = ['o', 'o.c', 'o.s', 'o.c.s']
     DIM3 = MVSTOYCSBConfig.DIM3
+    LEGENDS = [True]
     D3TITLES = ['YCSB (OCC)']
     D3FNAMES = ['ycsb_occ']
 
@@ -221,6 +298,7 @@ class MVSTOYCSBMVCCGraphConfig:
     DIM1 = MVSTOYCSBConfig.DIM1
     DIM2 = ['m', 'm.c', 'm.s', 'm.c.s']
     DIM3 = MVSTOYCSBConfig.DIM3
+    LEGENDS = [True]
     D3TITLES = ['YCSB (MVCC)']
     D3FNAMES = ['ycsb_mvcc']
 
@@ -237,6 +315,7 @@ class MVSTOWikiGraphConfig:
     DIM1 = MVSTOWikiConfig.DIM1
     DIM2 = MVSTOWikiConfig.DIM2
     DIM3 = MVSTOWikiConfig.DIM3
+    LEGENDS = [True]
     D3TITLES = ['Wikipedia workload']
     D3FNAMES = ['wiki']
 
@@ -253,5 +332,6 @@ class MVSTORubisGraphConfig:
     DIM1 = MVSTORubisConfig.DIM1
     DIM2 = MVSTORubisConfig.DIM2
     DIM3 = MVSTORubisConfig.DIM3
+    LEGENDS = [True]
     D3TITLES = ['Rubis-like workload']
     D3FNAMES = ['rubis']

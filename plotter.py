@@ -11,6 +11,9 @@ import config
 from config import WikiGraphConfig, TPCCGraphConfig, MVSTOGraphConfig, MVSTOWikiGraphConfig
 from config import MVSTOTPCCOCCGraphConfig, MVSTOTPCCMVCCGraphConfig, MVSTOYCSBGraphConfig
 from config import MVSTOYCSBOCCGraphConfig, MVSTOYCSBMVCCGraphConfig, MVSTORubisGraphConfig
+
+from config import TPCCF1GraphConfig, TPCCF2AGraphConfig, TPCCF2BGraphConfig, TPCCF2CGraphConfig
+
 from config import color_mapping, marker_mapping
 from runner import BenchRunner
 
@@ -19,6 +22,10 @@ from runner import BenchRunner
 plotter_map = {
     'tpcc': TPCCGraphConfig,
     'wiki': WikiGraphConfig,
+    'tpccf1': TPCCF1GraphConfig,
+    'tpccf2a': TPCCF2AGraphConfig,
+    'tpccf2b': TPCCF2BGraphConfig,
+    'tpccf2c': TPCCF2CGraphConfig,
     'mvsto': MVSTOGraphConfig,
     'mvsto-occ': MVSTOTPCCOCCGraphConfig,
     'mvsto-mvcc': MVSTOTPCCMVCCGraphConfig,
@@ -66,23 +73,25 @@ class BenchPlotter:
         mpl.rcParams['figure.dpi'] = 80
         mpl.rcParams['savefig.dpi'] = 80
 
+        mpl.rcParams['lines.markersize'] = 11
         mpl.rcParams['font.size'] = fnt_sz
         mpl.rcParams['axes.titlesize'] = fnt_sz
         mpl.rcParams['axes.labelsize'] = fnt_sz
         mpl.rcParams['xtick.labelsize'] = fnt_sz
         mpl.rcParams['ytick.labelsize'] = fnt_sz
-        mpl.rcParams['legend.fontsize'] = fnt_sz
+        mpl.rcParams['legend.fontsize'] = 16
         mpl.rcParams['figure.titlesize'] = 'medium'
 
     @classmethod
     def key(cls, d1, d2, d3):
         return '{0}/{1}/{2}'.format(d3, d2, d1)
 
-    def __init__(self, info, dim1, dim2, dim3, d3t, d3f):
+    def __init__(self, info, dim1, dim2, dim3, legends, d3t, d3f):
         self.graph_info = info.copy()
         self.dimension1 = dim1
         self.dimension2 = dim2
         self.dimension3 = dim3
+        self.legends = legends
         self.d3titles = d3t
         self.d3fnames = d3f
 
@@ -116,7 +125,7 @@ class BenchPlotter:
 
         return processed_results
 
-    def pack_xput_data(self, processed_results, d3, graph_title, save_name):
+    def pack_xput_data(self, processed_results, d3, legends, graph_title, save_name):
         print("xput:")
         meta = self.graph_info.copy()
         common_x = self.dimension1
@@ -139,6 +148,7 @@ class BenchPlotter:
 
         meta['graph_title'] = graph_title
         meta['save_name'] = save_name
+        meta['legends_on'] = legends
 
         return meta, common_x, y_series, y_errors
 
@@ -235,10 +245,11 @@ class BenchPlotter:
         print('--throughput graph(s)--')
         for idx in range(len(self.dimension3)):
             d3 = self.dimension3[idx]
+            legends = self.legends[idx]
             title = self.d3titles[idx]
             fname = self.d3fnames[idx]
             #self.draw_bars(*self.pack_xput_data(processed, d3, title, fname))
-            self.draw_lines(*self.pack_xput_data(processed, d3, title, fname))
+            self.draw_lines(*self.pack_xput_data(processed, d3, legends, title, fname))
 
         if self.plot_aborts:
             print('--abort graph(s)--')
@@ -251,13 +262,13 @@ class BenchPlotter:
 
 def get_plotter(bench_name):
     cnf = plotter_map[bench_name]
-    return BenchPlotter(cnf.INFO, cnf.DIM1, cnf.DIM2, cnf.DIM3, cnf.D3TITLES, cnf.D3FNAMES), \
+    return BenchPlotter(cnf.INFO, cnf.DIM1, cnf.DIM2, cnf.DIM3, cnf.LEGENDS, cnf.D3TITLES, cnf.D3FNAMES), \
            config.get_result_file(cnf.NAME)
 
 
 if __name__ == '__main__':
     GraphGlobalConstants.set_tableau20()
-    #BenchPlotter.set_matplotlib_params()
+    BenchPlotter.set_matplotlib_params()
     usage = "Usage: %prog benchmark\n\nSupported benchmarks: "
     usage += ', '.join(plotter_map.keys())
     psr = optparse.OptionParser(usage=usage)
