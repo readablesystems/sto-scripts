@@ -8,11 +8,13 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 import config
+from config import GraphType
 from config import WikiGraphConfig, TPCCGraphConfig, MVSTOGraphConfig, MVSTOWikiGraphConfig
 from config import MVSTOTPCCOCCGraphConfig, MVSTOTPCCMVCCGraphConfig, MVSTOYCSBGraphConfig
 from config import MVSTOYCSBOCCGraphConfig, MVSTOYCSBMVCCGraphConfig, MVSTORubisGraphConfig
 
 from config import TPCCF1GraphConfig, TPCCF2AGraphConfig, TPCCF2BGraphConfig, TPCCF2CGraphConfig
+from config import TPCCFactorsGraphConfig
 
 from config import color_mapping, marker_mapping
 from runner import BenchRunner
@@ -26,6 +28,7 @@ plotter_map = {
     'tpccf2a': TPCCF2AGraphConfig,
     'tpccf2b': TPCCF2BGraphConfig,
     'tpccf2c': TPCCF2CGraphConfig,
+    'tpccfactors': TPCCFactorsGraphConfig,
     'mvsto': MVSTOGraphConfig,
     'mvsto-occ': MVSTOTPCCOCCGraphConfig,
     'mvsto-mvcc': MVSTOTPCCMVCCGraphConfig,
@@ -86,8 +89,9 @@ class BenchPlotter:
     def key(cls, d1, d2, d3):
         return '{0}/{1}/{2}'.format(d3, d2, d1)
 
-    def __init__(self, info, dim1, dim2, dim3, legends, d3t, d3f):
+    def __init__(self, info, graph_type, dim1, dim2, dim3, legends, d3t, d3f):
         self.graph_info = info.copy()
+        self.graph_type = graph_type
         self.dimension1 = dim1
         self.dimension2 = dim2
         self.dimension3 = dim3
@@ -239,6 +243,31 @@ class BenchPlotter:
         else:
             plt.savefig('{}_{}.{}'.format(meta_info['save_name'], file_timestamp_str(), BenchPlotter.img_fmt))
 
+    def draw_hbars(self, meta_info, common_x, y_series, y_errors):
+        # common_x is ignored
+        fig, ax = plt.subplots(figsize=(10, 6))
+        num_series = len(self.dimension2)
+        y_pos = np.arange(num_series)
+
+        y_flat_data = []
+        y_flat_err = []
+        # flatten inner lists
+        for idx in range(num_series):
+            y_flat_data.append(y_series[idx][0])
+            y_flat_err.append(y_errors[idx][0])
+
+        ax.barh(y_pos, y_flat_data, xerr=y_flat_err, align='center', color='green', ecolor='black')
+        ax.set_yticks(y_pos)
+        ax.set_yticklabels(meta_info['series_names'])
+        ax.set_xlim(left=0)
+        ax.set_xlabel(meta_info['y_label'])
+
+        plt.tight_layout()
+        if BenchPlotter.show_only:
+            plt.show()
+        else:
+            plt.savefig('{}_{}.{}'.format(meta_info['save_name'], file_timestamp_str(), BenchPlotter.img_fmt))
+
     def draw_all(self, results):
         processed = self.process(results)
 
@@ -248,8 +277,12 @@ class BenchPlotter:
             legends = self.legends[idx]
             title = self.d3titles[idx]
             fname = self.d3fnames[idx]
-            #self.draw_bars(*self.pack_xput_data(processed, d3, title, fname))
-            self.draw_lines(*self.pack_xput_data(processed, d3, legends, title, fname))
+            if self.graph_type == GraphType.BAR:
+                self.draw_bars(*self.pack_xput_data(processed, d3, legends, title, fname))
+            elif self.graph_type == GraphType.LINE:
+                self.draw_lines(*self.pack_xput_data(processed, d3, legends, title, fname))
+            elif self.graph_type == GraphType.HBAR:
+                self.draw_hbars(*self.pack_xput_data(processed, d3, legends, title, fname))
 
         if self.plot_aborts:
             print('--abort graph(s)--')
@@ -262,7 +295,7 @@ class BenchPlotter:
 
 def get_plotter(bench_name):
     cnf = plotter_map[bench_name]
-    return BenchPlotter(cnf.INFO, cnf.DIM1, cnf.DIM2, cnf.DIM3, cnf.LEGENDS, cnf.D3TITLES, cnf.D3FNAMES), \
+    return BenchPlotter(cnf.INFO, cnf.TYPE, cnf.DIM1, cnf.DIM2, cnf.DIM3, cnf.LEGENDS, cnf.D3TITLES, cnf.D3FNAMES), \
            config.get_result_file(cnf.NAME)
 
 

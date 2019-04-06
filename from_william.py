@@ -38,11 +38,11 @@ tpcc_sys_name_map = {
 
 tpcc_factors_sys_name_map = {
     'name': 'tpcc_factors',
-    'MVCC (W4)': 'm/4',
-    'MVCC (W4) + HT': 'm.h/4',
-    'MVCC (W4) + RP': 'm.a/4',
-    'MVCC (W4) + HT + RP': 'm.h.a/4',
-    'MVCC (W4) + CU + HT + ST + RP': 'm.h.a.c.s/4'
+    'MVCC (W1)': 'm/1',
+    'MVCC (W1) + HT': 'm.h/1',
+    'MVCC (W1) + RP': 'm.a/1',
+    'MVCC (W1) + HT + RP': 'm.h.a/1',
+    'MVCC (W1) + CU + HT + ST + RP': 'm.h.a.c.s/1'
 }
 
 ycsb_sys_name_map = {

@@ -1,6 +1,13 @@
 # Common methods
 
 import sys
+from enum import Enum
+
+
+class GraphType(Enum):
+    LINE = 1
+    BAR = 2
+    HBAR = 3
 
 
 def fatal_error(msg):
@@ -42,7 +49,7 @@ class MVSTOTPCCFactorsConfig:
     NAME = 'tpcc_factors'
     DIM1 = [12]
     DIM2 = ['m', 'm.h', 'm.a', 'm.h,a', 'c', 'm.h.a.c.s']
-    DIM3 = ['4']
+    DIM3 = ['1']
 
 
 class MVSTOYCSBConfig:
@@ -112,6 +119,7 @@ class TPCCGraphConfig:
         'legends_on': True
     }
     NAME = TPCCConfig.NAME
+    TYPE = GraphType.BAR
     DIM1 = TPCCConfig.DIM1
     DIM2 = TPCCConfig.DIM2
     DIM3 = TPCCConfig.DIM3
@@ -131,6 +139,7 @@ class WikiGraphConfig:
         'legends_on': True
     }
     NAME = WikiConfig.NAME
+    TYPE = GraphType.LINE
     DIM1 = WikiConfig.DIM1
     DIM2 = WikiConfig.DIM2
     DIM3 = WikiConfig.DIM3
@@ -148,6 +157,7 @@ class MVSTOGraphConfig:
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
     DIM2 = MVSTOConfig.DIM2
     DIM3 = MVSTOConfig.DIM3
@@ -168,6 +178,7 @@ class TPCCF1GraphConfig:
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['o','o.c.s','m','m.c.s']
     DIM3 = MVSTOConfig.DIM3
@@ -187,6 +198,7 @@ class TPCCF2AGraphConfig:
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['o','o.c','o.s','o.c.s']
     DIM3 = ['4']
@@ -204,6 +216,7 @@ class TPCCF2BGraphConfig:
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['m','m.c','m.s','m.c.s', 'c', 'e']
     DIM3 = ['4']
@@ -220,12 +233,31 @@ class TPCCF2CGraphConfig:
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['o.c.s', 'm.c.s', 'c', 'e']
     DIM3 = ['4']
     LEGENDS = [True]
     D3TITLES = ['']
     D3FNAMES = ['tpcc_f2c_w4']
+
+
+# TPC-C Figure 3: Factor analysis graph
+class TPCCFactorsGraphConfig:
+    INFO = {
+        'x_label': 'Factors',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('Unoptimized', '+HT', '+AL', '+HT+AL', 'Cicada', '+HT+AL+CU+FV'),
+        'legends_in': True
+    }
+    NAME = MVSTOTPCCFactorsConfig.NAME
+    TYPE = GraphType.HBAR
+    DIM1 = [12]
+    DIM2 = ['m', 'm.h', 'm.a', 'm.h.a', 'c', 'm.h.a.c.s']
+    DIM3 = ['1']
+    LEGENDS = [True]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_factors']
 
 
 class MVSTOTPCCOCCGraphConfig:
