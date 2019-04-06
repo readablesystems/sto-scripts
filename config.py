@@ -38,6 +38,13 @@ class MVSTOConfig:
     DIM3 = ['1', '4', '0'] # number of warehouses
 
 
+class MVSTOTPCCFactorsConfig:
+    NAME = 'tpcc_factors'
+    DIM1 = [12]
+    DIM2 = ['m', 'm.h', 'm.a', 'm.h,a', 'c', 'm.h.a.c.s']
+    DIM3 = ['4']
+
+
 class MVSTOYCSBConfig:
     NAME = 'ycsb_mvsto'
     DIM1 = [1, 2, 4, 12, 23, 24, 31, 32, 36, 47, 48, 63, 64]
