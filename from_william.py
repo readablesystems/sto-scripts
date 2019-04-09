@@ -47,14 +47,14 @@ tpcc_factors_sys_name_map = {
 
 ycsb_sys_name_map = {
     'name': 'ycsb',
-    'OCC': 'o/1',
-    'OCC + CU': 'o.c/1',
-    'OCC + SV': 'o.s/1',
-    'OCC + CU + SV': 'o.c.s/1',
-    'MVCC': 'm/1',
-    'MVCC + ST': 'm.s/1',
-    'MVCC + CU': 'm.c/1',
-    'MVCC + CU + ST': 'm.c.s/1',
+    'OCC': 'o',
+    'OCC + CU': 'o.c',
+    'OCC + SV': 'o.s',
+    'OCC + CU + SV': 'o.c.s',
+    'MVCC': 'm',
+    'MVCC + ST': 'm.s',
+    'MVCC + CU': 'm.c',
+    'MVCC + CU + ST': 'm.c.s',
 }
 
 wiki_sys_name_map = {
@@ -237,6 +237,41 @@ def convert_mocc(compatible_results):
         return {}
     return compatible_results
 
+def convert_ycsb_all(sys_name_map, compatible_results):
+    sys_name_reverse_map = {}
+    sys_short_names = []
+
+    for k,v in sys_name_map.items():
+        if k == 'name':
+            continue
+        sys_name_reverse_map[v] = k
+        sys_short_names.append(v)
+
+    ycsb_types = ('a', 'b')
+    for yt in ycsb_types:
+        try:
+            filename = 'ycsb_{}_results.txt'.format(yt)
+            with open(filename, 'r') as rf:
+                reader = csv.DictReader(rf)
+                for row in reader:
+                    d1 = row['# Threads']
+                    d3 = yt
+                    for v in sys_short_names:
+                        d2 = v
+                        long_name = sys_name_reverse_map[v]
+                        for i in range(WILLIAM_TRIALS):
+                            runner_key = br.key(d1, d2, d3, i)
+                            col_key = long_name
+                            if d3 == 'a':
+                                col_key += ' (A)'
+                            else:
+                                col_key += ' (B)'
+                            col_key += ' [T{}]'.format(i+1)
+                            xput = float(row[col_key])
+                            compatible_results[runner_key] = (xput, 0.0, 0.0)
+        except (FileNotFoundError, IOError):
+            print('File {} not found, not processed.'.format(filename))
+    return compatible_results
 
 if __name__ == '__main__':
     results = {}
@@ -248,7 +283,7 @@ if __name__ == '__main__':
         with open(tpcc_out_file, 'w') as wf:
             json.dump(results, wf, indent=4, sort_keys=True)
     results = {}
-    results = convert(ycsb_result_file, ycsb_sys_name_map, results)
+    results = convert_ycsb_all(ycsb_sys_name_map, results)
     if results:
         with open(ycsb_out_file, 'w') as wf:
             json.dump(results, wf, indent=4, sort_keys=True)

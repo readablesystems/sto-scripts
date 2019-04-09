@@ -54,9 +54,9 @@ class MVSTOTPCCFactorsConfig:
 
 class MVSTOYCSBConfig:
     NAME = 'ycsb_mvsto'
-    DIM1 = [1, 2, 4, 12, 23, 24, 31, 32, 36, 47, 48, 63, 64]
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s']
-    DIM3 = ['1'] # number of warehouses
+    DIM3 = ['a', 'b'] # workload type
 
 
 class MVSTOWikiConfig:
@@ -304,12 +304,13 @@ class MVSTOYCSBGraphConfig:
         'legends_on': True
     }
     NAME = MVSTOYCSBConfig.NAME
+    TYPE = GraphType.LINE
     DIM1 = MVSTOYCSBConfig.DIM1
     DIM2 = MVSTOYCSBConfig.DIM2
     DIM3 = MVSTOYCSBConfig.DIM3
-    LEGENDS = [True]
-    D3TITLES = ['YCSB']
-    D3FNAMES = ['ycsb']
+    LEGENDS = [True, True]
+    D3TITLES = ['YCSB-A', 'YCSB-B']
+    D3FNAMES = ['ycsb_a', 'ycsb_b']
 
 
 class MVSTOYCSBOCCGraphConfig:
