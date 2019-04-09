@@ -41,7 +41,7 @@ class WikiConfig:
 class MVSTOConfig:
     NAME = 'tpcc_mvsto'
     DIM1 = [1, 2, 4, 12, 23, 24, 31, 32, 36, 47, 48, 63, 64]
-    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s','c', 'e']
+    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s','c', 'e', 'mocc']
     DIM3 = ['1', '4', '0'] # number of warehouses
 
 
@@ -88,7 +88,8 @@ color_mapping = {
     'm.c.s': 6,
     'm.c.s.i': 6,
     'c': 8,
-    'e': 10
+    'e': 10,
+    'mocc': 12
 }
 
 marker_mapping = {
@@ -103,7 +104,8 @@ marker_mapping = {
     'm.c.s':   'x',
     'm.c.s.i': 'x',
     'c':       '^',
-    'e':       '>'
+    'e':       '>',
+    'mocc':    'd'
 }
 
 
@@ -153,7 +155,7 @@ class MVSTOGraphConfig:
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV',
                          'MVCC', 'MVCC + CU', 'MVCC + SV', 'MVCC + CU + SV',
-                         'Cicada', 'ERMIA'),
+                         'Cicada', 'ERMIA', 'MOCC'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME

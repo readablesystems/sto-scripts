@@ -217,11 +217,33 @@ def convert_ermia(compatible_results):
         return {}
     return compatible_results
 
+def convert_mocc(compatible_results):
+    try:
+        with open('mocc_results.txt', 'r') as rf:
+            reader = csv.DictReader(rf)
+            for row in reader:
+                d1 = row['# Threads']
+                d2 = 'mocc'
+                for d3 in ['1', '4', '0']:
+                    for i in range(WILLIAM_TRIALS):
+                        runner_key = br.key(d1,d2,d3,i)
+                        cell_val = row['MOCC (W{}) [T{}]'.format(d3, i+1)]
+                        if cell_val == "":
+                            cell_val = '0.0'
+                        xput = float(cell_val) * 1000000.0
+                        compatible_results[runner_key] = (xput, 0.0, 0.0)
+    except (FileNotFoundError, IOError):
+        print('MOCC results files not found, not processed.')
+        return {}
+    return compatible_results
+
+
 if __name__ == '__main__':
     results = {}
     results = convert(tpcc_result_file, tpcc_sys_name_map, results)
     results = convert_cicada(results)
     results = convert_ermia(results)
+    results = convert_mocc(results)
     if results:
         with open(tpcc_out_file, 'w') as wf:
             json.dump(results, wf, indent=4, sort_keys=True)

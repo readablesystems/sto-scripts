@@ -8,6 +8,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 
 import config
+from config import fatal_error
 from config import GraphType
 from config import WikiGraphConfig, TPCCGraphConfig, MVSTOGraphConfig, MVSTOWikiGraphConfig
 from config import MVSTOTPCCOCCGraphConfig, MVSTOTPCCMVCCGraphConfig, MVSTOYCSBGraphConfig
@@ -109,23 +110,26 @@ class BenchPlotter:
                     cabrts_series = []
                     for n in range(BenchRunner.num_trails):
                         k = BenchRunner.key(thr, sut, cnf, n)
-                        (xput, abrts, cabrts) = results[k]
+                        try:
+                            (xput, abrts, cabrts) = results[k]
+                            xput_series.append(xput)
+                            abrts_series.append(abrts)
+                            cabrts_series.append(cabrts)
+                        except KeyError:
+                            continue
 
-                        xput_series.append(xput)
-                        abrts_series.append(abrts)
-                        cabrts_series.append(cabrts)
+                    if len(xput_series) > 0:
+                        xput_med = np.median(xput_series)
+                        xput_min = np.amin(xput_series)
+                        xput_max = np.amax(xput_series)
 
-                    xput_med = np.median(xput_series)
-                    xput_min = np.amin(xput_series)
-                    xput_max = np.amax(xput_series)
+                        med_idx = xput_series.index(xput_med)
 
-                    med_idx = xput_series.index(xput_med)
+                        rec = [[xput_min, xput_med, xput_max],
+                               abrts_series[med_idx],
+                               cabrts_series[med_idx]]
 
-                    rec = [[xput_min, xput_med, xput_max],
-                           abrts_series[med_idx],
-                           cabrts_series[med_idx]]
-
-                    processed_results[BenchPlotter.key(thr, sut, cnf)] = rec
+                        processed_results[BenchPlotter.key(thr, sut, cnf)] = rec
 
         return processed_results
 
@@ -141,11 +145,18 @@ class BenchPlotter:
             series_error_down = []
             series_error_up = []
             for thr in self.dimension1:
-                res = processed_results[BenchPlotter.key(thr, sut, d3)]
-                xput = res[0]
-                series_data.append(xput[1] / 1000000.0)
-                series_error_down.append((xput[1] - xput[0]) / 1000000.0)
-                series_error_up.append((xput[2] - xput[1]) / 1000000.0)
+                bplt_key = BenchPlotter.key(thr, sut, d3)
+                try:
+                    res = processed_results[bplt_key]
+                    xput = res[0]
+                    series_data.append(xput[1] / 1000000.0)
+                    series_error_down.append((xput[1] - xput[0]) / 1000000.0)
+                    series_error_up.append((xput[2] - xput[1]) / 1000000.0)
+                except KeyError:
+                    print('Result key {} not found.'.format(bplt_key))
+                    series_data.append(0)
+                    series_error_down.append(0)
+                    series_error_up.append(0)
             print(series_data)
             y_series.append(series_data)
             y_errors.append((series_error_down, series_error_up))
@@ -178,6 +189,24 @@ class BenchPlotter:
         meta['save_name'] = save_name
 
         return meta, common_x, y_series, y_errors
+
+    # Assuming that y_errors is an (2, N)-dimension array
+    # First row contains upper errors, second row contains low errors
+    def strip_zeros_in_xyseries(self, common_x, y_series, y_errors):
+        if (len(y_errors) != 2) or (len(y_errors[0]) != len(y_errors[1])):
+            fatal_error('y_errors dimension invalid.')
+        if (len(common_x) != len(y_series)) or (len(common_x) != len(y_errors[0])):
+            fatal_error('x-y series dimension mismatch.')
+        out_x = []
+        out_y = []
+        out_y_err = [[], []]
+        for i,y in enumerate(y_series):
+            if y != 0:
+                out_x.append(common_x[i])
+                out_y.append(y)
+                out_y_err[0].append(y_errors[0][i])
+                out_y_err[1].append(y_errors[1][i])
+        return out_x, out_y, out_y_err
 
     def draw_bars(self, meta_info, common_x, y_series, y_errors):
         fig, ax = plt.subplots(figsize=(10, 6))
@@ -224,7 +253,8 @@ class BenchPlotter:
         for i in range(num_series):
             l_color = GraphGlobalConstants.TABLEAU20[color_mapping[self.dimension2[i]]]
             l_marker = marker_mapping[self.dimension2[i]]
-            l = ax.errorbar(common_x, y_series[i], marker=l_marker, color=l_color, yerr=y_errors[i], ecolor=l_color, capsize=4)
+            p_x, p_y, p_err = self.strip_zeros_in_xyseries(common_x, y_series[i], y_errors[i])
+            l = ax.errorbar(p_x, p_y, marker=l_marker, color=l_color, yerr=p_err, ecolor=l_color, capsize=4)
             lines.append(l)
 
         if meta_info['graph_title'] != '':
