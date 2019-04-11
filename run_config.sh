@@ -81,6 +81,39 @@ setup_tpcc() {
   }
 }
 
+setup_tpcc_opacity() {
+  EXPERIMENT_NAME="TPC-C with Opacity"
+
+  TPCC_OCC=(
+    "OCC (W1)"         "-iopaque -g"
+    "OCC + CU (W1)"    "-iopaque -g -x"
+    "OCC (W4)"         "-iopaque -g -w4"
+    "OCC + CU (W4)"    "-iopaque -g -x -w4"
+  )
+
+  TPCC_MVCC=(
+  )
+
+  TPCC_OCC_BINARIES=(
+    "tpcc_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=()
+  OCC_BINARIES=("${TPCC_OCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+}
+
+
 setup_wiki() {
   EXPERIMENT_NAME="Wikipedia"
 
@@ -116,6 +149,7 @@ setup_wiki() {
 
 setup_ycsba() {
   EXPERIMENT_NAME="YCSB-A"
+  TIMEOUT=60
 
   YCSB_OCC=(
     "OCC"         "-mA -idefault -g"
@@ -148,7 +182,8 @@ setup_ycsba() {
 }
 
 setup_ycsbb() {
-  EXPERIMENT_NAME="YCSB-B"
+  EXPERIMENT_NAME="YCSB-B, zipf=2"
+  TIMEOUT=60
 
   YCSB_OCC=(
     "OCC"         "-mB -idefault -g"
@@ -182,6 +217,7 @@ setup_ycsbb() {
 
 setup_ycsbc() {
   EXPERIMENT_NAME="YCSB-C"
+  TIMEOUT=60
 
   YCSB_OCC=(
     "OCC"         "-mC -idefault -g"
