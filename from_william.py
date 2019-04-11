@@ -11,14 +11,17 @@ WILLIAM_TRIALS = 5
 tpcc_sys_name_map = {
     'name': 'tpcc',
     'OCC (W0)': 'o/0',
+    'OCC (W0) + NOREG': 'onr/0',
     'OCC + CU (W0)': 'o.c/0',
     'OCC (W0) + SV': 'o.s/0',
     'OCC + CU (W0) + SV': 'o.c.s/0',
     'OCC (W1)': 'o/1',
+    'OCC (W1) + NOREG': 'onr/1',
     'OCC + CU (W1)': 'o.c/1',
     'OCC (W1) + SV': 'o.s/1',
     'OCC + CU (W1) + SV': 'o.c.s/1',
     'OCC (W4)': 'o/4',
+    'OCC (W4) + NOREG': 'onr/4',
     'OCC + CU (W4)': 'o.c/4',
     'OCC (W4) + SV': 'o.s/4',
     'OCC + CU (W4) + SV': 'o.c.s/4',
@@ -94,8 +97,6 @@ tpcc_factors_result_file = 'tpcc_factors_results.txt'
 
 
 def convert(infile, sys_name_map, compatible_results):
-    is_tpcc = sys_name_map['name'] == 'tpcc'
-
     sys_name_reverse_map = {}
     sys_short_names = []
 
@@ -116,8 +117,6 @@ def convert(infile, sys_name_map, compatible_results):
                         (d2, d3) = v.split('/')
                         runner_key = br.key(d1, d2, d3, i)
                         col_key = long_name
-                        if is_tpcc:
-                            col_key += ' + OB'
                         col_key += ' [T{}]'.format(i+1)
                         xput = float(row[col_key])
                         compatible_results[runner_key] = (xput, 0.0, 0.0)

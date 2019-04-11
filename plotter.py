@@ -14,7 +14,9 @@ from config import WikiGraphConfig, TPCCGraphConfig, MVSTOGraphConfig, MVSTOWiki
 from config import MVSTOTPCCOCCGraphConfig, MVSTOTPCCMVCCGraphConfig, MVSTOYCSBGraphConfig
 from config import MVSTOYCSBOCCGraphConfig, MVSTOYCSBMVCCGraphConfig, MVSTORubisGraphConfig
 
-from config import TPCCF1GraphConfig, TPCCF2AGraphConfig, TPCCF2BGraphConfig, TPCCF2CGraphConfig
+from config import TW1OCCGraphConfig, TW1MVGraphConfig, WikiOCCGraphConfig, WikiMVGraphConfig
+from config import RubisOCCGraphConfig, RubisMVGraphConfig
+from config import TW4OCCGraphConfig, TW4MVGraphConfig
 from config import TPCCFactorsGraphConfig
 
 from config import color_mapping, marker_mapping
@@ -25,10 +27,14 @@ from runner import BenchRunner
 plotter_map = {
     'tpcc': TPCCGraphConfig,
     'wiki': WikiGraphConfig,
-    'tpccf1': TPCCF1GraphConfig,
-    'tpccf2a': TPCCF2AGraphConfig,
-    'tpccf2b': TPCCF2BGraphConfig,
-    'tpccf2c': TPCCF2CGraphConfig,
+    't_scale_o': TW1OCCGraphConfig,
+    't_scale_m': TW1MVGraphConfig,
+    'w_scale_o': WikiOCCGraphConfig,
+    'w_scale_m': WikiMVGraphConfig,
+    'r_scale_o': RubisOCCGraphConfig,
+    'r_scale_m': RubisMVGraphConfig,
+    'tw4_bar_o': TW4OCCGraphConfig,
+    'tw4_bar_m': TW4MVGraphConfig,
     'tpccfactors': TPCCFactorsGraphConfig,
     'mvsto': MVSTOGraphConfig,
     'mvsto-occ': MVSTOTPCCOCCGraphConfig,
@@ -220,10 +226,9 @@ class BenchPlotter:
         rects = []
 
         for i in range(num_series):
+            f_color = GraphGlobalConstants.TABLEAU20[color_mapping[self.dimension2[i]]]
             r = ax.bar(ind + width * i, y_series[i], width,
-                       color=meta_info['fill_colors'][i],
-                       edgecolor='black',
-                       hatch=meta_info['hatches'][i],
+                       color=f_color,
                        yerr=y_errors[i], error_kw=GraphGlobalConstants.ERROR_KW)
             rects.append(r)
 
@@ -261,6 +266,8 @@ class BenchPlotter:
             ax.set_title(meta_info['graph_title'])
         ax.set_ylabel(meta_info['y_label'])
         ax.set_ylim(bottom=0)
+        if 'y_max' in meta_info:
+            ax.set_ylim(top=meta_info['y_max'])
         ax.set_xlabel(meta_info['x_label'])
 
         if meta_info['legends_on']:
