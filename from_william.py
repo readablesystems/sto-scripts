@@ -39,6 +39,22 @@ tpcc_sys_name_map = {
     'MVCC + CU (W4) + ST': 'm.c.s/4'
 }
 
+tpcc_opacity_sys_name_map = {
+    'name': 'tpcc',
+    #'OCC (W0)': 'op/0',
+    #'OCC + CU (W0)': 'op.c/0',
+    #'OCC (W0) + SV': 'op.s/0',
+    #'OCC + CU (W0) + SV': 'op.c.s/0',
+    'OCC (W1)': 'op/1',
+    'OCC + CU (W1)': 'op.c/1',
+    'OCC (W1) + SV': 'op.s/1',
+    'OCC + CU (W1) + SV': 'op.c.s/1',
+    'OCC (W4)': 'op/4',
+    'OCC + CU (W4)': 'op.c/4',
+    'OCC (W4) + SV': 'op.s/4',
+    'OCC + CU (W4) + SV': 'op.c.s/4'
+}
+
 tpcc_factors_sys_name_map = {
     'name': 'tpcc_factors',
     'MVCC (W1)': 'm/1',
@@ -86,6 +102,7 @@ rubis_sys_name_map = {
 
 tpcc_out_file = config.get_result_file(config.MVSTOConfig.NAME)
 tpcc_result_file = 'tpcc_results.txt'
+tpcc_opacity_file = 'tpcc_opacity_results.txt'
 ycsb_out_file = config.get_result_file(config.MVSTOYCSBConfig.NAME)
 ycsb_result_file = 'ycsb_results.txt'
 wiki_out_file = config.get_result_file(config.MVSTOWikiConfig.NAME)
@@ -119,6 +136,8 @@ def convert(infile, sys_name_map, compatible_results):
                         col_key = long_name
                         col_key += ' [T{}]'.format(i+1)
                         xput = float(row[col_key])
+                        if runner_key in compatible_results:
+                            print('WARNING: Overriding result runner key {}'.format(runner_key))
                         compatible_results[runner_key] = (xput, 0.0, 0.0)
     except (FileNotFoundError, IOError):
         print('Input file {} not found, not processed.'.format(infile))
@@ -275,6 +294,7 @@ def convert_ycsb_all(sys_name_map, compatible_results):
 if __name__ == '__main__':
     results = {}
     results = convert(tpcc_result_file, tpcc_sys_name_map, results)
+    results = convert(tpcc_opacity_file, tpcc_opacity_sys_name_map, results)
     results = convert_cicada(results)
     results = convert_ermia(results)
     results = convert_mocc(results)

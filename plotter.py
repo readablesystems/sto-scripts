@@ -17,7 +17,11 @@ from config import MVSTOYCSBOCCGraphConfig, MVSTOYCSBMVCCGraphConfig, MVSTORubis
 from config import TW1OCCGraphConfig, TW1MVGraphConfig, WikiOCCGraphConfig, WikiMVGraphConfig
 from config import RubisOCCGraphConfig, RubisMVGraphConfig
 from config import TW4OCCGraphConfig, TW4MVGraphConfig
+from config import TW1OCCZoomedGraphConfig, TW1MVZoomedGraphConfig
+from config import TWPOCCGraphConfig, TWPMVGraphConfig
 from config import TPCCFactorsGraphConfig
+
+from config import TPCCOpacityGraphConfig
 
 from config import color_mapping, marker_mapping
 from runner import BenchRunner
@@ -32,10 +36,15 @@ plotter_map = {
     'w_scale_o': WikiOCCGraphConfig,
     'w_scale_m': WikiMVGraphConfig,
     'r_scale_o': RubisOCCGraphConfig,
+    'tw1_zoomed_o': TW1OCCZoomedGraphConfig,
+    'tw1_zoomed_m': TW1MVZoomedGraphConfig,
     'r_scale_m': RubisMVGraphConfig,
     'tw4_bar_o': TW4OCCGraphConfig,
     'tw4_bar_m': TW4MVGraphConfig,
+    'twp_line_o': TWPOCCGraphConfig,
+    'twp_line_m': TWPMVGraphConfig,
     'tpccfactors': TPCCFactorsGraphConfig,
+    'tpccopacity': TPCCOpacityGraphConfig,
     'mvsto': MVSTOGraphConfig,
     'mvsto-occ': MVSTOTPCCOCCGraphConfig,
     'mvsto-mvcc': MVSTOTPCCMVCCGraphConfig,

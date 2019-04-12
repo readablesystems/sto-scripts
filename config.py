@@ -40,8 +40,8 @@ class WikiConfig:
 
 class MVSTOConfig:
     NAME = 'tpcc_mvsto'
-    DIM1 = [1, 2, 4, 12, 23, 24, 31, 32, 36, 47, 48, 63, 64]
-    DIM2 = ['o','onr','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s','c', 'e', 'mocc']
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['o','onr','op','o.c','op.c','o.s','op.s','o.c.s','op.c.s','m','m.c','m.s','m.c.s','c', 'e', 'mocc']
     DIM3 = ['1', '4', '0'] # number of warehouses
 
 
@@ -90,15 +90,23 @@ color_mapping = {
     'm.c.s.i': 6,
     'c': 8,
     'e': 10,
-    'mocc': 12
+    'mocc': 12,
+    'op': 11,
+    'op.c': 13,
+    'op.s': 15,
+    'op.c.s': 17
 }
 
 marker_mapping = {
     'o':       'o',
+    'op':      'o',
     'onr':     'o',
     'o.c':     '<',
+    'op.c':    '<',
     'o.s':     's',
+    'op.s':    's',
     'o.c.s':   '*',
+    'op.c.s':  '*',
     'm':       'h',
     'm.c':     'H',
     'm.s':     'D',
@@ -178,13 +186,13 @@ class TW1OCCGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'y_max': 1.35,
-        'series_names': ('OCC', 'OCC + CU + VG'),
+        'series_names': ('OCC', 'OCC+CU', 'OCC+VG', 'OCC+CU+VG'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['o','o.c.s']
+    DIM2 = ['o','o.c','o.s','o.c.s']
     DIM3 = ['1']
     LEGENDS = [True]
     D3TITLES = ['']
@@ -196,13 +204,13 @@ class TW1MVGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'y_max': 1.35,
-        'series_names': ('MVCC', 'MVCC + CU + VG'),
+        'series_names': ('MVCC', 'MVCC+CU', 'MVCC+VG', 'MVCC+CU+VG'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['m','m.c.s']
+    DIM2 = ['m','m.c','m.s','m.c.s']
     DIM3 = ['1']
     LEGENDS = [True]
     D3TITLES = ['']
@@ -214,13 +222,13 @@ class WikiOCCGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'y_max': 0.55,
-        'series_names': ('OCC', 'OCC + CU + VG'),
+        'series_names': ('OCC','OCC+CU','OCC+VG','OCC+CU+VG'),
         'legends_on': True
     }
     NAME = MVSTOWikiConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOWikiConfig.DIM1
-    DIM2 = ['o','o.c.s']
+    DIM2 = ['o','o.c','o.s','o.c.s']
     DIM3 = ['1']
     LEGENDS = [True]
     D3TITLES = ['']
@@ -232,13 +240,13 @@ class WikiMVGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'y_max': 0.55,
-        'series_names': ('MVCC', 'MVCC + CU + VG'),
+        'series_names': ('MVCC','MVCC+CU','MVCC+VG','MVCC+CU+VG'),
         'legends_on': True
     }
     NAME = MVSTOWikiConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOWikiConfig.DIM1
-    DIM2 = ['m','m.c.s']
+    DIM2 = ['m','m.c','m.s','m.c.s']
     DIM3 = ['1']
     LEGENDS = [True]
     D3TITLES = ['']
@@ -250,13 +258,13 @@ class RubisOCCGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'y_max': 2.2,
-        'series_names': ('OCC', 'OCC + CU + VG'),
+        'series_names': ('OCC','OCC+CU','OCC+VG','OCC+CU+VG'),
         'legends_on': True
     }
     NAME = MVSTORubisConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTORubisConfig.DIM1
-    DIM2 = ['o','o.c.s']
+    DIM2 = ['o','o.c','o.s','o.c.s']
     DIM3 = ['1']
     LEGENDS = [True]
     D3TITLES = ['']
@@ -268,13 +276,13 @@ class RubisMVGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'y_max': 2.2,
-        'series_names': ('MVCC', 'MVCC + CU + VG'),
+        'series_names': ('MVCC','MVCC+CU','MVCC+VG','MVCC+CU+VG'),
         'legends_on': True
     }
     NAME = MVSTORubisConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTORubisConfig.DIM1
-    DIM2 = ['m','m.c.s']
+    DIM2 = ['m','m.c','m.s','m.c.s']
     DIM3 = ['1']
     LEGENDS = [True]
     D3TITLES = ['']
@@ -319,7 +327,96 @@ class TW4MVGraphConfig:
     D3FNAMES = ['tpcc_w4_mvcc']
 
 
-# TPC-C Figure 3: Factor analysis graph
+# Overhead bar graph
+# Showing TPC-C partitioned workload
+# 2 subfigures, OCC vs. +CUVG, MVCC vs. +CUVG
+class TW1OCCZoomedGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC','OCC+CU','OCC+VG','OCC+CU+VG'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = [1,2,4]
+    DIM2 = ['o','o.c','o.s','o.c.s']
+    DIM3 = ['1']
+    LEGENDS = [True]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_w1_occ_zoomed']
+
+
+class TW1MVZoomedGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('MVCC','MVCC+CU','MVCC+VG','MVCC+CU+VG'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = [1,2,4]
+    DIM2 = ['m','m.c','m.s','m.c.s']
+    DIM3 = ['1']
+    LEGENDS = [True]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_w1_mvcc_zoomed']
+
+
+class TWPOCCGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC','OCC+CU','OCC+VG','OCC+CU+VG'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['o','o.c','o.s','o.c.s']
+    DIM3 = ['0']
+    LEGENDS = [True]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_part_occ']
+
+
+class TWPMVGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('MVCC','MVCC+CU','MVCC+VG','MVCC+CU+VG'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['m','m.c','m.s','m.c.s']
+    DIM3 = ['0']
+    LEGENDS = [True]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_part_mvcc']
+
+
+# Alternative: line graph?
+class TWPLineGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'OCC + CU + VG', 'MVCC', 'MVCC + CU + VG'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['o','o.c.s','m','m.c.s']
+    DIM3 = ['0']
+    LEGENDS = [True]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_part_line']
+
+
+# TPC-C factor analysis graph
 class TPCCFactorsGraphConfig:
     INFO = {
         'x_label': 'Factors',
@@ -335,6 +432,24 @@ class TPCCFactorsGraphConfig:
     LEGENDS = [True]
     D3TITLES = ['']
     D3FNAMES = ['tpcc_factors']
+
+
+# Graphs with opacity results
+class TPCCOpacityGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC','OCC+O','OCC+CU+VG','OCC+CU+VG+O','OCC+VG'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['o','op','o.c.s','op.c.s','o.s']
+    DIM3 = ['1', '4']
+    LEGENDS = [True, True]
+    D3TITLES = ['', '']
+    D3FNAMES = ['tpcc_op_w1', 'tpcc_op_w4']
 
 
 class MVSTOTPCCOCCGraphConfig:
