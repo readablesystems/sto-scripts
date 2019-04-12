@@ -66,13 +66,13 @@ setup_tpcc() {
   )
 
   TPCC_OCC_BINARIES=(
-    "tpcc_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+    "tpcc_bench" "-occ" "DEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + SV"
   )
   TPCC_MVCC_BINARIES=(
-    "tpcc_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "tpcc_bench" "-mvcc" "DEBUG=1 OBSERVE_C_BALANCE=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
   )
   TPCC_BOTH_BINARIES=(
-    "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+    "tpcc_bench" "-both" "DEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
   )
 
   OCC_LABELS=("${TPCC_OCC[@]}")
@@ -103,12 +103,12 @@ setup_tpcc_opacity() {
   )
 
   TPCC_OCC_BINARIES=(
-    "tpcc_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+    "tpcc_bench" "-occ" "DEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + SV"
   )
   TPCC_MVCC_BINARIES=(
   )
   TPCC_BOTH_BINARIES=(
-    "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+    "tpcc_bench" "-both" "DEBUG=1 OBSERVE_C_BALANCE=1" ""
   )
 
   OCC_LABELS=("${TPCC_OCC[@]}")
@@ -143,13 +143,13 @@ setup_tpcc_scaled() {
   )
 
   TPCC_OCC_BINARIES=(
-    "tpcc_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+    "tpcc_bench" "-occ" "DEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + SV"
   )
   TPCC_MVCC_BINARIES=(
-    "tpcc_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "tpcc_bench" "-mvcc" "DEBUG=1 OBSERVE_C_BALANCE=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
   )
   TPCC_BOTH_BINARIES=(
-    "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+    "tpcc_bench" "-both" "DEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
   )
 
   OCC_LABELS=("${TPCC_OCC[@]}")
