@@ -64,7 +64,7 @@ run_bench () {
           printf "\rTrial $(($k + 1)), run $runs times: $cmd"
           $cmd 2>$TEMPERR >$TEMPOUT &
           pid=$!
-          sleep $TIMEOUT && kill -0 $pid 2&>/dev/null && echo "noo!" &
+          sleep $TIMEOUT && kill -0 $pid 2&>/dev/null && kill -9 $pid &
           wait $pid
           result=$(tail -n 1 $TEMPOUT | grep -oE '[0-9.]+')
           sleep 2

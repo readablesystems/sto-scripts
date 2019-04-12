@@ -242,7 +242,7 @@ setup_ycsba() {
 }
 
 setup_ycsbb() {
-  EXPERIMENT_NAME="YCSB-B, zipf=2"
+  EXPERIMENT_NAME="YCSB-B"
   TIMEOUT=60
 
   YCSB_OCC=(
