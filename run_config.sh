@@ -93,10 +93,10 @@ setup_tpcc_opacity() {
   EXPERIMENT_NAME="TPC-C with Opacity"
 
   TPCC_OCC=(
-    "OCC (W1)"         "-iopaque -g"
-    "OCC + CU (W1)"    "-iopaque -g -x"
-    "OCC (W4)"         "-iopaque -g -w4"
-    "OCC + CU (W4)"    "-iopaque -g -x -w4"
+    "OPQ (W1)"         "-iopaque -g -w1"
+    "OPQ + CU (W1)"    "-iopaque -g -w1 -x"
+    "OPQ (W4)"         "-iopaque -g -w4"
+    "OPQ + CU (W4)"    "-iopaque -g -x -w4"
   )
 
   TPCC_MVCC=(
@@ -129,17 +129,15 @@ setup_tpcc_scaled() {
   EXPERIMENT_NAME="TPC-C, #W = #T"
 
   TPCC_OCC=(
-    "OCC (W1)"         "-idefault -g"
-    "OCC + CU (W1)"    "-idefault -g -x"
-    "OCC (W4)"         "-idefault -g -w4"
-    "OCC + CU (W4)"    "-idefault -g -x -w4"
+    "OCC (W0)"         "-idefault -g"
+    "OCC + CU (W0)"    "-idefault -g -x"
+    "OPQ (W0)"         "-iopaque -g"
+    "OPQ +CU (W0)"     "-iopaque -g -x"
   )
 
   TPCC_MVCC=(
-    "MVCC (W1)"        "-imvcc -g"
-    "MVCC + CU (W1)"   "-imvcc -g -x"
-    "MVCC (W4)"        "-imvcc -g -w4"
-    "MVCC + CU (W4)"   "-imvcc -g -x -w4"
+    "MVCC (W0)"        "-imvcc -g"
+    "MVCC +CU (W0)"    "-imvcc -g -x"
   )
 
   TPCC_OCC_BINARIES=(
