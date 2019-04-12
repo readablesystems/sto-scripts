@@ -42,6 +42,10 @@ setup_rubis() {
   call_runs() {
     default_call_runs
   }
+
+  update_cmd() {
+    ``  # noop
+  }
 }
 
 setup_tpcc() {
@@ -79,6 +83,10 @@ setup_tpcc() {
   call_runs() {
     default_call_runs
   }
+
+  update_cmd() {
+    ``  # noop
+  }
 }
 
 setup_tpcc_opacity() {
@@ -111,8 +119,52 @@ setup_tpcc_opacity() {
   call_runs() {
     default_call_runs
   }
+
+  update_cmd() {
+    ``  # noop
+  }
 }
 
+setup_tpcc_scaled() {
+  EXPERIMENT_NAME="TPC-C, #W = #T"
+
+  TPCC_OCC=(
+    "OCC (W1)"         "-idefault -g"
+    "OCC + CU (W1)"    "-idefault -g -x"
+    "OCC (W4)"         "-idefault -g -w4"
+    "OCC + CU (W4)"    "-idefault -g -x -w4"
+  )
+
+  TPCC_MVCC=(
+    "MVCC (W1)"        "-imvcc -g"
+    "MVCC + CU (W1)"   "-imvcc -g -x"
+    "MVCC (W4)"        "-imvcc -g -w4"
+    "MVCC + CU (W4)"   "-imvcc -g -x -w4"
+  )
+
+  TPCC_OCC_BINARIES=(
+    "tpcc_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+  )
+  TPCC_MVCC_BINARIES=(
+    "tpcc_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=("${TPCC_MVCC[@]}")
+  OCC_BINARIES=("${TPCC_OCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${TPCC_MVCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    cmd="$cmd -w$i"
+  }
+}
 
 setup_wiki() {
   EXPERIMENT_NAME="Wikipedia"
@@ -144,6 +196,10 @@ setup_wiki() {
 
   call_runs() {
     default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
   }
 }
 
@@ -179,6 +235,10 @@ setup_ycsba() {
   call_runs() {
     default_call_runs
   }
+
+  update_cmd() {
+    ``  # noop
+  }
 }
 
 setup_ycsbb() {
@@ -213,6 +273,10 @@ setup_ycsbb() {
   call_runs() {
     default_call_runs
   }
+
+  update_cmd() {
+    ``  # noop
+  }
 }
 
 setup_ycsbc() {
@@ -246,5 +310,9 @@ setup_ycsbc() {
 
   call_runs() {
     default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
   }
 }

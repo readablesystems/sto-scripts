@@ -4,11 +4,11 @@ MAX_RETRIES=10
 ITERS=5
 THREADS=(1 2 4 12 24 32 40 48 64)
 TIMEOUT=20  # In seconds
-HUGEPAGES=102400  # 49152 for stoo, 102400 for AWS
+HUGEPAGES=49152  # 49152 for stoo, 102400 for AWS
 
 . run_config.sh
 
-setup_ycsbc  # Change this accordingly!
+setup_tpcc  # Change this accordingly!
 
 ALL_BINARIES=("${OCC_BINARIES[@]}" "${MVCC_BINARIES[@]}")
 
@@ -60,6 +60,7 @@ run_bench () {
         while [ $runs -le $MAX_RETRIES ]
         do
           cmd="./$BINARY -t$i $f"
+          update_cmd
           printf "\rTrial $(($k + 1)), run $runs times: $cmd"
           $cmd 2>$TEMPERR >$TEMPOUT &
           pid=$!
@@ -197,6 +198,6 @@ TEMPOUT="$TEMPDIR/out"
 
 call_runs
 
-python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" results/results.txt
+#python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" results/results.txt
 
-sudo shutdown -h now
+#sudo shutdown -h now
