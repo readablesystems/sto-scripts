@@ -4,7 +4,7 @@
 #
 # (Sorted in lexicographical order by setup function name)
 #
-# setup_rubic: RUBiS
+# setup_rubis: RUBiS
 # setup_tpcc: TPC-C, 1 and 4 warehouses
 # setup_wiki: Wikipedia
 # setup_ycsba: YCSB-A
@@ -206,13 +206,13 @@ setup_ycsba() {
   TIMEOUT=60
 
   YCSB_OCC=(
-    "OCC"         "-mA -idefault -g"
-    "OCC + CU"    "-mA -idefault -g -x"
+    "OCC (A)"         "-mA -idefault -g"
+    "OCC (A) + CU"    "-mA -idefault -g -x"
   )
 
   YCSB_MVCC=(
-    "MVCC"        "-mA -imvcc -g"
-    "MVCC + CU"   "-mA -imvcc -g -x"
+    "MVCC (A)"        "-mA -imvcc -g"
+    "MVCC (A) + CU"   "-mA -imvcc -g -x"
   )
 
   YCSB_OCC_BINARIES=(
@@ -244,13 +244,13 @@ setup_ycsbb() {
   TIMEOUT=60
 
   YCSB_OCC=(
-    "OCC"         "-mB -idefault -g"
-    "OCC + CU"    "-mB -idefault -g -x"
+    "OCC (B)"         "-mB -idefault -g"
+    "OCC (B) + CU"    "-mB -idefault -g -x"
   )
 
   YCSB_MVCC=(
-    "MVCC"        "-mB -imvcc -g"
-    "MVCC + CU"   "-mB -imvcc -g -x"
+    "MVCC (B)"        "-mB -imvcc -g"
+    "MVCC (B) + CU"   "-mB -imvcc -g -x"
   )
 
   YCSB_OCC_BINARIES=(
@@ -282,13 +282,13 @@ setup_ycsbc() {
   TIMEOUT=60
 
   YCSB_OCC=(
-    "OCC"         "-mC -idefault -g"
-    "OCC + CU"    "-mC -idefault -g -x"
+    "OCC (C)"         "-mC -idefault -g"
+    "OCC (C) + CU"    "-mC -idefault -g -x"
   )
 
   YCSB_MVCC=(
-    "MVCC"        "-mC -imvcc -g"
-    "MVCC + CU"   "-mC -imvcc -g -x"
+    "MVCC (C)"        "-mC -imvcc -g"
+    "MVCC (C) + CU"   "-mC -imvcc -g -x"
   )
 
   YCSB_OCC_BINARIES=(
