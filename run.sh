@@ -5,6 +5,7 @@ ITERS=5
 THREADS=(1 2 4 12 24 32 40 48 64)
 TIMEOUT=20  # In seconds
 HUGEPAGES=49152  # 49152 for stoo, 102400 for AWS
+DRY_RUN=0  # >0 means do a dry run
 
 . run_config.sh
 
@@ -62,13 +63,16 @@ run_bench () {
           cmd="./$BINARY -t$i $f"
           update_cmd
           printf "\rTrial $(($k + 1)), run $runs times: $cmd"
+          if [ $DRY_RUN -gt 0 ]
+          then
+              break
+          fi
           $cmd 2>$TEMPERR >$TEMPOUT &
           pid=$!
           sleep $TIMEOUT && kill -0 $pid 2&>/dev/null && kill -9 $pid &
           wait $pid
           result=$(tail -n 1 $TEMPOUT | grep -oE '[0-9.]+')
           sleep 2
-          #echo "next commit-tid" > /tmp/err  # dry-run
           if [ $(grep 'next commit-tid' $TEMPERR | wc -l) -ne 0 ]
           then
             break
