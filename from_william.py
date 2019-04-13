@@ -41,18 +41,25 @@ tpcc_sys_name_map = {
 
 tpcc_opacity_sys_name_map = {
     'name': 'tpcc',
-    #'OCC (W0)': 'op/0',
-    #'OCC + CU (W0)': 'op.c/0',
-    #'OCC (W0) + SV': 'op.s/0',
-    #'OCC + CU (W0) + SV': 'op.c.s/0',
-    'OCC (W1)': 'op/1',
-    'OCC + CU (W1)': 'op.c/1',
-    'OCC (W1) + SV': 'op.s/1',
-    'OCC + CU (W1) + SV': 'op.c.s/1',
-    'OCC (W4)': 'op/4',
-    'OCC + CU (W4)': 'op.c/4',
-    'OCC (W4) + SV': 'op.s/4',
-    'OCC + CU (W4) + SV': 'op.c.s/4'
+    #'OPQ (W0)': 'op/0',
+    #'OPQ + CU (W0)': 'op.c/0',
+    #'OPQ (W0) + SV': 'op.s/0',
+    #'OPQ + CU (W0) + SV': 'op.c.s/0',
+    'OPQ (W1)': 'op/1',
+    'OPQ + CU (W1)': 'op.c/1',
+    'OPQ (W1) + SV': 'op.s/1',
+    'OPQ + CU (W1) + SV': 'op.c.s/1',
+    'OPQ (W4)': 'op/4',
+    'OPQ + CU (W4)': 'op.c/4',
+    'OPQ (W4) + SV': 'op.s/4',
+    'OPQ + CU (W4) + SV': 'op.c.s/4'
+}
+
+tpcc_tictoc_sys_name_map = {
+    'name': 'tpcc',
+    'TicToc (W0)': 'tictoc/0',
+    'TicToc (W1)': 'tictoc/1',
+    'TicToc (W4)': 'tictoc/4',
 }
 
 tpcc_factors_sys_name_map = {
@@ -78,31 +85,32 @@ ycsb_sys_name_map = {
 
 wiki_sys_name_map = {
     'name': 'wiki',
-    'OCC (W1)': 'o/1',
-    'OCC + CU (W1)': 'o.c/1',
-    'OCC (W1) + SV': 'o.s/1',
-    'OCC + CU (W1) + SV': 'o.c.s/1',
-    'MVCC (W1)': 'm/1',
-    'MVCC (W1) + ST': 'm.s/1',
-    'MVCC + CU (W1)': 'm.c/1',
-    'MVCC + CU (W1) + ST': 'm.c.s/1',
+    'OCC': 'o/1',
+    'OCC + CU': 'o.c/1',
+    'OCC + SV': 'o.s/1',
+    'OCC + CU + SV': 'o.c.s/1',
+    'MVCC': 'm/1',
+    'MVCC + ST': 'm.s/1',
+    'MVCC + CU': 'm.c/1',
+    'MVCC + CU + ST': 'm.c.s/1',
 }
 
 rubis_sys_name_map = {
     'name': 'rubis',
-    'OCC (W1)': 'o/1',
-    'OCC + CU (W1)': 'o.c/1',
-    'OCC (W1) + SV': 'o.s/1',
-    'OCC + CU (W1) + SV': 'o.c.s/1',
-    'MVCC (W1)': 'm/1',
-    'MVCC (W1) + ST': 'm.s/1',
-    'MVCC + CU (W1)': 'm.c/1',
-    'MVCC + CU (W1) + ST': 'm.c.s/1',
+    'OCC': 'o/1',
+    'OCC + CU': 'o.c/1',
+    'OCC + SV': 'o.s/1',
+    'OCC + CU + SV': 'o.c.s/1',
+    'MVCC': 'm/1',
+    'MVCC + ST': 'm.s/1',
+    'MVCC + CU': 'm.c/1',
+    'MVCC + CU + ST': 'm.c.s/1',
 }
 
 tpcc_out_file = config.get_result_file(config.MVSTOConfig.NAME)
 tpcc_result_file = 'tpcc_results.txt'
 tpcc_opacity_file = 'tpcc_opacity_results.txt'
+tpcc_tictoc_file = 'tpcc_tictoc_results.txt'
 ycsb_out_file = config.get_result_file(config.MVSTOYCSBConfig.NAME)
 ycsb_result_file = 'ycsb_results.txt'
 wiki_out_file = config.get_result_file(config.MVSTOWikiConfig.NAME)
@@ -123,6 +131,10 @@ def convert(infile, sys_name_map, compatible_results):
         sys_name_reverse_map[v] = k
         sys_short_names.append(v)
 
+    num_trials = WILLIAM_TRIALS
+    if sys_name_map['name'] == 'rubis':
+        num_trials = 10
+
     try:
         with open(infile, 'r') as rf:
             reader = csv.DictReader(rf)
@@ -130,7 +142,7 @@ def convert(infile, sys_name_map, compatible_results):
                 d1 = row['# Threads']
                 for v in sys_short_names:
                     long_name = sys_name_reverse_map[v]
-                    for i in range(WILLIAM_TRIALS):
+                    for i in range(num_trials):
                         (d2, d3) = v.split('/')
                         runner_key = br.key(d1, d2, d3, i)
                         col_key = long_name
@@ -295,6 +307,7 @@ if __name__ == '__main__':
     results = {}
     results = convert(tpcc_result_file, tpcc_sys_name_map, results)
     results = convert(tpcc_opacity_file, tpcc_opacity_sys_name_map, results)
+    results = convert(tpcc_tictoc_file, tpcc_tictoc_sys_name_map, results)
     results = convert_cicada(results)
     results = convert_ermia(results)
     results = convert_mocc(results)

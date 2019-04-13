@@ -14,14 +14,14 @@ from config import WikiGraphConfig, TPCCGraphConfig, MVSTOGraphConfig, MVSTOWiki
 from config import MVSTOTPCCOCCGraphConfig, MVSTOTPCCMVCCGraphConfig, MVSTOYCSBGraphConfig
 from config import MVSTOYCSBOCCGraphConfig, MVSTOYCSBMVCCGraphConfig, MVSTORubisGraphConfig
 
-from config import TW1OCCGraphConfig, TW1MVGraphConfig, WikiOCCGraphConfig, WikiMVGraphConfig
+from config import TOCCGraphConfig, TMVGraphConfig, WikiOCCGraphConfig, WikiMVGraphConfig
 from config import RubisOCCGraphConfig, RubisMVGraphConfig
-from config import TW4OCCGraphConfig, TW4MVGraphConfig
 from config import TW1OCCZoomedGraphConfig, TW1MVZoomedGraphConfig
 from config import TWPOCCGraphConfig, TWPMVGraphConfig
 from config import TPCCFactorsGraphConfig
 
 from config import TPCCOpacityGraphConfig
+from config import TOCCCompGraphConfig, TMVCompGraphConfig
 
 from config import color_mapping, marker_mapping
 from runner import BenchRunner
@@ -31,20 +31,20 @@ from runner import BenchRunner
 plotter_map = {
     'tpcc': TPCCGraphConfig,
     'wiki': WikiGraphConfig,
-    't_scale_o': TW1OCCGraphConfig,
-    't_scale_m': TW1MVGraphConfig,
+    't_scale_o': TOCCGraphConfig,
+    't_scale_m': TMVGraphConfig,
     'w_scale_o': WikiOCCGraphConfig,
     'w_scale_m': WikiMVGraphConfig,
     'r_scale_o': RubisOCCGraphConfig,
+    'r_scale_m': RubisMVGraphConfig,
     'tw1_zoomed_o': TW1OCCZoomedGraphConfig,
     'tw1_zoomed_m': TW1MVZoomedGraphConfig,
-    'r_scale_m': RubisMVGraphConfig,
-    'tw4_bar_o': TW4OCCGraphConfig,
-    'tw4_bar_m': TW4MVGraphConfig,
     'twp_line_o': TWPOCCGraphConfig,
     'twp_line_m': TWPMVGraphConfig,
     'tpccfactors': TPCCFactorsGraphConfig,
     'tpccopacity': TPCCOpacityGraphConfig,
+    't_comp_o': TOCCCompGraphConfig,
+    't_comp_m': TMVCompGraphConfig,
     'mvsto': MVSTOGraphConfig,
     'mvsto-occ': MVSTOTPCCOCCGraphConfig,
     'mvsto-mvcc': MVSTOTPCCMVCCGraphConfig,
@@ -117,13 +117,14 @@ class BenchPlotter:
 
     def process(self, results):
         processed_results = {}
+        messaged = False
         for cnf in self.dimension3:
             for sut in self.dimension2:
                 for thr in self.dimension1:
                     xput_series = []
                     abrts_series = []
                     cabrts_series = []
-                    for n in range(BenchRunner.num_trails):
+                    for n in range(100):
                         k = BenchRunner.key(thr, sut, cnf, n)
                         try:
                             (xput, abrts, cabrts) = results[k]
@@ -131,18 +132,25 @@ class BenchPlotter:
                             abrts_series.append(abrts)
                             cabrts_series.append(cabrts)
                         except KeyError:
-                            continue
+                            break
+
+                    if (not messaged) and (len(xput_series) != BenchRunner.num_trails):
+                        print('INFO: Processed experiment with {} trails.'.format(len(xput_series)))
+                        messaged = True
 
                     if len(xput_series) > 0:
                         xput_med = np.median(xput_series)
                         xput_min = np.amin(xput_series)
                         xput_max = np.amax(xput_series)
 
-                        med_idx = xput_series.index(xput_med)
+                        abrts_med = np.median(abrts_series)
+                        cabrts_med = np.median(cabrts_series)
+
+                        #med_idx = xput_series.index(xput_med)
 
                         rec = [[xput_min, xput_med, xput_max],
-                               abrts_series[med_idx],
-                               cabrts_series[med_idx]]
+                               abrts_med,
+                               cabrts_med]
 
                         processed_results[BenchPlotter.key(thr, sut, cnf)] = rec
 
