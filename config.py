@@ -401,13 +401,13 @@ class TPCCOpacityGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC','OCC+O','OCC+CU+VG','OCC+CU+VG+O','OCC+VG'),
+        'series_names': ('OCC','OCC+O','OCC+CU+VG','OCC+CU+VG+O','OCC+VG','OCC+VG+O'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['o','op','o.c.s','op.c.s','o.s']
+    DIM2 = ['o','op','o.c.s','op.c.s','o.s','op.s']
     DIM3 = ['1', '4']
     LEGENDS = [True, True]
     D3TITLES = ['', '']
