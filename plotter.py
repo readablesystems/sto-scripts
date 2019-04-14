@@ -22,6 +22,7 @@ from config import TPCCFactorsGraphConfig
 
 from config import TPCCOpacityGraphConfig
 from config import TOCCCompGraphConfig, TMVCompGraphConfig
+from config import TMVFlattenGraphConfig
 
 from config import color_mapping, marker_mapping
 from runner import BenchRunner
@@ -45,6 +46,7 @@ plotter_map = {
     'tpccopacity': TPCCOpacityGraphConfig,
     't_comp_o': TOCCCompGraphConfig,
     't_comp_m': TMVCompGraphConfig,
+    't_flatten': TMVFlattenGraphConfig,
     'mvsto': MVSTOGraphConfig,
     'mvsto-occ': MVSTOTPCCOCCGraphConfig,
     'mvsto-mvcc': MVSTOTPCCMVCCGraphConfig,

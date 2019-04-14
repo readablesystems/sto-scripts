@@ -41,10 +41,10 @@ tpcc_sys_name_map = {
 
 tpcc_opacity_sys_name_map = {
     'name': 'tpcc',
-    #'OPQ (W0)': 'op/0',
-    #'OPQ + CU (W0)': 'op.c/0',
-    #'OPQ (W0) + SV': 'op.s/0',
-    #'OPQ + CU (W0) + SV': 'op.c.s/0',
+    'OPQ (W0)': 'op/0',
+    'OPQ + CU (W0)': 'op.c/0',
+    'OPQ (W0) + SV': 'op.s/0',
+    'OPQ + CU (W0) + SV': 'op.c.s/0',
     'OPQ (W1)': 'op/1',
     'OPQ + CU (W1)': 'op.c/1',
     'OPQ (W1) + SV': 'op.s/1',
@@ -60,6 +60,22 @@ tpcc_tictoc_sys_name_map = {
     'TicToc (W0)': 'tictoc/0',
     'TicToc (W1)': 'tictoc/1',
     'TicToc (W4)': 'tictoc/4',
+}
+
+tpcc_safe_flatten_sys_name_map = {
+    'name': 'tpcc',
+    'MVCC (W0)': 'mf/0',
+    'MVCC (W0) + ST': 'mf.s/0',
+    'MVCC + CU (W0)': 'mf.c/0',
+    'MVCC + CU (W0) + ST': 'mf.c.s/0',
+    'MVCC (W1)': 'mf/1',
+    'MVCC (W1) + ST': 'mf.s/1',
+    'MVCC + CU (W1)': 'mf.c/1',
+    'MVCC + CU (W1) + ST': 'mf.c.s/1',
+    'MVCC (W4)': 'mf/4',
+    'MVCC (W4) + ST': 'mf.s/4',
+    'MVCC + CU (W4)': 'mf.c/4',
+    'MVCC + CU (W4) + ST': 'mf.c.s/4'
 }
 
 tpcc_factors_sys_name_map = {
@@ -111,6 +127,7 @@ tpcc_out_file = config.get_result_file(config.MVSTOConfig.NAME)
 tpcc_result_file = 'tpcc_results.txt'
 tpcc_opacity_file = 'tpcc_opacity_results.txt'
 tpcc_tictoc_file = 'tpcc_tictoc_results.txt'
+tpcc_safe_flatten_file = 'tpcc_safe_flatten_results.txt'
 ycsb_out_file = config.get_result_file(config.MVSTOYCSBConfig.NAME)
 ycsb_result_file = 'ycsb_results.txt'
 wiki_out_file = config.get_result_file(config.MVSTOWikiConfig.NAME)
@@ -310,6 +327,7 @@ if __name__ == '__main__':
     results = convert(tpcc_result_file, tpcc_sys_name_map, results)
     results = convert(tpcc_opacity_file, tpcc_opacity_sys_name_map, results)
     results = convert(tpcc_tictoc_file, tpcc_tictoc_sys_name_map, results)
+    results = convert(tpcc_safe_flatten_file, tpcc_safe_flatten_sys_name_map, results)
     results = convert_cicada(results)
     results = convert_ermia(results)
     results = convert_mocc(results)

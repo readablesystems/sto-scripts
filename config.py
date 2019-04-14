@@ -95,7 +95,10 @@ color_mapping = {
     'op': 11,
     'op.c': 13,
     'op.s': 15,
-    'op.c.s': 17
+    'op.c.s': 17,
+    'mf': 11,
+    'mf.c': 13,
+    'mf.c.s': 15
 }
 
 marker_mapping = {
@@ -117,7 +120,10 @@ marker_mapping = {
     'c':       '^',
     'e':       '>',
     'mocc':    'd',
-    'tictoc':  'h'
+    'tictoc':  'h',
+    'mf':      'h',
+    'mf.c':    'H',
+    'mf.c.s':  'x'
 }
 
 
@@ -408,10 +414,10 @@ class TPCCOpacityGraphConfig:
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['o','op','o.c.s','op.c.s','o.s','op.s']
-    DIM3 = ['1', '4']
-    LEGENDS = [True, True]
-    D3TITLES = ['', '']
-    D3FNAMES = ['tpcc_op_w1', 'tpcc_op_w4']
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [True, True, True]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_op_w1', 'tpcc_op_w4', 'tpcc_op_part']
 
 
 # Comparison bar graphs with other systems
@@ -447,6 +453,25 @@ class TMVCompGraphConfig:
     LEGENDS = [True, False, False]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_mvcc_comp_w1', 'tpcc_mvcc_comp_w4', 'tpcc_mvcc_comp_part']
+
+
+# Investigating alternative RTID/abort on read-time delta version flattening
+# MVCC only
+class TMVFlattenGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('MVCC','MVCC-','MVCC+CU','MVCC+CU-','MVCC+CU+VG','MVCC+CU+VG-'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['m','mf','m.c','mf.c','m.c.s','mf.c.s']
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [True, True, True]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_mvcc_flatten_w1', 'tpcc_mvcc_flatten_w4', 'tpcc_mvcc_flatten_part']
 
 
 # OLD GRPAHS
