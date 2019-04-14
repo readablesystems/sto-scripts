@@ -11,6 +11,8 @@ DRY_RUN=0  # >0 means do a dry run
 
 setup_tpcc  # Change this accordingly!
 
+printf "Experiment: $EXPERIMENT_NAME ($ITERS trails)\n"
+
 ALL_BINARIES=("${OCC_BINARIES[@]}" "${MVCC_BINARIES[@]}")
 
 run_bench () {
@@ -65,6 +67,7 @@ run_bench () {
           printf "\rTrial $(($k + 1)), run $runs times: $cmd"
           if [ $DRY_RUN -gt 0 ]
           then
+              printf "\n"
               break
           fi
           $cmd 2>$TEMPERR >$TEMPOUT &
@@ -202,6 +205,9 @@ TEMPOUT="$TEMPDIR/out"
 
 call_runs
 
-#python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" results/results.txt
-
-#sudo shutdown -h now
+if [ $DRY_RUN -eq 0 ]
+then
+  python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" results/results.txt
+  # delay shutdown for 1 minute just in case
+  sudo shutdown -h +1
+fi
