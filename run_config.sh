@@ -6,6 +6,9 @@
 #
 # setup_rubis: RUBiS
 # setup_tpcc: TPC-C, 1 and 4 warehouses
+# setup_tpcc_opacity: TPC-C with opacity, 1 and 4 warehouses
+# setup_tpcc_safe_flatten: TPC-C with safer flattening MVCC, 1 and 4 warehouses
+# setup_tpcc_scaled: TPC-C, #warehouses = #threads
 # setup_wiki: Wikipedia
 # setup_ycsba: YCSB-A
 # setup_ycsbb: YCSB-B
