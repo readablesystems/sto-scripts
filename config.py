@@ -415,7 +415,7 @@ class TPCCOpacityGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['o','op','o.c.s','op.c.s','o.s','op.s']
     DIM3 = ['1', '4', '0']
-    LEGENDS = [True, True, True]
+    LEGENDS = [False, True, False]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_op_w1', 'tpcc_op_w4', 'tpcc_op_part']
 

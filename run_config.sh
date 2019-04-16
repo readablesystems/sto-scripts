@@ -99,6 +99,88 @@ setup_tpcc() {
   }
 }
 
+setup_tpcc_occ() {
+  EXPERIMENT_NAME="TPC-C OCC"
+
+  TPCC_OCC=(
+    "OCC (W1)"         "-idefault -g -w1"
+    "OCC + CU (W1)"    "-idefault -g -x -w1"
+    "OCC (W4)"         "-idefault -g -w4"
+    "OCC + CU (W4)"    "-idefault -g -x -w4"
+    "OCC (W0)"         "-idefault -g"
+    "OCC + CU (W0)"    "-idefault -g -x"
+  )
+
+  TPCC_MVCC=(
+  )
+
+  TPCC_OCC_BINARIES=(
+    "tpcc_bench" "-occ" "DEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + SV"
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-both" "DEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=()
+  OCC_BINARIES=("${TPCC_OCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
+setup_tpcc_mvcc() {
+  EXPERIMENT_NAME="TPC-C MVCC"
+
+  TPCC_OCC=(
+  )
+
+  TPCC_MVCC=(
+    "MVCC (W1)"        "-imvcc -g -w1"
+    "MVCC + CU (W1)"   "-imvcc -g -x -w1"
+    "MVCC (W4)"        "-imvcc -g -w4"
+    "MVCC + CU (W4)"   "-imvcc -g -x -w4"
+    "MVCC (W0)"        "-imvcc -g"
+    "MVCC + CU (W0)"   "-imvcc -g -x"
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+    "tpcc_bench" "-mvcc" "DEBUG=1 OBSERVE_C_BALANCE=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-both" "DEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=()
+  MVCC_LABELS=("${TPCC_MVCC[@]}")
+  OCC_BINARIES=()
+  MVCC_BINARIES=("${TPCC_MVCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
 setup_tpcc_opacity() {
   EXPERIMENT_NAME="TPC-C with Opacity"
 
