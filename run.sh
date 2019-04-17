@@ -11,7 +11,7 @@ DRY_RUN=0  # >0 means do a dry run
 
 setup_tpcc  # Change this accordingly!
 
-printf "Experiment: $EXPERIMENT_NAME ($ITERS trails)\n"
+printf "Experiment: $EXPERIMENT_NAME ($ITERS trials)\n"
 
 ALL_BINARIES=("${OCC_BINARIES[@]}" "${MVCC_BINARIES[@]}")
 
