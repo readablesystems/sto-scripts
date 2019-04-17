@@ -347,10 +347,10 @@ setup_tpcc_gc() {
   )
 
   TPCC_MVCC=(
-    "MVCC (W1, R1000)"     "-imvcc -g -r 1000 -w1"
-    "MVCC (W0, R1000)"     "-imvcc -g -r 1000"
-    "MVCC (W1, R100000)"   "-imvcc -g -r 100000 -w1"
-    "MVCC (W0, R100000)"   "-imvcc -g -r 100000"
+    "MVCC (W1, R1000)"     "-imvcc -g -r1000 -w1"
+    "MVCC (W0, R1000)"     "-imvcc -g -r1000"
+    "MVCC (W1, R100000)"   "-imvcc -g -r100000 -w1"
+    "MVCC (W0, R100000)"   "-imvcc -g -r100000"
     "MVCC (W1, R0)"        "-imvcc -w1"
     "MVCC (W0, R0)"        "-imvcc"
   )
