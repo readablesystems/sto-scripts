@@ -222,6 +222,43 @@ setup_tpcc_opacity() {
   }
 }
 
+setup_tpcc_tictoc() {
+  EXPERIMENT_NAME="TPC-C TicToc"
+
+  TPCC_OCC=(
+    "TicToc (W1)"         "-itictoc -g -w1"
+    "TicToc (W4)"         "-itictoc -g -w4"
+    "TicToc (W0)"         "-itictoc -g"
+  )
+
+  TPCC_MVCC=(
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-both" "DEBUG=1 OBSERVE_C_BALANCE=1" ""
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=()
+  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
 setup_tpcc_safe_flatten() {
   EXPERIMENT_NAME="TPC-C MVCC aborting unsafe flattens in CU"
 
