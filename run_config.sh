@@ -9,6 +9,7 @@
 # setup_tpcc_opacity: TPC-C with opacity, 1 and 4 warehouses
 # setup_tpcc_safe_flatten: TPC-C with safer flattening MVCC, 1 and 4 warehouses
 # setup_tpcc_scaled: TPC-C, #warehouses = #threads
+# setup_tpcc_gc: TPC-C, 1 warehouse and #wh = #th, gc cycle of 1ms, 100ms, 10s (off)
 # setup_wiki: Wikipedia
 # setup_ycsba: YCSB-A
 # setup_ycsbb: YCSB-B
@@ -336,6 +337,46 @@ setup_tpcc_scaled() {
 
   update_cmd() {
     cmd="$cmd -w$i"
+  }
+}
+
+setup_tpcc_gc() {
+  EXPERIMENT_NAME="TPC-C"
+
+  TPCC_OCC=(
+  )
+
+  TPCC_MVCC=(
+    "MVCC (W1, R1000)"     "-imvcc -g -r 1000 -w1"
+    "MVCC (W0, R1000)"     "-imvcc -g -r 1000"
+    "MVCC (W1, R100000)"   "-imvcc -g -r 100000 -w1"
+    "MVCC (W0, R100000)"   "-imvcc -g -r 100000"
+    "MVCC (W1, R0)"        "-imvcc -w1"
+    "MVCC (W0, R0)"        "-imvcc"
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-both" "DEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=("${TPCC_MVCC[@]}")
+  OCC_BINARIES=("${TPCC_OCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${TPCC_MVCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
   }
 }
 
