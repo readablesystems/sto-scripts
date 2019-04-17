@@ -194,6 +194,8 @@ fi
 
 estimate_runtime $(((${#ALL_BINARIES[@]}) / 3))
 
+start_time=$(date +%s)
+
 compile "${ALL_BINARIES[@]}"
 
 rm -rf results
@@ -205,9 +207,12 @@ TEMPOUT="$TEMPDIR/out"
 
 call_runs
 
+end_time=$(date +%s)
+runtime=$(($end_time - $start_time))
+
 if [ $DRY_RUN -eq 0 ]
 then
-  python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" results/results.txt
+  python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" --runtime=$runtime results/results.txt
   # delay shutdown for 1 minute just in case
   sudo shutdown -h +1
 fi
