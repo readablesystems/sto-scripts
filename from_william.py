@@ -11,17 +11,17 @@ WILLIAM_TRIALS = 5
 tpcc_sys_name_map = {
     'name': 'tpcc',
     'OCC (W0)': 'o/0',
-    'OCC (W0) + NOREG': 'onr/0',
+    #'OCC (W0) + NOREG': 'onr/0',
     'OCC + CU (W0)': 'o.c/0',
     'OCC (W0) + SV': 'o.s/0',
     'OCC + CU (W0) + SV': 'o.c.s/0',
     'OCC (W1)': 'o/1',
-    'OCC (W1) + NOREG': 'onr/1',
+    #'OCC (W1) + NOREG': 'onr/1',
     'OCC + CU (W1)': 'o.c/1',
     'OCC (W1) + SV': 'o.s/1',
     'OCC + CU (W1) + SV': 'o.c.s/1',
     'OCC (W4)': 'o/4',
-    'OCC (W4) + NOREG': 'onr/4',
+    #'OCC (W4) + NOREG': 'onr/4',
     'OCC + CU (W4)': 'o.c/4',
     'OCC (W4) + SV': 'o.s/4',
     'OCC + CU (W4) + SV': 'o.c.s/4',
@@ -60,6 +60,13 @@ tpcc_tictoc_sys_name_map = {
     'TicToc (W0)': 'tictoc/0',
     'TicToc (W1)': 'tictoc/1',
     'TicToc (W4)': 'tictoc/4',
+}
+
+tpcc_gc_sys_name_map = {
+    'name': 'tpcc',
+    'MVCC (W{} R0)': 'm.r0',
+    'MVCC (W{} R1000)': 'm.r1k',
+    'MVCC (W{} R100000)': 'm.r100k',
 }
 
 tpcc_safe_flatten_sys_name_map = {
@@ -164,7 +171,11 @@ def convert(infile, sys_name_map, compatible_results):
                         runner_key = br.key(d1, d2, d3, i)
                         col_key = long_name
                         col_key += ' [T{}]'.format(i+1)
-                        xput = float(row[col_key])
+                        try:
+                            xput = float(row[col_key])
+                        except KeyError:
+                            print('key {} not found.'.format(runner_key))
+                            continue
                         if runner_key in compatible_results:
                             print('WARNING: Overriding result runner key {}'.format(runner_key))
                         compatible_results[runner_key] = (xput, 0.0, 0.0)
@@ -322,11 +333,46 @@ def convert_ycsb_all(sys_name_map, compatible_results):
             print('File {} not found, not processed.'.format(filename))
     return compatible_results
 
+
+def convert_tpcc_gc_all(sys_name_map, compatible_results):
+    sys_name_reverse_map = {}
+    sys_short_names = []
+
+    for k,v in sys_name_map.items():
+        if k == 'name':
+            continue
+        sys_name_reverse_map[v] = k
+        sys_short_names.append(v)
+
+    num_whs = ('1', '0')
+    for wh in num_whs:
+        try:
+            filename = 'tpcc_gc_results.txt'
+            with open(filename, 'r') as rf:
+                reader = csv.DictReader(rf)
+                for row in reader:
+                    d1 = row['# Threads']
+                    d3 = wh
+                    for v in sys_short_names:
+                        d2 = v
+                        long_name = sys_name_reverse_map[v]
+                        for i in range(WILLIAM_TRIALS):
+                            runner_key = br.key(d1, d2, d3, i)
+                            col_key = long_name
+                            col_key = col_key.format(d3)
+                            col_key += ' [T{}]'.format(i+1)
+                            xput = float(row[col_key])
+                            compatible_results[runner_key] = (xput, 0.0, 0.0)
+        except (FileNotFoundError, IOError):
+            print('File {} not found, not processed.'.format(filename))
+    return compatible_results
+
 if __name__ == '__main__':
     results = {}
     results = convert(tpcc_result_file, tpcc_sys_name_map, results)
     results = convert(tpcc_opacity_file, tpcc_opacity_sys_name_map, results)
     results = convert(tpcc_tictoc_file, tpcc_tictoc_sys_name_map, results)
+    results = convert_tpcc_gc_all(tpcc_gc_sys_name_map, results)
     results = convert(tpcc_safe_flatten_file, tpcc_safe_flatten_sys_name_map, results)
     results = convert_cicada(results)
     results = convert_ermia(results)

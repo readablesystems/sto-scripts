@@ -98,7 +98,11 @@ color_mapping = {
     'op.c.s': 17,
     'mf': 11,
     'mf.c': 13,
-    'mf.c.s': 15
+    'mf.c.s': 15,
+    # GC graph
+    'm.r0': 0,
+    'm.r1k': 2,
+    'm.r100k': 4
 }
 
 marker_mapping = {
@@ -123,7 +127,10 @@ marker_mapping = {
     'tictoc':  'h',
     'mf':      'h',
     'mf.c':    'H',
-    'mf.c.s':  'x'
+    'mf.c.s':  'x',
+    'm.r0':    '^',
+    'm.r1k':   '^',
+    'm.r100k': '^'
 }
 
 
@@ -472,6 +479,23 @@ class TMVFlattenGraphConfig:
     LEGENDS = [True, True, True]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_mvcc_flatten_w1', 'tpcc_mvcc_flatten_w4', 'tpcc_mvcc_flatten_part']
+
+
+class TMVGCIntervalGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('No GC','GC 1ms','GC 100ms'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['m.r0','m.r1k','m.r100k']
+    DIM3 = ['1', '0']
+    LEGENDS = [True, True]
+    D3TITLES = ['', '']
+    D3FNAMES = ['tpcc_gc_w1', 'tpcc_gc_part']
 
 
 # OLD GRPAHS
