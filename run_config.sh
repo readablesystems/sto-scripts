@@ -5,11 +5,14 @@
 # (Sorted in lexicographical order by setup function name)
 #
 # setup_rubis: RUBiS
-# setup_tpcc: TPC-C, 1 and 4 warehouses
-# setup_tpcc_opacity: TPC-C with opacity, 1 and 4 warehouses
-# setup_tpcc_safe_flatten: TPC-C with safer flattening MVCC, 1 and 4 warehouses
+# setup_tpcc: TPC-C, 1, 4, and scaling (#wh = #th) warehouses, OCC and MVCC
+# setup_tpcc_gc: TPC-C, 1 and scaling warehouses, gc cycle of 1ms, 100ms, 10s (off)
+# setup_tpcc_mvcc: TPC-C, 1, 4, and scaling warehouses, MVCC only
+# setup_tpcc_mvcc: TPC-C, 1, 4, and scaling warehouses, OCC only
+# setup_tpcc_opacity: TPC-C with opacity, 1, 4, and scaling warehouses
+# setup_tpcc_safe_flatten: TPC-C with safer flattening MVCC, 1, 4, and scaling warehouses
 # setup_tpcc_scaled: TPC-C, #warehouses = #threads
-# setup_tpcc_gc: TPC-C, 1 warehouse and #wh = #th, gc cycle of 1ms, 100ms, 10s (off)
+# setup_tpcc_tictoc: TPC-C, 1, 4, and scaling warehouses, using TicToc
 # setup_wiki: Wikipedia
 # setup_ycsba: YCSB-A
 # setup_ycsbb: YCSB-B
@@ -100,34 +103,33 @@ setup_tpcc() {
   }
 }
 
-setup_tpcc_occ() {
-  EXPERIMENT_NAME="TPC-C OCC"
+setup_tpcc_gc() {
+  EXPERIMENT_NAME="TPC-C, variable GC"
 
   TPCC_OCC=(
-    "OCC (W1)"         "-idefault -g -w1"
-    "OCC + CU (W1)"    "-idefault -g -x -w1"
-    "OCC (W4)"         "-idefault -g -w4"
-    "OCC + CU (W4)"    "-idefault -g -x -w4"
-    "OCC (W0)"         "-idefault -g"
-    "OCC + CU (W0)"    "-idefault -g -x"
   )
 
   TPCC_MVCC=(
+    "MVCC (W1; R1000)"     "-imvcc -g -r1000 -w1"
+    "MVCC (W0; R1000)"     "-imvcc -g -r1000"
+    "MVCC (W1; R100000)"   "-imvcc -g -r100000 -w1"
+    "MVCC (W0; R100000)"   "-imvcc -g -r100000"
+    "MVCC (W1; R0)"        "-imvcc -w1"
+    "MVCC (W0; R0)"        "-imvcc"
   )
 
   TPCC_OCC_BINARIES=(
-    "tpcc_bench" "-occ" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + SV"
   )
   TPCC_MVCC_BINARIES=(
   )
   TPCC_BOTH_BINARIES=(
-    "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
+    "tpcc_bench" "-both" "DEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
   )
 
   OCC_LABELS=("${TPCC_OCC[@]}")
-  MVCC_LABELS=()
+  MVCC_LABELS=("${TPCC_MVCC[@]}")
   OCC_BINARIES=("${TPCC_OCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
-  MVCC_BINARIES=()
+  MVCC_BINARIES=("${TPCC_MVCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
 
   call_runs() {
     default_call_runs
@@ -182,6 +184,47 @@ setup_tpcc_mvcc() {
   }
 }
 
+setup_tpcc_occ() {
+  EXPERIMENT_NAME="TPC-C OCC"
+
+  TPCC_OCC=(
+    "OCC (W1)"         "-idefault -g -w1"
+    "OCC + CU (W1)"    "-idefault -g -x -w1"
+    "OCC (W4)"         "-idefault -g -w4"
+    "OCC + CU (W4)"    "-idefault -g -x -w4"
+    "OCC (W0)"         "-idefault -g"
+    "OCC + CU (W0)"    "-idefault -g -x"
+  )
+
+  TPCC_MVCC=(
+  )
+
+  TPCC_OCC_BINARIES=(
+    "tpcc_bench" "-occ" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + SV"
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=()
+  OCC_BINARIES=("${TPCC_OCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
 setup_tpcc_opacity() {
   EXPERIMENT_NAME="TPC-C with Opacity"
 
@@ -209,43 +252,6 @@ setup_tpcc_opacity() {
   OCC_LABELS=("${TPCC_OCC[@]}")
   MVCC_LABELS=()
   OCC_BINARIES=("${TPCC_OCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
-  MVCC_BINARIES=()
-
-  call_runs() {
-    default_call_runs
-  }
-
-  update_cmd() {
-    if [[ $cmd != *"-w"* ]]
-    then
-      cmd="$cmd -w$i"
-    fi
-  }
-}
-
-setup_tpcc_tictoc() {
-  EXPERIMENT_NAME="TPC-C TicToc"
-
-  TPCC_OCC=(
-    "TicToc (W1)"         "-itictoc -g -w1"
-    "TicToc (W4)"         "-itictoc -g -w4"
-    "TicToc (W0)"         "-itictoc -g"
-  )
-
-  TPCC_MVCC=(
-  )
-
-  TPCC_OCC_BINARIES=(
-  )
-  TPCC_MVCC_BINARIES=(
-  )
-  TPCC_BOTH_BINARIES=(
-    "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1" ""
-  )
-
-  OCC_LABELS=("${TPCC_OCC[@]}")
-  MVCC_LABELS=()
-  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
   MVCC_BINARIES=()
 
   call_runs() {
@@ -340,19 +346,16 @@ setup_tpcc_scaled() {
   }
 }
 
-setup_tpcc_gc() {
-  EXPERIMENT_NAME="TPC-C, variable GC"
+setup_tpcc_tictoc() {
+  EXPERIMENT_NAME="TPC-C TicToc"
 
   TPCC_OCC=(
+    "TicToc (W1)"         "-itictoc -g -w1"
+    "TicToc (W4)"         "-itictoc -g -w4"
+    "TicToc (W0)"         "-itictoc -g"
   )
 
   TPCC_MVCC=(
-    "MVCC (W1, R1000)"     "-imvcc -g -r1000 -w1"
-    "MVCC (W0, R1000)"     "-imvcc -g -r1000"
-    "MVCC (W1, R100000)"   "-imvcc -g -r100000 -w1"
-    "MVCC (W0, R100000)"   "-imvcc -g -r100000"
-    "MVCC (W1, R0)"        "-imvcc -w1"
-    "MVCC (W0, R0)"        "-imvcc"
   )
 
   TPCC_OCC_BINARIES=(
@@ -360,13 +363,13 @@ setup_tpcc_gc() {
   TPCC_MVCC_BINARIES=(
   )
   TPCC_BOTH_BINARIES=(
-    "tpcc_bench" "-both" "DEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
+    "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1" ""
   )
 
   OCC_LABELS=("${TPCC_OCC[@]}")
-  MVCC_LABELS=("${TPCC_MVCC[@]}")
-  OCC_BINARIES=("${TPCC_OCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
-  MVCC_BINARIES=("${TPCC_MVCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
+  MVCC_LABELS=()
+  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=()
 
   call_runs() {
     default_call_runs
