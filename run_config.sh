@@ -341,7 +341,7 @@ setup_tpcc_scaled() {
 }
 
 setup_tpcc_gc() {
-  EXPERIMENT_NAME="TPC-C"
+  EXPERIMENT_NAME="TPC-C, variable GC"
 
   TPCC_OCC=(
   )
