@@ -74,7 +74,7 @@ run_bench () {
           pid=$!
           sleep $TIMEOUT && kill -0 $pid 2&>/dev/null && kill -9 $pid &
           wait $pid
-          result=$(tail -n 1 $TEMPOUT | grep -oE '[0-9.]+')
+          result=$(cat $TEMPOUT | grep -e '^Throughput:' | grep -oE '[0-9.]+')
           sleep 2
           if [ $(grep 'next commit-tid' $TEMPERR | wc -l) -ne 0 ]
           then
@@ -210,9 +210,9 @@ call_runs
 end_time=$(date +%s)
 runtime=$(($end_time - $start_time))
 
+python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" --runtime=$runtime results/results.txt
 if [ $DRY_RUN -eq 0 ]
 then
-  python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" --runtime=$runtime results/results.txt
   # delay shutdown for 1 minute just in case
   sudo shutdown -h +1
 fi
