@@ -263,6 +263,52 @@ class TMVGraphConfig:
     D3FNAMES = ['tpcc_w1_mvcc', 'tpcc_w4_mvcc', 'tpcc_part_mvcc']
 
 
+# YCSB scalability graphs
+# Self comparisons
+class YOCCGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'OCC+CU', 'OCC+VG', 'OCC+CU+VG'),
+        'markers': False,
+        'markevery': {
+            'default': (0.5, 1.0),
+            'o.c': (0.3, 1.0),
+            'secondary': None
+        },
+        'legends_on': True
+    }
+    NAME = MVSTOYCSBConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOYCSBConfig.DIM1
+    DIM2 = ['o','o.c','o.s','o.c.s','m-secondary','m.c-secondary','m.s-secondary','m.c.s-secondary']
+    DIM3 = ['a', 'b']
+    LEGENDS = [True, False]
+    D3YMAXES = [None, None]
+    D3TITLES = ['', '']
+    D3FNAMES = ['ycsb_a_occ', 'ycsb_b_occ']
+
+
+class YMVGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('MVCC', 'MVCC+CU', 'MVCC+VG', 'MVCC+CU+VG'),
+        'markers': False,
+        'legends_on': True
+    }
+    NAME = MVSTOYCSBConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOYCSBConfig.DIM1
+    DIM2 = ['m','m.c','m.s','m.c.s','o-secondary','o.c-secondary','o.s-secondary','o.c.s-secondary']
+    DIM3 = ['a', 'b']
+    LEGENDS = [True, False]
+    D3YMAXES = [None, None]
+    D3TITLES = ['', '']
+    D3FNAMES = ['ycsb_a_mvcc', 'ycsb_b_mvcc']
+
+
+# Wikipedia + RUBiS graphs
 class WikiOCCGraphConfig:
     INFO = {
         'x_label': '# threads',
