@@ -383,6 +383,45 @@ setup_tpcc_tictoc() {
   }
 }
 
+set_tpcc_factors() {
+  EXPERIMENT_NAME="TPC-C Factors (1W 24T MV)"
+
+  TPCC_OCC=(
+  )
+
+  TPCC_MVCC=(
+    "MVCC (W1)"          "-imvcc -g -w1 -t24"
+    "MVCC (W1) + FASTGC" "-imvcc -g -w1 -t24 -r1000"
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-base"        "NDEBUG=1 USE_HASH_INDEX=0 USE_EXCEPTION=1 USE_LIBCMALLOC=1" ""
+    "tpcc_bench" "-ht"          "NDEBUG=1 USE_LIBCMALLOC=1 USE_EXCEPTION=1"                  "+HT"
+    "tpcc_bench" "-ht-al"       "NDEBUG=1 USE_EXCEPTION=1"                                   "+HT+AL"
+    "tpcc_bench" "-ht-al-noexp" "NDEBUG=1"                                                   "+HT+AL+NOEXP"
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=()
+  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
 setup_wiki() {
   EXPERIMENT_NAME="Wikipedia"
 
