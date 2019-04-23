@@ -24,7 +24,7 @@ from config import TPCCOpacityGraphConfig
 from config import TOCCCompGraphConfig, TMVCompGraphConfig
 from config import TMVFlattenGraphConfig, TMVGCIntervalGraphConfig
 
-from config import color_mapping, marker_mapping
+from config import color_mapping, marker_mapping, linestyle_mapping, linewidth_mapping, errorbar_mapping
 from runner import BenchRunner
 
 # Common files and definitions needed to process experiment result files and draw graphs
@@ -59,6 +59,16 @@ plotter_map = {
 }
 
 
+def prop_mapping(m, sut):
+    if sut in m:
+        return m[sut]
+    if sut.endswith('-secondary') and 'secondary' in m:
+        return m['secondary']
+    if 'default' in m:
+        return m['default']
+    return None
+
+
 def file_timestamp_str():
     dt_now = datetime.datetime.now()
     return '{:04d}{:02d}{:02d}{:02d}'.format(dt_now.year, dt_now.month, dt_now.day, dt_now.hour)
@@ -76,10 +86,13 @@ class GraphGlobalConstants:
                  (188,189,34), (219,219,141), (23,190,207), (158,218,229)]
 
     @classmethod
-    def set_tableau20(cls):
-        for i in range(len(cls.TABLEAU20)):
-            r,g,b = cls.TABLEAU20[i]
-            cls.TABLEAU20[i] = (r/255., g/255., b/255.)
+    def color(cls, color):
+        if isinstance(color, int):
+            color = cls.TABLEAU20[color]
+        if color[0] > 1 or color[1] > 1 or color[2] > 1:
+            return (color[0]/255., color[1]/255., color[2]/255.)
+        else:
+            return color
 
 
 class BenchPlotter:
@@ -97,6 +110,7 @@ class BenchPlotter:
 
         mpl.rcParams['lines.markersize'] = 11
         mpl.rcParams['font.size'] = fnt_sz
+        mpl.rcParams['font.family'] = 'Arial'
         mpl.rcParams['axes.titlesize'] = fnt_sz
         mpl.rcParams['axes.labelsize'] = fnt_sz
         mpl.rcParams['xtick.labelsize'] = fnt_sz
@@ -106,18 +120,24 @@ class BenchPlotter:
 
     @classmethod
     def key(cls, d1, d2, d3):
+        if d2.endswith('-secondary'):
+            d2 = d2[0:len(d2) - 10]
         return '{0}/{1}/{2}'.format(d3, d2, d1)
 
-    def __init__(self, info, graph_type, dim1, dim2, dim3, legends, d3y, d3t, d3f):
-        self.graph_info = info.copy()
-        self.graph_type = graph_type
-        self.dimension1 = dim1
-        self.dimension2 = dim2
-        self.dimension3 = dim3
-        self.legends = legends
-        self.d3ymaxes = d3y
-        self.d3titles = d3t
-        self.d3fnames = d3f
+    def __init__(self, cnf):
+        self.graph_info = cnf.INFO.copy()
+        self.graph_type = cnf.TYPE
+        self.dimension1 = cnf.DIM1
+        self.dimension2 = cnf.DIM2
+        self.dimension3 = cnf.DIM3
+        self.legends = cnf.LEGENDS
+        self.d3ymaxes = cnf.D3YMAXES
+        self.d3titles = cnf.D3TITLES
+        self.d3fnames = cnf.D3FNAMES
+        self.datanames = [cnf.NAME]
+        if hasattr(cnf, "DATANAMES"):
+            for n in cnf.DATANAMES:
+                self.datanames.push(n)
 
     def process(self, results):
         processed_results = {}
@@ -238,6 +258,22 @@ class BenchPlotter:
                 out_y_err[1].append(y_errors[1][i])
         return out_x, out_y, out_y_err
 
+    def series_names(self, meta_info):
+        series_names = meta_info['series_names']
+        result = []
+        for i, sut in enumerate(self.dimension2):
+            if isinstance(series_names, tuple):
+                if i < len(series_names):
+                    result.append(series_names[i])
+                else:
+                    break
+            else:
+                if sut in series_names:
+                    result.append(series_names[sut])
+                else:
+                    break
+        return result
+
     def draw_bars(self, meta_info, common_x, y_series, y_errors):
         fig, ax = plt.subplots(figsize=(10, 6))
 
@@ -250,7 +286,7 @@ class BenchPlotter:
         rects = []
 
         for i in range(num_series):
-            f_color = GraphGlobalConstants.TABLEAU20[color_mapping[self.dimension2[i]]]
+            f_color = GraphGlobalConstants.color(prop_mapping(color_mapping, self.dimension2[i]))
             r = ax.bar(ind + width * i, y_series[i], width,
                        color=f_color,
                        yerr=y_errors[i], error_kw=GraphGlobalConstants.ERROR_KW)
@@ -265,8 +301,7 @@ class BenchPlotter:
         ax.set_xlabel(meta_info['x_label'])
 
         if meta_info['legends_on']:
-            ax.legend([r[0] for r in rects],
-                      [meta_info['series_names'][i] for i in range(num_series)],
+            ax.legend([r[0] for r in rects], self.series_names(meta_info),
                       loc='best')
 
         plt.tight_layout()
@@ -280,10 +315,16 @@ class BenchPlotter:
         num_series = len(self.dimension2)
         lines = []
         for i in range(num_series):
-            l_color = GraphGlobalConstants.TABLEAU20[color_mapping[self.dimension2[i]]]
-            l_marker = marker_mapping[self.dimension2[i]]
+            sut = self.dimension2[i]
+            l_color = GraphGlobalConstants.color(prop_mapping(color_mapping, sut))
+            l_marker = prop_mapping(marker_mapping, sut)
+            l_width = prop_mapping(linewidth_mapping, sut)
+            l_style = prop_mapping(linestyle_mapping, sut)
             p_x, p_y, p_err = self.strip_zeros_in_xyseries(common_x, y_series[i], y_errors[i])
-            l = ax.errorbar(p_x, p_y, marker=l_marker, color=l_color, yerr=p_err, ecolor=l_color, capsize=4)
+            if prop_mapping(errorbar_mapping, sut):
+                l = ax.errorbar(p_x, p_y, marker=l_marker, color=l_color, yerr=p_err, ecolor=l_color, capsize=4, linewidth=l_width, linestyle=l_style)
+            else:
+                l = ax.plot(p_x, p_y, marker=l_marker, color=l_color, linewidth=l_width, linestyle=l_style)
             lines.append(l)
 
         if meta_info['graph_title'] != '':
@@ -295,8 +336,7 @@ class BenchPlotter:
         ax.set_xlabel(meta_info['x_label'])
 
         if meta_info['legends_on']:
-            ax.legend([l[0] for l in lines],
-                      [meta_info['series_names'][i] for i in range(num_series)],
+            ax.legend([l[0] for l in lines], self.series_names(meta_info),
                       loc='best')
         plt.tight_layout()
         if BenchPlotter.show_only:
@@ -356,13 +396,19 @@ class BenchPlotter:
 
 
 def get_plotter(bench_name):
-    cnf = plotter_map[bench_name]
-    return BenchPlotter(cnf.INFO, cnf.TYPE, cnf.DIM1, cnf.DIM2, cnf.DIM3, cnf.LEGENDS, cnf.D3YMAXES, cnf.D3TITLES, cnf.D3FNAMES), \
-           config.get_result_file(cnf.NAME)
+    return BenchPlotter(plotter_map[bench_name])
+
+def merge_results(results, name):
+    file = config.get_result_file(name)
+    try:
+        print(file)
+        with open(file, 'r') as rf:
+            results.update(json.load(rf))
+    except:
+        config.fatal_error('Can not open result file: {}. Did you run the benchmark first?'.format(file))
 
 
 if __name__ == '__main__':
-    GraphGlobalConstants.set_tableau20()
     BenchPlotter.set_matplotlib_params()
     usage = "Usage: %prog benchmark\n\nSupported benchmarks: "
     usage += ', '.join(plotter_map.keys())
@@ -390,17 +436,14 @@ if __name__ == '__main__':
             psr.error("Unsupported image file extension: {}.".format(opts.ext))
 
     if len(args) == 0:
-        psr.error("Please specificy at least one benchmark to plot.");
+        psr.error("Please specify at least one benchmark to plot.");
 
     for arg in args:
         if not arg in plotter_map:
             psr.error("Unknown benchmark: {}.".format(arg))
 
-        plotter, result_file = get_plotter(arg)
+        plotter = get_plotter(arg)
         results = {}
-        try:
-            with open(result_file, 'r') as rf:
-                results = json.load(rf)
-        except:
-            config.fatal_error('Can not open result file: {}. Did you run the benchmark first?'.format(result_file))
+        for n in plotter.datanames:
+            merge_results(results, n)
         plotter.draw_all(results)

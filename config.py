@@ -102,7 +102,8 @@ color_mapping = {
     # GC graph
     'm.r0': 0,
     'm.r1k': 2,
-    'm.r100k': 4
+    'm.r100k': 4,
+    'secondary': (0.85,0.85,0.85)
 }
 
 marker_mapping = {
@@ -131,6 +132,30 @@ marker_mapping = {
     'm.r0':    '^',
     'm.r1k':   '^',
     'm.r100k': '^'
+}
+
+linestyle_mapping = {
+    'o.c': 'dashed',
+    'op.c': 'dashed',
+    'm.c': 'dashed',
+    'o.s': 'dotted',
+    'op.s': 'dotted',
+    'm.s': 'dotted',
+    'o.c.s': 'dashdot',
+    'op.c.s': 'dashdot',
+    'm.c.s': 'dashdot',
+    'secondary': 'solid',
+    'default': 'solid'
+}
+
+linewidth_mapping = {
+    'secondary': 1,
+    'default': 2
+}
+
+errorbar_mapping = {
+    'default': True,
+    'secondary': False
 }
 
 
@@ -206,7 +231,7 @@ class TOCCGraphConfig:
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['o','o.c','o.s','o.c.s']
+    DIM2 = ['o','o.c','o.s','o.c.s','m-secondary','m.c-secondary','m.s-secondary','m.c.s-secondary']
     DIM3 = ['1', '4', '0']
     LEGENDS = [True, False, False]
     D3YMAXES = [1.6, 4.1, 4.5]
