@@ -277,6 +277,7 @@ class WikiOCCGraphConfig:
     DIM2 = ['o','o.c','o.s','o.c.s']
     DIM3 = ['1']
     LEGENDS = [True]
+    D3YMAXES = [None]
     D3TITLES = ['']
     D3FNAMES = ['wiki_occ']
 
@@ -295,6 +296,7 @@ class WikiMVGraphConfig:
     DIM2 = ['m','m.c','m.s','m.c.s']
     DIM3 = ['1']
     LEGENDS = [True]
+    D3YMAXES = [None]
     D3TITLES = ['']
     D3FNAMES = ['wiki_mvcc']
 
@@ -582,6 +584,7 @@ class MVSTOYCSBGraphConfig:
     DIM2 = MVSTOYCSBConfig.DIM2
     DIM3 = MVSTOYCSBConfig.DIM3
     LEGENDS = [True, True]
+    D3YMAXES = [None, None]
     D3TITLES = ['YCSB-A', 'YCSB-B']
     D3FNAMES = ['ycsb_a', 'ycsb_b']
 
