@@ -429,15 +429,16 @@ class TPCCFactorsGraphConfig:
     INFO = {
         'x_label': 'Factors',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('Unoptimized', '+HT', '+AL', '+HT+AL', 'Cicada', '+HT+AL+CU+FV'),
+        'series_names': ('Unoptimized', '+HT', '+AL', '+NOEXP', '+FASTGC', 'Cicada', '+CU/VG'),
         'legends_in': True
     }
     NAME = MVSTOTPCCFactorsConfig.NAME
     TYPE = GraphType.HBAR
-    DIM1 = [12]
-    DIM2 = ['m', 'm.h', 'm.a', 'm.h.a', 'c', 'm.h.a.c.s']
+    DIM1 = [24]
+    DIM2 = ['m.b', 'm.h', 'm.h.a', 'm.h.a.e', 'm', 'c', 'm.c.s']
     DIM3 = ['1']
     LEGENDS = [True]
+    D3YMAXES = [None]
     D3TITLES = ['']
     D3FNAMES = ['tpcc_factors']
 

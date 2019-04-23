@@ -87,11 +87,10 @@ tpcc_safe_flatten_sys_name_map = {
 
 tpcc_factors_sys_name_map = {
     'name': 'tpcc_factors',
-    'MVCC (W1)': 'm/1',
-    'MVCC (W1) + HT': 'm.h/1',
-    'MVCC (W1) + RP': 'm.a/1',
-    'MVCC (W1) + HT + RP': 'm.h.a/1',
-    'MVCC (W1) + CU + HT + ST + RP': 'm.h.a.c.s/1'
+    'MVCC (W1)': 'm.b/1',
+    'MVCC (W1)+HT': 'm.h/1',
+    'MVCC (W1)+HT+AL': 'm.h.a/1',
+    'MVCC (W1)+HT+AL+NOEXP': 'm.h.a.e/1',
 }
 
 ycsb_sys_name_map = {
@@ -396,6 +395,7 @@ if __name__ == '__main__':
         with open(rubis_out_file, 'w') as wf:
             json.dump(results, wf, indent=4, sort_keys=True)
     results = {}
+    results = convert(tpcc_result_file, tpcc_sys_name_map, results)
     results = convert(tpcc_factors_result_file, tpcc_factors_sys_name_map, results)
     results = convert_cicada(results)
     if results:
