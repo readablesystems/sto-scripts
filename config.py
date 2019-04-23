@@ -429,13 +429,13 @@ class TPCCFactorsGraphConfig:
     INFO = {
         'x_label': 'Factors',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('-AL-HT-Backoff', '-AL', '-HT', '-Backoff', 'Baseline', 'Cicada', '+CU/VG'),
+        'series_names': ('-AL-HT-Backoff', '-AL', '-Backoff', '-HT', 'Baseline', 'Cicada', '+CU/VG'),
         'legends_in': True
     }
     NAME = MVSTOTPCCFactorsConfig.NAME
     TYPE = GraphType.HBAR
     DIM1 = [24]
-    DIM2 = ['m.a.r.h', 'm.a', 'm.h', 'm.r', 'm', 'c', 'm.c.s']
+    DIM2 = ['m.a.r.h', 'm.a', 'm.r', 'm.h', 'm', 'c', 'm.c.s']
     DIM3 = ['1']
     LEGENDS = [True]
     D3YMAXES = [None]
