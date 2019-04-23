@@ -383,7 +383,7 @@ setup_tpcc_tictoc() {
   }
 }
 
-set_tpcc_factors() {
+setup_tpcc_factors() {
   EXPERIMENT_NAME="TPC-C Factors (1W 24T MV)"
 
   TPCC_OCC=(
@@ -405,20 +405,17 @@ set_tpcc_factors() {
     "tpcc_bench" "-ht-al-noexp" "NDEBUG=1"                                                   "+HT+AL+NOEXP"
   )
 
-  OCC_LABELS=("${TPCC_OCC[@]}")
-  MVCC_LABELS=()
-  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
-  MVCC_BINARIES=()
+  OCC_LABELS=()
+  MVCC_LABELS=("${TPCC_MVCC[@]}")
+  OCC_BINARIES=()
+  MVCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
 
   call_runs() {
     default_call_runs
   }
 
   update_cmd() {
-    if [[ $cmd != *"-w"* ]]
-    then
-      cmd="$cmd -w$i"
-    fi
+    ``  # noop
   }
 }
 
