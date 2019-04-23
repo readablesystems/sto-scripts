@@ -108,7 +108,8 @@ class BenchPlotter:
         mpl.rcParams['figure.dpi'] = 80
         mpl.rcParams['savefig.dpi'] = 80
 
-        mpl.rcParams['lines.markersize'] = 11
+        mpl.rcParams['lines.markeredgewidth'] = 1.5
+        mpl.rcParams['lines.markersize'] = 8
         mpl.rcParams['font.size'] = fnt_sz
         mpl.rcParams['font.family'] = 'Arial'
         mpl.rcParams['axes.titlesize'] = fnt_sz
@@ -211,6 +212,7 @@ class BenchPlotter:
         meta['graph_title'] = graph_title
         meta['save_name'] = save_name
         meta['legends_on'] = legends
+        meta['d3'] = d3
 
         if graph_y_max is not None:
             meta['y_max'] = graph_y_max
@@ -314,17 +316,34 @@ class BenchPlotter:
         fig, ax = plt.subplots(figsize=(10, 6))
         num_series = len(self.dimension2)
         lines = []
+        markevery_map = meta_info.get('markevery')
         for i in range(num_series):
             sut = self.dimension2[i]
             l_color = GraphGlobalConstants.color(prop_mapping(color_mapping, sut))
             l_marker = prop_mapping(marker_mapping, sut)
+            if meta_info.get('markers') is False:
+                l_marker = None
             l_width = prop_mapping(linewidth_mapping, sut)
             l_style = prop_mapping(linestyle_mapping, sut)
             p_x, p_y, p_err = self.strip_zeros_in_xyseries(common_x, y_series[i], y_errors[i])
+
+            markevery = None
+            if markevery_map is not None:
+                sutd3 = '{}/{}'.format(sut, meta_info['d3'])
+                print(sutd3)
+                if sutd3 in markevery_map:
+                    markevery = markevery_map[sutd3]
+                elif sut in markevery_map:
+                    markevery = markevery_map[sut]
+                elif sut.endswith('-secondary') and 'secondary' in markevery_map:
+                    markevery = markevery_map['secondary']
+                else:
+                    markevery = markevery_map.get('default')
+
             if prop_mapping(errorbar_mapping, sut):
-                l = ax.errorbar(p_x, p_y, marker=l_marker, color=l_color, yerr=p_err, ecolor=l_color, capsize=4, linewidth=l_width, linestyle=l_style)
+                l = ax.errorbar(p_x, p_y, marker=l_marker, color=l_color, yerr=p_err, ecolor=l_color, capsize=4, linewidth=l_width, linestyle=l_style, markevery=markevery)
             else:
-                l = ax.plot(p_x, p_y, marker=l_marker, color=l_color, linewidth=l_width, linestyle=l_style)
+                l = ax.plot(p_x, p_y, marker=l_marker, color=l_color, linewidth=l_width, linestyle=l_style, markevery=markevery)
             lines.append(l)
 
         if meta_info['graph_title'] != '':

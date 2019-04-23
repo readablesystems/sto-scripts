@@ -77,11 +77,11 @@ class MVSTORubisConfig:
 
 
 color_mapping = {
-    'o': 1,
+    'o': 0,
     'onr': 9,
-    'o.c': 3,
-    'o.s': 5,
-    'o.c.s': 7,
+    'o.c': 2,
+    'o.s': 4,
+    'o.c.s': 6,
     'm': 0,
     'm.c': 2,
     'm.s': 4,
@@ -107,19 +107,19 @@ color_mapping = {
 }
 
 marker_mapping = {
-    'o':       'o',
-    'op':      'o',
-    'onr':     'o',
-    'o.c':     '<',
-    'op.c':    '<',
-    'o.s':     's',
-    'op.s':    's',
-    'o.c.s':   '*',
-    'op.c.s':  '*',
-    'm':       'h',
-    'm.c':     'H',
-    'm.s':     'D',
-    'm.s.i':   'D',
+    'o':       None,
+    'op':      None,
+    'onr':     None,
+    'o.c':     None,
+    'op.c':    None,
+    'o.s':     None,
+    'op.s':    None,
+    'o.c.s':   None,
+    'op.c.s':  None,
+    'm':       'x',
+    'm.c':     'x',
+    'm.s':     'x',
+    'm.s.i':   'x',
     'm.c.s':   'x',
     'm.c.s.i': 'x',
     'c':       '^',
@@ -226,6 +226,12 @@ class TOCCGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('OCC', 'OCC+CU', 'OCC+VG', 'OCC+CU+VG'),
+        'markers': False,
+        'markevery': {
+            'default': (0.5, 1.0),
+            'o.c': (0.3, 1.0),
+            'secondary': None
+        },
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -249,7 +255,7 @@ class TMVGraphConfig:
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['m','m.c','m.s','m.c.s']
+    DIM2 = ['m','m.c','m.s','m.c.s','o-secondary','o.c-secondary','o.s-secondary','o.c.s-secondary']
     DIM3 = ['1', '4', '0']
     LEGENDS = [True, False, False]
     D3YMAXES = [1.6, 4.1, 4.5]
