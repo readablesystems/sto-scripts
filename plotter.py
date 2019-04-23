@@ -108,13 +108,14 @@ class BenchPlotter:
     def key(cls, d1, d2, d3):
         return '{0}/{1}/{2}'.format(d3, d2, d1)
 
-    def __init__(self, info, graph_type, dim1, dim2, dim3, legends, d3t, d3f):
+    def __init__(self, info, graph_type, dim1, dim2, dim3, legends, d3y, d3t, d3f):
         self.graph_info = info.copy()
         self.graph_type = graph_type
         self.dimension1 = dim1
         self.dimension2 = dim2
         self.dimension3 = dim3
         self.legends = legends
+        self.d3ymaxes = d3y
         self.d3titles = d3t
         self.d3fnames = d3f
 
@@ -159,7 +160,7 @@ class BenchPlotter:
 
         return processed_results
 
-    def pack_xput_data(self, processed_results, d3, legends, graph_title, save_name):
+    def pack_xput_data(self, processed_results, d3, legends, graph_y_max, graph_title, save_name):
         print("xput:")
         meta = self.graph_info.copy()
         common_x = self.dimension1
@@ -190,6 +191,9 @@ class BenchPlotter:
         meta['graph_title'] = graph_title
         meta['save_name'] = save_name
         meta['legends_on'] = legends
+
+        if graph_y_max is not None:
+            meta['y_max'] = graph_y_max
 
         return meta, common_x, y_series, y_errors
 
@@ -332,14 +336,15 @@ class BenchPlotter:
         for idx in range(len(self.dimension3)):
             d3 = self.dimension3[idx]
             legends = self.legends[idx]
+            ymax = self.d3ymaxes[idx]
             title = self.d3titles[idx]
             fname = self.d3fnames[idx]
             if self.graph_type == GraphType.BAR:
-                self.draw_bars(*self.pack_xput_data(processed, d3, legends, title, fname))
+                self.draw_bars(*self.pack_xput_data(processed, d3, legends, ymax, title, fname))
             elif self.graph_type == GraphType.LINE:
-                self.draw_lines(*self.pack_xput_data(processed, d3, legends, title, fname))
+                self.draw_lines(*self.pack_xput_data(processed, d3, legends, ymax, title, fname))
             elif self.graph_type == GraphType.HBAR:
-                self.draw_hbars(*self.pack_xput_data(processed, d3, legends, title, fname))
+                self.draw_hbars(*self.pack_xput_data(processed, d3, legends, ymax, title, fname))
 
         if self.plot_aborts:
             print('--abort graph(s)--')
@@ -352,7 +357,7 @@ class BenchPlotter:
 
 def get_plotter(bench_name):
     cnf = plotter_map[bench_name]
-    return BenchPlotter(cnf.INFO, cnf.TYPE, cnf.DIM1, cnf.DIM2, cnf.DIM3, cnf.LEGENDS, cnf.D3TITLES, cnf.D3FNAMES), \
+    return BenchPlotter(cnf.INFO, cnf.TYPE, cnf.DIM1, cnf.DIM2, cnf.DIM3, cnf.LEGENDS, cnf.D3YMAXES, cnf.D3TITLES, cnf.D3FNAMES), \
            config.get_result_file(cnf.NAME)
 
 
