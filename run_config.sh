@@ -150,21 +150,21 @@ setup_tpcc_mvcc() {
   )
 
   TPCC_MVCC=(
-    "MVCC (W1)"        "-imvcc -g -w1"
-    "MVCC + CU (W1)"   "-imvcc -g -x -w1"
-    "MVCC (W4)"        "-imvcc -g -w4"
-    "MVCC + CU (W4)"   "-imvcc -g -x -w4"
-    "MVCC (W0)"        "-imvcc -g"
-    "MVCC + CU (W0)"   "-imvcc -g -x"
+    "MVCC (W1)"        "-imvcc -g -w1 -r1000"
+    "MVCC + CU (W1)"   "-imvcc -g -x -w1 -r1000"
+    "MVCC (W4)"        "-imvcc -g -w4 -r1000"
+    "MVCC + CU (W4)"   "-imvcc -g -x -w4 -r1000"
+    "MVCC (W0)"        "-imvcc -g -r1000"
+    "MVCC + CU (W0)"   "-imvcc -g -x -r1000"
   )
 
   TPCC_OCC_BINARIES=(
   )
   TPCC_MVCC_BINARIES=(
-    "tpcc_bench" "-mvcc" "NDEBUG=1 OBSERVE_C_BALANCE=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "tpcc_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
   )
   TPCC_BOTH_BINARIES=(
-    "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
+    "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
   )
 
   OCC_LABELS=()
