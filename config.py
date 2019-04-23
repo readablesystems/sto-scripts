@@ -315,6 +315,7 @@ class RubisOCCGraphConfig:
     DIM2 = ['o','o.c','o.s','o.c.s']
     DIM3 = ['1']
     LEGENDS = [True]
+    D3YMAXES = [None]
     D3TITLES = ['']
     D3FNAMES = ['rubis_occ']
 
@@ -333,6 +334,7 @@ class RubisMVGraphConfig:
     DIM2 = ['m','m.c','m.s','m.c.s']
     DIM3 = ['1']
     LEGENDS = [True]
+    D3YMAXES = [None]
     D3TITLES = ['']
     D3FNAMES = ['rubis_mvcc']
 
