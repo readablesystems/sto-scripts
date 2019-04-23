@@ -87,10 +87,11 @@ tpcc_safe_flatten_sys_name_map = {
 
 tpcc_factors_sys_name_map = {
     'name': 'tpcc_factors',
-    'MVCC (W1)': 'm.b/1',
-    'MVCC (W1)+HT': 'm.h/1',
-    'MVCC (W1)+HT+AL': 'm.h.a/1',
-    'MVCC (W1)+HT+AL+NOEXP': 'm.h.a.e/1',
+    'MVCC (W1)-HT': 'm.h/1',
+    'MVCC (W1)-AL': 'm.a/1',
+    'MVCC (W1)-NOEXP': 'm.e/1',
+    'MVCC (W1)-BACKOFF': 'm.r/1',
+    'MVCC (W1)-AL-BACKOFF-HT': 'm.a.r.h/1'
 }
 
 ycsb_sys_name_map = {
