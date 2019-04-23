@@ -390,8 +390,7 @@ setup_tpcc_factors() {
   )
 
   TPCC_MVCC=(
-    "MVCC (W1)"          "-imvcc -g -w1 -t24"
-    "MVCC (W1) + FASTGC" "-imvcc -g -w1 -t24 -r1000"
+    "MVCC (W1)"          "-imvcc -g -w1 -r1000"
   )
 
   TPCC_OCC_BINARIES=(
@@ -399,10 +398,12 @@ setup_tpcc_factors() {
   TPCC_MVCC_BINARIES=(
   )
   TPCC_BOTH_BINARIES=(
-    "tpcc_bench" "-base"        "NDEBUG=1 USE_HASH_INDEX=0 USE_EXCEPTION=1 USE_LIBCMALLOC=1" ""
-    "tpcc_bench" "-ht"          "NDEBUG=1 USE_LIBCMALLOC=1 USE_EXCEPTION=1"                  "+HT"
-    "tpcc_bench" "-ht-al"       "NDEBUG=1 USE_EXCEPTION=1"                                   "+HT+AL"
-    "tpcc_bench" "-ht-al-noexp" "NDEBUG=1"                                                   "+HT+AL+NOEXP"
+    "tpcc_bench" "-noall" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 CONTENTION_REG=0 USE_LIBCMALLOC=1" "-AL-BACKOFF-HT"
+    "tpcc_bench" "-noht"  "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0"                                   "-HT"
+    "tpcc_bench" "-noal"  "NDEBUG=1 INLINED_VERSIONS=1 USE_LIBCMALLOC=1"                                   "-AL"
+    "tpcc_bench" "-exp"   "NDEBUG=1 INLINED_VERSIONS=1 USE_EXCEPTION=1"                                    "-NOEXP"
+    "tpcc_bench" "-noreg" "NDEBUG=1 INLINED_VERSIONS=1 CONTENTION_REG=0"                                   "-BACKOFF"
+    "tpcc_bench" "-base"  "NDEBUG=1 INLINED_VERSIONS=1"                                                    ""
   )
 
   OCC_LABELS=()
