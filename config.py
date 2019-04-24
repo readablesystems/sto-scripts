@@ -331,7 +331,7 @@ class WikiOCCGraphConfig:
     NAME = MVSTOWikiConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOWikiConfig.DIM1
-    DIM2 = ['o','o.c','o.s','o.c.s']
+    DIM2 = ['o','o.c','o.s','o.c.s','m-secondary','m.c-secondary','m.s-secondary','m.c.s-secondary']
     DIM3 = ['1']
     LEGENDS = [True]
     D3YMAXES = [None]
@@ -350,7 +350,7 @@ class WikiMVGraphConfig:
     NAME = MVSTOWikiConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOWikiConfig.DIM1
-    DIM2 = ['m','m.c','m.s','m.c.s']
+    DIM2 = ['m','m.c','m.s','m.c.s','o-secondary','o.c-secondary','o.s-secondary','o.c.s-secondary']
     DIM3 = ['1']
     LEGENDS = [True]
     D3YMAXES = [None]
@@ -369,7 +369,7 @@ class RubisOCCGraphConfig:
     NAME = MVSTORubisConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTORubisConfig.DIM1
-    DIM2 = ['o','o.c','o.s','o.c.s']
+    DIM2 = ['o','o.c','o.s','o.c.s','m-secondary','m.c-secondary','m.s-secondary','m.c.s-secondary']
     DIM3 = ['1']
     LEGENDS = [True]
     D3YMAXES = [None]
@@ -388,7 +388,7 @@ class RubisMVGraphConfig:
     NAME = MVSTORubisConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTORubisConfig.DIM1
-    DIM2 = ['m','m.c','m.s','m.c.s']
+    DIM2 = ['m','m.c','m.s','m.c.s','o-secondary','o.c-secondary','o.s-secondary','o.c.s-secondary']
     DIM3 = ['1']
     LEGENDS = [True]
     D3YMAXES = [None]
