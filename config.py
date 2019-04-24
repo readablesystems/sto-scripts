@@ -150,7 +150,7 @@ linestyle_mapping = {
     'o.c.s': 'dashdot',
     'op.c.s': 'dashdot',
     'm.c.s': 'dashdot',
-    'secondary': (0, (1, 5)),
+    'secondary': (0, (1, 3)),
     'default': 'solid',
     'e': (0, (2, 3)),
     'c': (0, (2, 3)),
@@ -159,7 +159,7 @@ linestyle_mapping = {
 }
 
 linewidth_mapping = {
-    'secondary': 1,
+    'secondary': 1.25,
     'default': 2,
     'mocc': 3,
     'c': 3,
