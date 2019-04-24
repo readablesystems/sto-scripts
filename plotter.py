@@ -111,7 +111,7 @@ class BenchPlotter:
         mpl.rcParams['savefig.dpi'] = 80
 
         mpl.rcParams['lines.markeredgewidth'] = 1.5
-        mpl.rcParams['lines.markersize'] = 8
+        mpl.rcParams['lines.markersize'] = 9
         mpl.rcParams['font.size'] = fnt_sz
         mpl.rcParams['font.family'] = 'Arial'
         mpl.rcParams['axes.titlesize'] = fnt_sz

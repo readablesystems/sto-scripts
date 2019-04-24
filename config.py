@@ -145,12 +145,20 @@ linestyle_mapping = {
     'op.c.s': 'dashdot',
     'm.c.s': 'dashdot',
     'secondary': 'solid',
-    'default': 'solid'
+    'default': 'solid',
+    'e': (0, (1, 3)),
+    'c': (0, (1, 3)),
+    'mocc': (0, (1, 3)),
+    'tictoc': (0, (1, 3))
 }
 
 linewidth_mapping = {
     'secondary': 1,
-    'default': 2
+    'default': 2,
+    'mocc': 3,
+    'c': 3,
+    'e': 3,
+    'tictoc': 3
 }
 
 errorbar_mapping = {
@@ -520,7 +528,11 @@ class TOCCCompGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('OSTO','OSTO+CU+TS','MOCC','TicToc'),
-        'legends_on': True
+        'legends_on': True,
+        'legend_order': (1,3,0,2),
+        'markevery': {
+            'tictoc': (0.25, 0.01)
+        }
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
@@ -538,7 +550,12 @@ class TMVCompGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('MSTO','MSTO+CU+TS','Cicada','ERMIA'),
-        'legends_on': True
+        'legends_on': True,
+        'legend_order': (1,2,0,3),
+        'markevery': {
+            'c': (0.4, 0.01),
+            'e': (0.15, 0.01)
+        }
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
