@@ -79,7 +79,7 @@ def file_timestamp_str():
 
 class GraphGlobalConstants:
     FONT_SIZE = 22
-    FIG_SIZE = (10, 6)
+    FIG_SIZE = (8.333, 5)
     BAR_WIDTH_SCALE_FACTOR = 1.3
     ERROR_KW = dict(ecolor='red', elinewidth=2, capsize=4, capthick=2)
     TABLEAU20 = [(31,119,180), (174,199,232), (255,127,14), (255,187,120),
