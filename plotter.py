@@ -361,8 +361,18 @@ class BenchPlotter:
         ax.set_xlabel(meta_info['x_label'])
 
         if meta_info['legends_on']:
-            ax.legend([l[0] for l in lines], self.series_names(meta_info),
-                      loc='best')
+            slines = [l[0] for l in lines]
+            snames = self.series_names(meta_info)
+            if meta_info.get('legend_order') is not None:
+                xlines = []
+                xnames = []
+                for i in meta_info['legend_order']:
+                    xlines.append(slines[i])
+                    xnames.append(snames[i])
+                ax.legend(xlines, xnames, loc='best')
+            else:
+                ax.legend(slines, snames, loc='best')
+
         plt.tight_layout()
         if BenchPlotter.show_only:
             plt.show()

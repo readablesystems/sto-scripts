@@ -204,7 +204,7 @@ class MVSTOGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('OCC', 'OCCNOREG', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV',
-                         'MVCC', 'MVCC + CU', 'MVCC + SV', 'MVCC + CU + SV',
+                         'MVCC', 'MSTO + CU', 'MSTO + SV', 'MSTO + CU + SV',
                          'Cicada', 'ERMIA', 'MOCC'),
         'legends_on': True
     }
@@ -225,13 +225,14 @@ class TOCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC', 'OCC+CU', 'OCC+TS', 'OCC+CU+TS'),
+        'series_names': ('OSTO', 'OSTO+CU', 'OSTO+TS', 'OSTO+CU+TS'),
         'markevery': {
             'default': (0.5, 1.0),
             'o.c': (0.3, 1.0),
             'secondary': None
         },
-        'legends_on': True
+        'legends_on': True,
+        'legend_order': (3, 2, 1, 0)
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
@@ -248,8 +249,9 @@ class TMVGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('MVCC', 'MVCC+CU', 'MVCC+TS', 'MVCC+CU+TS'),
-        'legends_on': True
+        'series_names': ('MSTO', 'MSTO+CU', 'MSTO+TS', 'MSTO+CU+TS'),
+        'legends_on': True,
+        'legend_order': (3, 2, 1, 0)
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
@@ -268,13 +270,14 @@ class YOCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC', 'OCC+CU', 'OCC+TS', 'OCC+CU+TS'),
+        'series_names': ('OSTO', 'OSTO+CU', 'OSTO+TS', 'OSTO+CU+TS'),
         'markevery': {
             'default': (0.5, 1.0),
             'o.c': (0.3, 1.0),
             'secondary': None
         },
-        'legends_on': True
+        'legends_on': True,
+        'legend_order': (3, 2, 1, 0)
     }
     NAME = MVSTOYCSBConfig.NAME
     TYPE = GraphType.LINE
@@ -292,8 +295,9 @@ class YMVGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('MVCC', 'MVCC+CU', 'MVCC+TS', 'MVCC+CU+TS'),
-        'legends_on': True
+        'series_names': ('MSTO', 'MSTO+CU', 'MSTO+TS', 'MSTO+CU+TS'),
+        'legends_on': True,
+        'legend_order': (3, 2, 1, 0)
     }
     NAME = MVSTOYCSBConfig.NAME
     TYPE = GraphType.LINE
@@ -313,7 +317,7 @@ class WikiOCCGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'y_max': 0.6,
-        'series_names': ('OCC','OCC+CU','OCC+TS','OCC+CU+TS'),
+        'series_names': ('OSTO','OSTO+CU','OSTO+TS','OSTO+CU+TS'),
         'legends_on': True
     }
     NAME = MVSTOWikiConfig.NAME
@@ -332,7 +336,7 @@ class WikiMVGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'y_max': 0.6,
-        'series_names': ('MVCC','MVCC+CU','MVCC+TS','MVCC+CU+TS'),
+        'series_names': ('MSTO','MSTO+CU','MSTO+TS','MSTO+CU+TS'),
         'legends_on': True
     }
     NAME = MVSTOWikiConfig.NAME
@@ -351,7 +355,7 @@ class RubisOCCGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'y_max': 2.2,
-        'series_names': ('OCC','OCC+CU','OCC+TS','OCC+CU+TS'),
+        'series_names': ('OSTO','OSTO+CU','OSTO+TS','OSTO+CU+TS'),
         'legends_on': True
     }
     NAME = MVSTORubisConfig.NAME
@@ -370,7 +374,7 @@ class RubisMVGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'y_max': 2.2,
-        'series_names': ('MVCC','MVCC+CU','MVCC+TS','MVCC+CU+TS'),
+        'series_names': ('MSTO','MSTO+CU','MSTO+TS','MSTO+CU+TS'),
         'legends_on': True
     }
     NAME = MVSTORubisConfig.NAME
@@ -391,7 +395,7 @@ class TW1OCCZoomedGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC','OCC+CU','OCC+TS','OCC+CU+TS'),
+        'series_names': ('OSTO','OSTO+CU','OSTO+TS','OSTO+CU+TS'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -408,7 +412,7 @@ class TW1MVZoomedGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('MVCC','MVCC+CU','MVCC+TS','MVCC+CU+TS'),
+        'series_names': ('MSTO','MSTO+CU','MSTO+TS','MSTO+CU+TS'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -425,7 +429,7 @@ class TWPOCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC','OCC+CU','OCC+TS','OCC+CU+TS'),
+        'series_names': ('OSTO','OSTO+CU','OSTO+TS','OSTO+CU+TS'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -442,7 +446,7 @@ class TWPMVGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('MVCC','MVCC+CU','MVCC+TS','MVCC+CU+TS'),
+        'series_names': ('MSTO','MSTO+CU','MSTO+TS','MSTO+CU+TS'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -460,7 +464,7 @@ class TWPLineGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC', 'OCC + CU + VG', 'MVCC', 'MVCC + CU + VG'),
+        'series_names': ('OSTO', 'OSTO + CU + VG', 'MSTO', 'MSTO + CU + VG'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -497,7 +501,7 @@ class TPCCOpacityGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC','OCC+O','OCC+CU+TS','OCC+CU+TS+O','OCC+TS','OCC+TS+O'),
+        'series_names': ('OSTO','OSTO+O','OSTO+CU+TS','OSTO+CU+TS+O','OSTO+TS','OSTO+TS+O'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -515,7 +519,7 @@ class TOCCCompGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC','OCC+CU+TS','MOCC','TicToc'),
+        'series_names': ('OSTO','OSTO+CU+TS','MOCC','TicToc'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -533,7 +537,7 @@ class TMVCompGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('MVCC','MVCC+CU+TS','Cicada','ERMIA'),
+        'series_names': ('MSTO','MSTO+CU+TS','Cicada','ERMIA'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -588,7 +592,7 @@ class MVSTOTPCCOCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV'),
+        'series_names': ('OSTO', 'OSTO + CU', 'OSTO + SV', 'OSTO + CU + SV'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -604,7 +608,7 @@ class MVSTOTPCCMVCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('MVCC', 'MVCC + CU', 'MVCC + SV', 'MVCC + CU + SV',
+        'series_names': ('MSTO', 'MSTO + CU', 'MSTO + SV', 'MSTO + CU + SV',
                          'Cicada', 'ERMIA'),
         'legends_on': True
     }
@@ -621,8 +625,8 @@ class MVSTOYCSBGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV',
-                         'MVCC', 'MVCC + CU', 'MVCC + SV', 'MVCC + CU + SV'),
+        'series_names': ('OSTO', 'OSTO + CU', 'OSTO + SV', 'OSTO + CU + SV',
+                         'MSTO', 'MSTO + CU', 'MSTO + SV', 'MSTO + CU + SV'),
         'legends_on': True
     }
     NAME = MVSTOYCSBConfig.NAME
@@ -640,7 +644,7 @@ class MVSTOYCSBOCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC', 'OCC + CU', 'OCC + SV', 'OCC + CU + SV'),
+        'series_names': ('OSTO', 'OSTO + CU', 'OSTO + SV', 'OSTO + CU + SV'),
         'legends_on': True
     }
     NAME = MVSTOYCSBConfig.NAME
