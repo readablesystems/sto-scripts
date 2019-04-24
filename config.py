@@ -103,7 +103,7 @@ color_mapping = {
     'm.r0': 0,
     'm.r1k': 2,
     'm.r100k': 4,
-    'secondary': (0.82,0.82,0.82)
+    'secondary': (0.5,0.5,0.5)
 }
 
 marker_mapping = {
@@ -144,12 +144,12 @@ linestyle_mapping = {
     'o.c.s': 'dashdot',
     'op.c.s': 'dashdot',
     'm.c.s': 'dashdot',
-    'secondary': 'solid',
+    'secondary': (0, (1, 5)),
     'default': 'solid',
-    'e': (0, (1, 3)),
-    'c': (0, (1, 3)),
-    'mocc': (0, (1, 3)),
-    'tictoc': (0, (1, 3))
+    'e': (0, (2, 3)),
+    'c': (0, (2, 3)),
+    'mocc': (0, (2, 3)),
+    'tictoc': (0, (2, 3))
 }
 
 linewidth_mapping = {
