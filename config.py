@@ -247,7 +247,7 @@ class TOCCGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['o','o.c','o.s','o.c.s','m-secondary','m.c-secondary','m.s-secondary','m.c.s-secondary']
     DIM3 = ['1', '4', '0']
-    LEGENDS = [True, False, False]
+    LEGENDS = [False, True, False]
     D3YMAXES = [1.6, 4.1, 4.5]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_w1_occ', 'tpcc_w4_occ', 'tpcc_part_occ']
@@ -266,7 +266,7 @@ class TMVGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['m','m.c','m.s','m.c.s','o-secondary','o.c-secondary','o.s-secondary','o.c.s-secondary']
     DIM3 = ['1', '4', '0']
-    LEGENDS = [True, False, False]
+    LEGENDS = [False, True, False]
     D3YMAXES = [1.6, 4.1, 4.5]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_w1_mvcc', 'tpcc_w4_mvcc', 'tpcc_part_mvcc']
@@ -539,7 +539,7 @@ class TOCCCompGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['o','o.c.s','mocc','tictoc']
     DIM3 = ['1', '4', '0']
-    LEGENDS = [True, False, False]
+    LEGENDS = [False, True, False]
     D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_occ_comp_w1', 'tpcc_occ_comp_w4', 'tpcc_occ_comp_part']
@@ -562,7 +562,7 @@ class TMVCompGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['m','m.c.s','c','e']
     DIM3 = ['1', '4', '0']
-    LEGENDS = [True, False, False]
+    LEGENDS = [False, True, False]
     D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_mvcc_comp_w1', 'tpcc_mvcc_comp_w4', 'tpcc_mvcc_comp_part']
