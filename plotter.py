@@ -103,11 +103,10 @@ class BenchPlotter:
     img_fmt = 'pdf'
     plot_aborts = False
 
-    @classmethod
-    def set_matplotlib_params(cls):
+    def set_matplotlib_params(self):
         fnt_sz = GraphGlobalConstants.FONT_SIZE
 
-        mpl.rcParams['figure.figsize'] = GraphGlobalConstants.FIG_SIZE
+        mpl.rcParams['figure.figsize'] = self.figsize
         mpl.rcParams['figure.dpi'] = 80
         mpl.rcParams['savefig.dpi'] = 80
 
@@ -142,6 +141,10 @@ class BenchPlotter:
         if hasattr(cnf, "DATANAMES"):
             for n in cnf.DATANAMES:
                 self.datanames.push(n)
+        self.figsize = GraphGlobalConstants.FIG_SIZE
+        if hasattr(cnf, "FIG_SIZE"):
+            self.figsize = cnf.FIG_SIZE
+        print(self.figsize)
 
     def process(self, results):
         processed_results = {}
@@ -280,7 +283,7 @@ class BenchPlotter:
         return result
 
     def draw_bars(self, meta_info, common_x, y_series, y_errors):
-        fig, ax = plt.subplots(figsize=(10, 6))
+        fig, ax = plt.subplots(figsize=self.figsize)
 
         N = len(common_x)
         width = 0.1
@@ -316,7 +319,7 @@ class BenchPlotter:
             plt.savefig('{}_{}.{}'.format(meta_info['save_name'], file_timestamp_str(), BenchPlotter.img_fmt))
 
     def draw_lines(self, meta_info, common_x, y_series, y_errors):
-        fig, ax = plt.subplots(figsize=(10, 6))
+        fig, ax = plt.subplots(figsize=self.figsize)
         num_series = len(self.dimension2)
         lines = []
         markevery_map = meta_info.get('markevery')
@@ -368,7 +371,7 @@ class BenchPlotter:
 
     def draw_hbars(self, meta_info, common_x, y_series, y_errors):
         # common_x is ignored
-        fig, ax = plt.subplots(figsize=(10, 6))
+        fig, ax = plt.subplots(figsize=self.figsize)
         num_series = len(self.dimension2)
         y_pos = np.arange(num_series)
 
@@ -392,6 +395,7 @@ class BenchPlotter:
             plt.savefig('{}_{}.{}'.format(meta_info['save_name'], file_timestamp_str(), BenchPlotter.img_fmt))
 
     def draw_all(self, results):
+        self.set_matplotlib_params()
         processed = self.process(results)
 
         print('--throughput graph(s)--')
@@ -431,7 +435,6 @@ def merge_results(results, name):
 
 
 if __name__ == '__main__':
-    BenchPlotter.set_matplotlib_params()
     usage = "Usage: %prog benchmark\n\nSupported benchmarks: "
     usage += ', '.join(plotter_map.keys())
     psr = optparse.OptionParser(usage=usage)

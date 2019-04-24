@@ -103,7 +103,7 @@ color_mapping = {
     'm.r0': 0,
     'm.r1k': 2,
     'm.r100k': 4,
-    'secondary': (0.85,0.85,0.85)
+    'secondary': (0.82,0.82,0.82)
 }
 
 marker_mapping = {
@@ -285,6 +285,7 @@ class YOCCGraphConfig:
     D3YMAXES = [None, None]
     D3TITLES = ['', '']
     D3FNAMES = ['ycsb_a_occ', 'ycsb_b_occ']
+    FIG_SIZE = (7, 5)
 
 
 class YMVGraphConfig:
@@ -303,6 +304,7 @@ class YMVGraphConfig:
     D3YMAXES = [None, None]
     D3TITLES = ['', '']
     D3FNAMES = ['ycsb_a_mvcc', 'ycsb_b_mvcc']
+    FIG_SIZE = (7, 5)
 
 
 # Wikipedia + RUBiS graphs
