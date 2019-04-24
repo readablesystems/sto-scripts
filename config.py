@@ -75,6 +75,12 @@ class MVSTORubisConfig:
 
 # Graph config
 
+barcolor_mapping = {
+    'default': 'green',
+    'c': 8,
+    'm.c.s': 6,
+    'm': 0
+}
 
 color_mapping = {
     'o': 0,
@@ -490,7 +496,7 @@ class TPCCFactorsGraphConfig:
     INFO = {
         'x_label': 'Factors',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('-AL-HT-Backoff', '-AL', '-Backoff', '-HT', 'Baseline', 'Cicada', '+CU/VG'),
+        'series_names': ('-Mem-Hash-Backoff', '-Mem', '-Backoff', '-Hash', 'Baseline (MSTO)', 'Cicada', 'MSTO+CU+TS'),
         'legends_in': True
     }
     NAME = MVSTOTPCCFactorsConfig.NAME

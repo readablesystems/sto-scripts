@@ -25,7 +25,7 @@ from config import TPCCOpacityGraphConfig
 from config import TOCCCompGraphConfig, TMVCompGraphConfig
 from config import TMVFlattenGraphConfig, TMVGCIntervalGraphConfig
 
-from config import color_mapping, marker_mapping, linestyle_mapping, linewidth_mapping, errorbar_mapping
+from config import color_mapping, marker_mapping, linestyle_mapping, linewidth_mapping, errorbar_mapping, barcolor_mapping
 from runner import BenchRunner
 
 # Common files and definitions needed to process experiment result files and draw graphs
@@ -92,6 +92,8 @@ class GraphGlobalConstants:
     def color(cls, color):
         if isinstance(color, int):
             color = cls.TABLEAU20[color]
+        elif isinstance(color, str):
+            return color
         if color[0] > 1 or color[1] > 1 or color[2] > 1:
             return (color[0]/255., color[1]/255., color[2]/255.)
         else:
@@ -387,12 +389,14 @@ class BenchPlotter:
 
         y_flat_data = []
         y_flat_err = []
+        y_color = []
         # flatten inner lists
         for idx in range(num_series):
             y_flat_data.append(y_series[idx][0])
             y_flat_err.append(y_errors[idx][0])
+            y_color.append(GraphGlobalConstants.color(prop_mapping(barcolor_mapping, self.dimension2[idx])))
 
-        ax.barh(y_pos, y_flat_data, xerr=y_flat_err, align='center', color='green', ecolor='black')
+        ax.barh(y_pos, y_flat_data, xerr=y_flat_err, align='center', color=y_color, ecolor='black')
         ax.set_yticks(y_pos)
         ax.set_yticklabels(meta_info['series_names'])
         ax.set_xlim(left=0)
