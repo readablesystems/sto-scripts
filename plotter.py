@@ -81,7 +81,7 @@ class GraphGlobalConstants:
     FONT_SIZE = 22
     FIG_SIZE = (8.333, 5)
     BAR_WIDTH_SCALE_FACTOR = 1.3
-    ERROR_KW = dict(ecolor='red', elinewidth=2, capsize=4, capthick=2)
+    ERROR_KW = dict(ecolor='black', elinewidth=1.5, capsize=6, capthick=1.5)
     TABLEAU20 = [(31,119,180), (174,199,232), (255,127,14), (255,187,120),
                  (44,160,44), (152,223,138), (214,39,40), (255,152,150),
                  (148,103,189), (197,176,213), (140,86,75), (196,156,148),
@@ -396,7 +396,7 @@ class BenchPlotter:
             y_flat_err.append(y_errors[idx][0])
             y_color.append(GraphGlobalConstants.color(prop_mapping(barcolor_mapping, self.dimension2[idx])))
 
-        ax.barh(y_pos, y_flat_data, xerr=y_flat_err, align='center', color=y_color, ecolor='black')
+        ax.barh(y_pos, y_flat_data, xerr=y_flat_err, align='center', color=y_color, ecolor='black', error_kw=GraphGlobalConstants.ERROR_KW)
         ax.set_yticks(y_pos)
         ax.set_yticklabels(meta_info['series_names'])
         ax.set_xlim(left=0)
