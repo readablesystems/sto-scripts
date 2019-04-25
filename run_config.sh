@@ -468,7 +468,6 @@ setup_ycsba() {
   YCSB_OCC=(
     "OCC (A)"         "-mA -idefault -g"
     "OCC (A) + CU"    "-mA -idefault -g -x"
-    "TicToc (A)"      "-mA -itictoc -g"
   )
 
   YCSB_MVCC=(
@@ -507,7 +506,6 @@ setup_ycsba_occ() {
   YCSB_OCC=(
     "OCC (A)"         "-mA -idefault -g"
     "OCC (A) + CU"    "-mA -idefault -g -x"
-    "TicToc (A)"      "-mA -itictoc -g"
   )
 
   YCSB_MVCC=(
@@ -578,7 +576,6 @@ setup_ycsbb() {
   YCSB_OCC=(
     "OCC (B)"         "-mB -idefault -g"
     "OCC (B) + CU"    "-mB -idefault -g -x"
-    "TicToc (B)"      "-mB -itictoc -g"
   )
 
   YCSB_MVCC=(
@@ -617,7 +614,6 @@ setup_ycsbb_occ() {
   YCSB_OCC=(
     "OCC (B)"         "-mB -idefault -g"
     "OCC (B) + CU"    "-mB -idefault -g -x"
-    "TicToc (B)"      "-mB -itictoc -g"
   )
 
   YCSB_MVCC=(
