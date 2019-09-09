@@ -425,7 +425,7 @@ setup_tpcc_factors() {
 }
 
 setup_tpcc_new_factors() {
-  EXPERIMENT_NAME="TPC-C Factors"
+  EXPERIMENT_NAME="TPC-C Factors (New/Stacked)"
 
   TPCC_OCC=(
   )
@@ -467,7 +467,7 @@ setup_tpcc_new_factors() {
 }
 
 setup_tpcc_contention_aware_idx() {
-  EXPERIMENT_NAME="TPC-C Factors"
+  EXPERIMENT_NAME="TPC-C Contention-aware Indexing"
 
   TPCC_OCC=(
     "OCC (W1)" "-idefault -g -w1"
