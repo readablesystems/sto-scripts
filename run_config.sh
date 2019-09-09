@@ -466,6 +466,44 @@ setup_tpcc_new_factors() {
   }
 }
 
+setup_tpcc_contention_aware_idx() {
+  EXPERIMENT_NAME="TPC-C Factors"
+
+  TPCC_OCC=(
+    "OCC (W1)" "-idefault -g -w1"
+    "OCC (W4)" "-idefault -g -w4"
+    "OCC (W0)" "-idefault -g"
+  )
+
+  TPCC_MVCC=(
+  )
+
+  TPCC_OCC_BINARIES=(
+    "tpcc_bench" "-cont-index" "NDEBUG=1 CONTENTION_AWARE_IDX=0" "-CONT-AWARE-IDX"
+    "tpcc_bench" "-base"       "NDEBUG=1 CONTENTION_AWARE_IDX=1" "BASE"
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=()
+  OCC_BINARIES=("${TPCC_OCC_BINARIES[@]}")
+  MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
 setup_wiki() {
   EXPERIMENT_NAME="Wikipedia"
 
