@@ -52,6 +52,20 @@ class MVSTOTPCCFactorsConfig:
     DIM3 = ['1']
 
 
+class MVSTOTPCCStackedFactorsConfig:
+    NAME = 'tpcc_stacked_factors'
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['mn', 'mn.a', 'mn.a.r', 'mn.a.r.e', 'mn.a.r.e.h']
+    DIM3 = ['1', '4', '0']
+
+
+class MVSTOTPCCIndexContentionConfig:
+    NAME = 'tpcc_index_contention'
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['on', 'o']
+    DIM3 = ['1', '4', '0']
+
+
 class MVSTOYCSBConfig:
     NAME = 'ycsb_mvsto'
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
@@ -105,6 +119,14 @@ color_mapping = {
     'mf': 11,
     'mf.c': 13,
     'mf.c.s': 15,
+    # stacked factors graph
+    'mn': 2,
+    'mn.a': 4,
+    'mn.a.r': 6,
+    'mn.a.r.e': 8,
+    'mn.a.r.e.h': 0,
+    # index contention graph
+    'on': 2,
     # GC graph
     'm.r0': 0,
     'm.r1k': 2,
@@ -135,6 +157,15 @@ marker_mapping = {
     'mf':      'h',
     'mf.c':    'H',
     'mf.c.s':  'x',
+    # stacked factors line graph
+    'mn': 'p',
+    'mn.a': 'p',
+    'mn.a.r': 'p',
+    'mn.a.r.e': 'p',
+    'mn.a.r.e.h': 'x',
+    # index contention graph
+    'on': None,
+    # gc graph
     'm.r0':    '^',
     'm.r1k':   '^',
     'm.r100k': '^'
@@ -508,6 +539,43 @@ class TPCCFactorsGraphConfig:
     D3YMAXES = [None]
     D3TITLES = ['']
     D3FNAMES = ['tpcc_factors']
+
+
+# TPC-C stacked factor analysis, MVCC only
+class TPCCStackedFactorsGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('NoOpt', '+Allocator', '+Backoff', '+NoExcept', '+HashIdx'),
+        'legends_on': True
+    }
+    NAME = MVSTOTPCCStackedFactorsConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['mn', 'mn.a', 'mn.a.r', 'mn.a.r.e', 'mn.a.r.e.h']
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [True, True, True]
+    D3YMAXES = [None, None, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_stacked_factors_w1', 'tpcc_stacked_factors_w4', 'tpcc_stacked_factors_part']
+
+
+class TPCCIndexContentionGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('NoOpt', '+CIndex'),
+        'legends_on': True
+    }
+    NAME = MVSTOTPCCIndexContentionConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['on', 'o']
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [True, True, True]
+    D3YMAXES = [None, None, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_index_contention_w1', 'tpcc_index_contention_w4', 'tpcc_index_contention_part']
 
 
 # Graphs with opacity results

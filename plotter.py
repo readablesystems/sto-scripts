@@ -19,7 +19,8 @@ from config import TOCCGraphConfig, TMVGraphConfig, WikiOCCGraphConfig, WikiMVGr
 from config import RubisOCCGraphConfig, RubisMVGraphConfig
 from config import TW1OCCZoomedGraphConfig, TW1MVZoomedGraphConfig
 from config import TWPOCCGraphConfig, TWPMVGraphConfig
-from config import TPCCFactorsGraphConfig
+from config import TPCCFactorsGraphConfig, TPCCStackedFactorsGraphConfig
+from config import TPCCIndexContentionGraphConfig
 
 from config import TPCCOpacityGraphConfig
 from config import TOCCCompGraphConfig, TMVCompGraphConfig
@@ -46,6 +47,8 @@ plotter_map = {
     'twp_line_o': TWPOCCGraphConfig,
     'twp_line_m': TWPMVGraphConfig,
     'tpccfactors': TPCCFactorsGraphConfig,
+    'tpcc-stacked-factors': TPCCStackedFactorsGraphConfig,
+    'tpcc-index-contention': TPCCIndexContentionGraphConfig,
     'tpccopacity': TPCCOpacityGraphConfig,
     't_comp_o': TOCCCompGraphConfig,
     't_comp_m': TMVCompGraphConfig,

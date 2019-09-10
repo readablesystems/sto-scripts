@@ -94,6 +94,35 @@ tpcc_factors_sys_name_map = {
     'MVCC (W1)-AL-BACKOFF-HT': 'm.a.r.h/1'
 }
 
+tpcc_stacked_factors_sys_name_map = {
+    'name': 'tpcc_stacked_factors',
+    'MVCC (W1)NAIVE': 'mn/1',
+    'MVCC (W1)+AL': 'mn.a/1',
+    'MVCC (W1)+AL+BACKOFF': 'mn.a.r/1',
+    'MVCC (W1)+AL+BACKOFF+NOEXC': 'mn.a.r.e/1',
+    'MVCC (W1)BASE': 'mn.a.r.e.h/1',
+    'MVCC (W4)NAIVE': 'mn/4',
+    'MVCC (W4)+AL': 'mn.a/4',
+    'MVCC (W4)+AL+BACKOFF': 'mn.a.r/4',
+    'MVCC (W4)+AL+BACKOFF+NOEXC': 'mn.a.r.e/4',
+    'MVCC (W4)BASE': 'mn.a.r.e.h/4',
+    'MVCC (W0)NAIVE': 'mn/0',
+    'MVCC (W0)+AL': 'mn.a/0',
+    'MVCC (W0)+AL+BACKOFF': 'mn.a.r/0',
+    'MVCC (W0)+AL+BACKOFF+NOEXC': 'mn.a.r.e/0',
+    'MVCC (W0)BASE': 'mn.a.r.e.h/0'
+}
+
+tpcc_index_contention_sys_name_map = {
+	'name': 'tpcc_index_contention',
+	'OCC (W1)-CONT-AWARE-IDX': 'on/1',
+	'OCC (W4)-CONT-AWARE-IDX': 'on/4',
+	'OCC (W0)-CONT-AWARE-IDX': 'on/0',
+	'OCC (W1)BASE': 'o/1',
+	'OCC (W4)BASE': 'o/4',
+	'OCC (W0)BASE': 'o/0'
+}
+
 ycsb_sys_name_map = {
     'name': 'ycsb',
     'OCC ({})': 'o',
@@ -141,6 +170,10 @@ wiki_out_file = config.get_result_file(config.MVSTOWikiConfig.NAME)
 wiki_result_file = 'wiki_results.txt'
 rubis_out_file = config.get_result_file(config.MVSTORubisConfig.NAME)
 rubis_result_file = 'rubis_results.txt'
+tpcc_stacked_factors_out_file = config.get_result_file(config.MVSTOTPCCStackedFactorsConfig.NAME)
+tpcc_stacked_factors_result_file = 'tpcc_stacked_factors_results.txt'
+tpcc_index_contention_out_file = config.get_result_file(config.MVSTOTPCCIndexContentionConfig.NAME)
+tpcc_index_contention_result_file = 'tpcc_index_contention_results.txt'
 tpcc_factors_out_file = config.get_result_file(config.MVSTOTPCCFactorsConfig.NAME)
 tpcc_factors_result_file = 'tpcc_factors_results.txt'
 
@@ -402,4 +435,15 @@ if __name__ == '__main__':
     if results:
         with open(tpcc_factors_out_file, 'w') as wf:
             json.dump(results, wf, indent=4, sort_keys=True)
+
+    results = {}
+    results = convert(tpcc_stacked_factors_result_file, tpcc_stacked_factors_sys_name_map, results)
+    if results:
+        with open(tpcc_stacked_factors_out_file, 'w') as wf:
+            json.dump(results, wf, indent=4, sort_keys=True)
+    results = {}
+    results = convert(tpcc_index_contention_result_file, tpcc_index_contention_sys_name_map, results)
+    if results:
+    	with open(tpcc_index_contention_out_file, 'w') as wf:
+    		json.dump(results, wf, indent=4, sort_keys=True)
 
