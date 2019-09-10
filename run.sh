@@ -17,7 +17,8 @@ ALL_BINARIES=("${OCC_BINARIES[@]}" "${MVCC_BINARIES[@]}")
 
 run_bench () {
   OUTFILE=$1
-  shift
+  DELIVERY_OUTFILE=$2
+  shift 2
   BINARY=$1
   shift
   CT_FLAGS=$1  # Compile-time flags
@@ -75,6 +76,7 @@ run_bench () {
           sleep $TIMEOUT && kill -0 $pid 2&>/dev/null && kill -9 $pid &
           wait $pid
           result=$(cat $TEMPOUT | grep -e '^Throughput:' | grep -oE '[0-9.]+')
+          delivery=$(cat $TEMPOUT | grep -e '^\$      Delivery:' | grep -oE '[0-9]+\(' | sed 's/(//')
           sleep 2
           if [ $(grep 'next commit-tid' $TEMPERR | wc -l) -ne 0 ]
           then
@@ -96,17 +98,20 @@ run_bench () {
         if [ $runs -lt $MAX_RETRIES ]
         then
           printf ",$result" >> $OUTFILE
+          printf ",$delivery" >> $DELIVERY_OUTFILE
           k=$(($k + 1))
         else
           while [ $k -lt $ITERS ]
           do
             printf ",DNF" >> $OUTFILE
+            printf ",DNF" >> $DELIVERY_OUTFILE
             k=$(($k + 1))
           done
         fi
       done
     done
     printf "\n" >> $OUTFILE
+    printf "\n" >> $DELIVERY_OUTFILE
   done
 }
 
@@ -143,23 +148,34 @@ run() {
     shift 4
 
     OUTFILE=$RFILE
+    DELIVERY_OUTFILE=$DFILE
     if [ -f $RFILE ]
     then
       OUTFILE=results/rtemp.txt
     fi
+    if [ -f $DFILE ]
+    then
+      DELIVERY_OUTFILE=results/dtemp.txt
+    fi
     if [ $IS_MVCC -gt 0 ]
     then
       printf "Running MVCC on $BINARY$CT_FLAGS\n"
-      run_bench $OUTFILE $BINARY "$CT_FLAGS" $ITERS $THREADS "${MVCC_LABELS[@]}"
+      run_bench $OUTFILE $DELIVERY_OUTFILE $BINARY "$CT_FLAGS" $ITERS $THREADS "${MVCC_LABELS[@]}"
     else
       printf "Running OCC on $BINARY$CT_FLAGS\n"
-      run_bench $OUTFILE $BINARY "$CT_FLAGS" $ITERS $THREADS "${OCC_LABELS[@]}"
+      run_bench $OUTFILE $DELIVERY_OUTFILE $BINARY "$CT_FLAGS" $ITERS $THREADS "${OCC_LABELS[@]}"
     fi
     if [ $RFILE != $OUTFILE ]
     then
       mv $RFILE results/rcopy.txt
       join --header -t , -j 1 results/rcopy.txt $OUTFILE > $RFILE
       rm results/rcopy.txt $OUTFILE
+    fi
+    if [ $DFILE != $DELIVERY_OUTFILE ]
+    then
+      mv $DFILE results/dcopy.txt
+      join --header -t , -j 1 results/dcopy.txt $DELIVERY_OUTFILE > $DFILE
+      rm results/dcopy.txt $DELIVERY_OUTFILE
     fi
   done
 }
@@ -201,6 +217,7 @@ compile "${ALL_BINARIES[@]}"
 rm -rf results
 mkdir results
 RFILE=results/results.txt
+DFILE=results/delivery-results.txt
 TEMPDIR=$(mktemp -d /tmp/sto-XXXXXX)
 TEMPERR="$TEMPDIR/err"
 TEMPOUT="$TEMPDIR/out"
@@ -210,9 +227,10 @@ call_runs
 end_time=$(date +%s)
 runtime=$(($end_time - $start_time))
 
-python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" --runtime=$runtime results/results.txt
+python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" --runtime=$runtime $RFILE
+python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME (Delivery)" --runtime=$runtime $DFILE
 if [ $DRY_RUN -eq 0 ]
 then
   # delay shutdown for 1 minute just in case
-  sudo shutdown -h +1
+  #sudo shutdown -h +1
 fi
