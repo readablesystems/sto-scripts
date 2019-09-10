@@ -44,17 +44,21 @@ run_bench () {
     exit 1
   fi
   printf "# Threads" >> $OUTFILE
+  printf "# Threads" >> $DELIVERY_OUTFILE
   for label in "${LABELS[@]}"
   do
     for k in $(seq 1 $ITERS)
     do
       printf ",$label$CT_FLAGS [T$k]" >> $OUTFILE
+      printf ",$label$CT_FLAGS [T$k]" >> $DELIVERY_OUTFILE
     done
   done
   printf "\n" >> $OUTFILE
+  printf "\n" >> $DELIVERY_OUTFILE
   for i in ${THREADS[*]}
   do
     printf "$i" >> $OUTFILE
+    printf "$i" >> $DELIVERY_OUTFILE
     for f in "${FLAGS[@]}"
     do
       k=0
