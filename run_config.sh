@@ -479,8 +479,8 @@ setup_tpcc_contention_aware_idx() {
   )
 
   TPCC_OCC_BINARIES=(
-    "tpcc_bench" "-cont-index" "NDEBUG=1 CONTENTION_AWARE_IDX=0" "-CONT-AWARE-IDX"
-    "tpcc_bench" "-base"       "NDEBUG=1" "BASE"
+    "tpcc_bench" "-cont-index" "PROFILE_COUNTERS=2 NDEBUG=1 CONTENTION_AWARE_IDX=0" "-CONT-AWARE-IDX"
+    "tpcc_bench" "-base"       "PROFILE_COUNTERS=2 NDEBUG=1" "BASE"
   )
   TPCC_MVCC_BINARIES=(
   )
