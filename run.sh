@@ -76,7 +76,12 @@ run_bench () {
           sleep $TIMEOUT && kill -0 $pid 2&>/dev/null && kill -9 $pid &
           wait $pid
           result=$(cat $TEMPOUT | grep -e '^Throughput:' | grep -oE '[0-9.]+')
-          delivery=$(cat $TEMPOUT | grep -e '^\$      Delivery:' | grep -oE '[0-9]+\(' | sed 's/(//')
+          real_time_ms=$(cat $TEMPOUT | grep -e '^Real time:' | grep -oE '[0-9.]+')
+          delivery=$(cat $TEMPERR | grep -e '^\$      Delivery:' | grep -oE '[0-9]+\(' | sed 's/(//')
+          if [ "$delivery" != "" ]
+          then
+            delivery=$(echo "scale=2;$delivery/($real_time_ms/1000.0)" | bc)
+          fi
           sleep 2
           if [ $(grep 'next commit-tid' $TEMPERR | wc -l) -ne 0 ]
           then
@@ -227,8 +232,7 @@ call_runs
 end_time=$(date +%s)
 runtime=$(($end_time - $start_time))
 
-python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" --runtime=$runtime $RFILE
-python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME (Delivery)" --runtime=$runtime $DFILE
+python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" --runtime=$runtime $RFILE $DFILE
 if [ $DRY_RUN -eq 0 ]
 then
   # delay shutdown for 1 minute just in case
