@@ -195,6 +195,10 @@ class BenchPlotter:
     def pack_xput_data(self, processed_results, d3, legends, graph_y_max, graph_title, save_name):
         print("xput:")
         meta = self.graph_info.copy()
+        # Default scale factor is 1 million
+        scale_factor = 1000000.0
+        if 'scale_factor' in meta.keys():
+            scale_factor = meta['scale_factor']
         common_x = self.dimension1
         y_series = []
         y_errors = []
@@ -208,9 +212,9 @@ class BenchPlotter:
                 try:
                     res = processed_results[bplt_key]
                     xput = res[0]
-                    series_data.append(xput[1] / 1000000.0)
-                    series_error_down.append((xput[1] - xput[0]) / 1000000.0)
-                    series_error_up.append((xput[2] - xput[1]) / 1000000.0)
+                    series_data.append(xput[1] / scale_factor)
+                    series_error_down.append((xput[1] - xput[0]) / scale_factor)
+                    series_error_up.append((xput[2] - xput[1]) / scale_factor)
                 except KeyError:
                     print('Result key {} not found.'.format(bplt_key))
                     series_data.append(0)

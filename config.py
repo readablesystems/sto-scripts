@@ -560,11 +560,14 @@ class TPCCStackedFactorsGraphConfig:
     D3FNAMES = ['tpcc_stacked_factors_w1', 'tpcc_stacked_factors_w4', 'tpcc_stacked_factors_part']
 
 
+# Index contention graph, showing throughput of delivery transactions only
+# Note the scale factor is different (thousands instead of millions)
 class TPCCIndexContentionGraphConfig:
     INFO = {
         'x_label': '# threads',
-        'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('NoOpt', '+CIndex'),
+        'y_label': 'Throughput (Ktxns/sec)',
+        'scale_factor': 1000.0,
+        'series_names': ('NoOpt', '+CAIndex'),
         'legends_on': True
     }
     NAME = MVSTOTPCCIndexContentionConfig.NAME
