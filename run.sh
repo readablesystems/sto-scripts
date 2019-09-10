@@ -84,7 +84,7 @@ run_bench () {
           delivery=$(cat $TEMPERR | grep -e '^\$      Delivery:' | grep -oE '[0-9]+\(' | sed 's/(//')
           if [ "$delivery" != "" ]
           then
-            delivery=$(echo "scale=2;$delivery/($real_time_ms/1000.0)" | bc)
+            delivery=$(echo "$delivery $real_time_ms" | awk '{print $1/($2/1000)}')
           fi
           sleep 2
           if [ $(grep 'next commit-tid' $TEMPERR | wc -l) -ne 0 ]
