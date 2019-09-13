@@ -38,6 +38,12 @@ run_bench () {
     shift
   done
 
+  # Turn off reserved huge pages if libc malloc is used.
+  if [[ $CT_FLAGS == *"USE_LIBCMALLOC=1"* ]]
+  then
+    ./mount_hugepages.sh 0
+  fi
+
   if [ ${#FLAGS[@]} -ne ${#LABELS[@]} ]
   then
     printf "Need equal number of flag parameters (${#FLAGS[@]}) and labels (${#LABELS[@]})\n"
@@ -122,6 +128,12 @@ run_bench () {
     printf "\n" >> $OUTFILE
     printf "\n" >> $DELIVERY_OUTFILE
   done
+
+  # Turn disabled huge pages back on.
+  if [[ $CT_FLAGS == *"USE_LIBCMALLOC=1"* ]]
+  then
+    ./mount_hugepages.sh $HUGEPAGES
+  fi
 }
 
 compile() {
