@@ -23,6 +23,8 @@ run_bench () {
   shift
   CT_FLAGS=$1  # Compile-time flags
   shift
+  HEADER_LABEL=$1
+  shift
   ITERS=$1
   shift
   THREADS=$1
@@ -55,8 +57,8 @@ run_bench () {
   do
     for k in $(seq 1 $ITERS)
     do
-      printf ",$label$CT_FLAGS [T$k]" >> $OUTFILE
-      printf ",$label$CT_FLAGS [T$k]" >> $DELIVERY_OUTFILE
+      printf ",$label$HEADER_LABEL [T$k]" >> $OUTFILE
+      printf ",$label$HEADER_LABEL [T$k]" >> $DELIVERY_OUTFILE
     done
   done
   printf "\n" >> $OUTFILE
@@ -165,7 +167,8 @@ run() {
     TARGET=$1
     SUFFIX=$2
     BINARY="$TARGET$SUFFIX"
-    CT_FLAGS=$4
+    CT_FLAGS=$3
+    HEADER_LABEL=$4
     shift 4
 
     OUTFILE=$RFILE
@@ -180,11 +183,11 @@ run() {
     fi
     if [ $IS_MVCC -gt 0 ]
     then
-      printf "Running MVCC on $BINARY$CT_FLAGS\n"
-      run_bench $OUTFILE $DELIVERY_OUTFILE $BINARY "$CT_FLAGS" $ITERS $THREADS "${MVCC_LABELS[@]}"
+      printf "Running MVCC on $BINARY $HEADER_LABEL\n"
+      run_bench $OUTFILE $DELIVERY_OUTFILE $BINARY "$CT_FLAGS" "$HEADER_LABEL" $ITERS $THREADS "${MVCC_LABELS[@]}"
     else
-      printf "Running OCC on $BINARY$CT_FLAGS\n"
-      run_bench $OUTFILE $DELIVERY_OUTFILE $BINARY "$CT_FLAGS" $ITERS $THREADS "${OCC_LABELS[@]}"
+      printf "Running OCC on $BINARY $HEADER_LABEL\n"
+      run_bench $OUTFILE $DELIVERY_OUTFILE $BINARY "$CT_FLAGS" "$HEADER_LABEL" $ITERS $THREADS "${OCC_LABELS[@]}"
     fi
     if [ $RFILE != $OUTFILE ]
     then
