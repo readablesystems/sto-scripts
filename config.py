@@ -554,7 +554,7 @@ class TPCCStackedFactorsGraphConfig:
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['mn', 'mn.a', 'mn.a.r', 'mn.a.r.e', 'mn.a.r.e.h']
     DIM3 = ['1', '4', '0']
-    LEGENDS = [True, True, True]
+    LEGENDS = [False, False, True]
     D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_stacked_factors_w1', 'tpcc_stacked_factors_w4', 'tpcc_stacked_factors_part']
