@@ -16,9 +16,11 @@
 # setup_wiki: Wikipedia
 # setup_ycsba: YCSB-A
 # setup_ycsba_occ: YCSB-A, OCC only
+# setup_ycsba_tictoc: YCSB-A, TicToc
 # setup_ycsba_mvcc: YCSB-A, OCC only
 # setup_ycsbb: YCSB-B
-# setup_ycsbb_occ: YCSB-B, MVCC only
+# setup_ycsbb_occ: YCSB-B, OCC only
+# setup_ycsbb_tictoc: YCSB-B, TicToc
 # setup_ycsbb_mvcc: YCSB-B, MVCC only
 # setup_ycsbc: YCSB-C
 
@@ -614,6 +616,40 @@ setup_ycsba_occ() {
   }
 }
 
+setup_ycsba_tictoc() {
+  EXPERIMENT_NAME="YCSB-A, TicToc vs OCC"
+  TIMEOUT=60
+
+  YCSB_OCC=(
+    "OCC (A)"    "-mA -idefault -g"
+    "TicToc (A)" "-mA -itictoc -g"
+  )
+
+  YCSB_MVCC=(
+  )
+
+  YCSB_OCC_BINARIES=(
+  )
+  YCSB_MVCC_BINARIES=(
+  )
+  YCSB_BOTH_BINARIES=(
+    "ycsb_bench" "-both" "NDEBUG=1" ""
+  )
+
+  OCC_LABELS=("${YCSB_OCC[@]}")
+  MVCC_LABELS=()
+  OCC_BINARIES=("${YCSB_OCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
 setup_ycsba_mvcc() {
   EXPERIMENT_NAME="YCSB-A, MVCC only"
   TIMEOUT=60
@@ -706,6 +742,40 @@ setup_ycsbb_occ() {
   )
   YCSB_BOTH_BINARIES=(
     "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${YCSB_OCC[@]}")
+  MVCC_LABELS=()
+  OCC_BINARIES=("${YCSB_OCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
+setup_ycsbb_tictoc() {
+  EXPERIMENT_NAME="YCSB-B, TicToc vs OCC"
+  TIMEOUT=60
+
+  YCSB_OCC=(
+    "OCC (B)"    "-mB -idefault -g"
+    "TicToc (B)" "-mB -itictoc -g"
+  )
+
+  YCSB_MVCC=(
+  )
+
+  YCSB_OCC_BINARIES=(
+  )
+  YCSB_MVCC_BINARIES=(
+  )
+  YCSB_BOTH_BINARIES=(
+    "ycsb_bench" "-both" "NDEBUG=1" ""
   )
 
   OCC_LABELS=("${YCSB_OCC[@]}")
