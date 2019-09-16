@@ -73,6 +73,13 @@ class MVSTOYCSBConfig:
     DIM3 = ['a', 'b'] # workload type
 
 
+class YCSBTicTocCompConfig:
+    NAME = 'ycsb_tictoc_comp'
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['o','t']
+    DIM3 = ['a', 'b'] # workload type
+
+
 class MVSTOWikiConfig:
     NAME = 'wiki_mvsto'
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
@@ -334,6 +341,25 @@ class YOCCGraphConfig:
     D3TITLES = ['', '']
     D3FNAMES = ['ycsb_a_occ', 'ycsb_b_occ']
     FIG_SIZE = (7, 5)
+
+
+# YCSB (A & B) TicToc vs OCC comparison graph
+class YTOCompGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'TicToc'),
+        'legends_on': True,
+    }
+    NAME = YCSBTicTocCompConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = YCSBTicTocCompConfig.DIM1
+    DIM2 = ['o', 'tictoc']
+    DIM3 = ['a', 'b']
+    LEGENDS = [True, True]
+    D3YMAXES = [None, None]
+    D3TITLES = ['', '']
+    D3FNAMES = ['ycsb_a_tictoc_comp', 'ycsb_b_tictoc_comp']
 
 
 class YMVGraphConfig:

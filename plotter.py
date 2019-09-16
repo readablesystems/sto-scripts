@@ -14,7 +14,7 @@ from config import WikiGraphConfig, TPCCGraphConfig, MVSTOGraphConfig, MVSTOWiki
 from config import MVSTOTPCCOCCGraphConfig, MVSTOTPCCMVCCGraphConfig, MVSTOYCSBGraphConfig
 from config import MVSTOYCSBOCCGraphConfig, MVSTOYCSBMVCCGraphConfig, MVSTORubisGraphConfig
 
-from config import YOCCGraphConfig, YMVGraphConfig
+from config import YOCCGraphConfig, YMVGraphConfig, YTOCompGraphConfig
 from config import TOCCGraphConfig, TMVGraphConfig, WikiOCCGraphConfig, WikiMVGraphConfig
 from config import RubisOCCGraphConfig, RubisMVGraphConfig
 from config import TW1OCCZoomedGraphConfig, TW1MVZoomedGraphConfig
@@ -36,6 +36,7 @@ plotter_map = {
     'wiki': WikiGraphConfig,
     'y_scale_o': YOCCGraphConfig,
     'y_scale_m': YMVGraphConfig,
+    'y_tictoc_comp': YTOCompGraphConfig,
     't_scale_o': TOCCGraphConfig,
     't_scale_m': TMVGraphConfig,
     'w_scale_o': WikiOCCGraphConfig,

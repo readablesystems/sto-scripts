@@ -135,6 +135,14 @@ ycsb_sys_name_map = {
     'MVCC ({}) + CU + ST': 'm.c.s',
 }
 
+ycsb_tictoc_comp_sys_name_map = {
+	'name': 'ycsb_tictoc_comp',
+	'OCC (A)': 'o/a',
+	'OCC (B)': 'o/b',
+	'TicToc (A)': 'tictoc/a',
+	'TicToc (B)': 'tictoc/b',
+}
+
 wiki_sys_name_map = {
     'name': 'wiki',
     'OCC': 'o/1',
@@ -166,6 +174,11 @@ tpcc_tictoc_file = 'tpcc_tictoc_results.txt'
 tpcc_safe_flatten_file = 'tpcc_safe_flatten_results.txt'
 ycsb_out_file = config.get_result_file(config.MVSTOYCSBConfig.NAME)
 ycsb_result_file = 'ycsb_results.txt'
+
+# YCSB TicToc vs. OCC comparison (convert using the generic convert() function)
+ycsb_tictoc_comp_out_file = config.get_result_file(config.YCSBTicTocCompConfig.NAME)
+ycsb_tictoc_comp_result_file = 'ycsb_tictoc_results.txt'
+
 wiki_out_file = config.get_result_file(config.MVSTOWikiConfig.NAME)
 wiki_result_file = 'wiki_results.txt'
 rubis_out_file = config.get_result_file(config.MVSTORubisConfig.NAME)
@@ -417,6 +430,11 @@ if __name__ == '__main__':
     results = convert_ycsb_all(ycsb_sys_name_map, results)
     if results:
         with open(ycsb_out_file, 'w') as wf:
+            json.dump(results, wf, indent=4, sort_keys=True)
+    results = {}
+    results = convert(ycsb_tictoc_comp_result_file, ycsb_tictoc_comp_sys_name_map, results)
+    if results:
+        with open(ycsb_tictoc_comp_out_file, 'w') as wf:
             json.dump(results, wf, indent=4, sort_keys=True)
     results = {}
     results = convert(wiki_result_file, wiki_sys_name_map, results)
