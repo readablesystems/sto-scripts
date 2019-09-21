@@ -370,6 +370,7 @@ setup_tpcc_tictoc() {
   )
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1" ""
+    "tpcc_bench" "-tsplit" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + ST"
   )
 
   OCC_LABELS=("${TPCC_OCC[@]}")
