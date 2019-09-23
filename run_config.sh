@@ -356,9 +356,12 @@ setup_tpcc_tictoc() {
   EXPERIMENT_NAME="TPC-C TicToc"
 
   TPCC_OCC=(
-    "TicToc (W1)"         "-itictoc -g -w1"
-    "TicToc (W4)"         "-itictoc -g -w4"
-    "TicToc (W0)"         "-itictoc -g"
+    "TicToc (W1)"      "-itictoc -g -w1"
+    "TicToc + CU (W1)" "-itictoc -g -w1 -x"
+    "TicToc (W4)"      "-itictoc -g -w4"
+    "TicToc + CU (W4)" "-itictoc -g -w4 -x"
+    "TicToc (W0)"      "-itictoc -g"
+    "TicToc + CU (W0)" "-itictoc -g -x"
   )
 
   TPCC_MVCC=(
