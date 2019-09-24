@@ -60,6 +60,12 @@ tpcc_tictoc_sys_name_map = {
     'TicToc (W0)': 'tictoc/0',
     'TicToc (W1)': 'tictoc/1',
     'TicToc (W4)': 'tictoc/4',
+    'TicToc (W0) + ST': 'tictoc.s/0',
+    'TicToc (W1) + ST': 'tictoc.s/1',
+    'TicToc (W4) + ST': 'tictoc.s/4',
+    'TicToc + CU (W0) + ST': 'tictoc.c.s/0',
+    'TicToc + CU (W1) + ST': 'tictoc.c.s/1',
+    'TicToc + CU (W4) + ST': 'tictoc.c.s/4',
 }
 
 tpcc_gc_sys_name_map = {
