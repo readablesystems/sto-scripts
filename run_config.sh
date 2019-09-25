@@ -434,6 +434,9 @@ setup_tpcc_new_factors() {
   EXPERIMENT_NAME="TPC-C Factors (New/Stacked)"
 
   TPCC_OCC=(
+    "OCC (W1)"          "-idefault -g -w1"
+    "OCC (W4)"          "-idefault -g -w4"
+    "OCC (W0)"          "-idefault -g"
   )
 
   TPCC_MVCC=(
@@ -445,6 +448,8 @@ setup_tpcc_new_factors() {
   TPCC_OCC_BINARIES=(
   )
   TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-naive" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 CONTENTION_REG=0 USE_LIBCMALLOC=1 USE_EXCEPTION=1" "NAIVE"
     "tpcc_bench" "-f1" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 CONTENTION_REG=0 USE_EXCEPTION=1" "+AL"
     "tpcc_bench" "-f2" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 USE_EXCEPTION=1" "+AL+BACKOFF"
@@ -452,13 +457,11 @@ setup_tpcc_new_factors() {
     #"tpcc_bench" "-f4" "NDEBUG=1 INLINED_VERSIONS=1" "+AL+BACKOFF+NOEXC+HASH"
     "tpcc_bench" "-base"  "NDEBUG=1 INLINED_VERSIONS=1" "BASE"
   )
-  TPCC_BOTH_BINARIES=(
-  )
 
-  OCC_LABELS=()
+  OCC_LABELS=("${TPCC_OCC[@]}")
   MVCC_LABELS=("${TPCC_MVCC[@]}")
-  OCC_BINARIES=()
-  MVCC_BINARIES=("${TPCC_MVCC_BINARIES[@]}")
+  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
 
   call_runs() {
     default_call_runs
