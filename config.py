@@ -119,6 +119,8 @@ color_mapping = {
     'e': 10,
     'mocc': 12,
     'tictoc': 14,
+    'tictoc.s': 16,
+    'tictoc.c': 17,
     'tictoc.c.s': 15,
     'op': 11,
     'op.c': 13,
@@ -162,6 +164,8 @@ marker_mapping = {
     'e':       '>',
     'mocc':    'd',
     'tictoc':  'h',
+    'tictoc.s':  'h',
+    'tictoc.c':  'h',
     'tictoc.c.s':  'h',
     'mf':      'h',
     'mf.c':    'H',
@@ -196,6 +200,8 @@ linestyle_mapping = {
     'c': (0, (2, 3)),
     'mocc': (0, (2, 3)),
     'tictoc': (0, (2, 3)),
+    'tictoc.s': (0, (2, 3)),
+    'tictoc.c': (0, (2, 3)),
     'tictoc.c.s': (0, (2, 3)),
 }
 
@@ -206,6 +212,8 @@ linewidth_mapping = {
     'c': 3,
     'e': 3,
     'tictoc': 3,
+    'tictoc.s': 3,
+    'tictoc.c': 3,
     'tictoc.c.s': 3,
 }
 
@@ -393,7 +401,8 @@ class WikiOCCGraphConfig:
         'y_label': 'Throughput (Mtxns/sec)',
         'y_max': 0.6,
         'series_names': ('OSTO','OSTO+CU','OSTO+TS','OSTO+CU+TS'),
-        'legends_on': True
+        'legends_on': True,
+        'legend_order': (3,1,2,0)
     }
     NAME = MVSTOWikiConfig.NAME
     TYPE = GraphType.LINE
@@ -412,7 +421,8 @@ class WikiMVGraphConfig:
         'y_label': 'Throughput (Mtxns/sec)',
         'y_max': 0.6,
         'series_names': ('MSTO','MSTO+CU','MSTO+TS','MSTO+CU+TS'),
-        'legends_on': True
+        'legends_on': True,
+        'legend_order': (3,1,2,0)
     }
     NAME = MVSTOWikiConfig.NAME
     TYPE = GraphType.LINE
@@ -634,9 +644,9 @@ class TOCCCompGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OSTO','OSTO+CU+TS','MOCC','TicToc', 'TicToc+CU+TS'),
+        'series_names': ('OSTO','OSTO+CU+TS','MOCC','TicToc', 'TicToc+TS', 'TicToc+CU', 'TicToc+CU+TS'),
         'legends_on': True,
-        'legend_order': (1,4,0,3,2),
+        'legend_order': (1,0,6,5,4,3,2),
         'markevery': {
             'tictoc': (0.25, 0.01)
         }
@@ -644,7 +654,7 @@ class TOCCCompGraphConfig:
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['o','o.c.s','mocc','tictoc', 'tictoc.c.s']
+    DIM2 = ['o','o.c.s','mocc','tictoc','tictoc.s','tictoc.c','tictoc.c.s']
     DIM3 = ['1', '4', '0']
     LEGENDS = [False, True, False]
     D3YMAXES = [None, None, None]
