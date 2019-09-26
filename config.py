@@ -426,6 +426,28 @@ class YMVGraphConfig:
     FIG_SIZE = (7, 5)
 
 
+# YCSB Scalability OCC vs MVCC side-by-side comparison graphs
+class YScalabilityMergedGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('OSTO', 'OSTO+CU', 'OSTO+TS', 'OSTO+CU+TS'),
+                                   ('MSTO', 'MSTO+CU', 'MSTO+TS', 'MSTO+CU+TS')),
+        'legends_on': True,
+        'legend_order': (3, 2, 1, 0)
+    }
+    NAME = MVSTOYCSBConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOYCSBConfig.DIM1
+    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s']
+    SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('m','m.c','m.s','m.c.s'))
+    DIM3 = ['a', 'b']
+    LEGENDS = [True, False]
+    D3YMAXES = [3.0, 11.0]
+    D3TITLES = ['', '']
+    D3FNAMES = ['ycsb_om_a', 'ycsb_om_b']
+
 # Wikipedia + RUBiS graphs
 class WikiOCCGraphConfig:
     INFO = {
@@ -467,6 +489,30 @@ class WikiMVGraphConfig:
     D3FNAMES = ['wiki_mvcc']
 
 
+# Wikipedia OCC, MVCC side-by-side comparison graphs
+class WikiSideBySideGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('OSTO', 'OSTO+CU', 'OSTO+TS', 'OSTO+CU+TS'),
+                                   ('MSTO', 'MSTO+CU', 'MSTO+TS', 'MSTO+CU+TS')),
+        'legends_on': True,
+        'legend_order': (3,1,2,0)
+    }
+    NAME = MVSTOWikiConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOWikiConfig.DIM1
+    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s']
+    SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('m','m.c','m.s','m.c.s'))
+    DIM3 = ['1']
+    LEGENDS = [False]
+    D3YMAXES = [0.6]
+    D3TITLES = ['']
+    D3FNAMES = ['wiki_om']
+    WIDE_FIG_SIZE = (14.4, 6)
+
+
 class RubisOCCGraphConfig:
     INFO = {
         'x_label': '# threads',
@@ -503,6 +549,30 @@ class RubisMVGraphConfig:
     D3YMAXES = [None]
     D3TITLES = ['']
     D3FNAMES = ['rubis_mvcc']
+
+
+# Rubis OCC, MVCC side-by-side comparison graphs
+class RubisSideBySideGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('OSTO', 'OSTO+CU', 'OSTO+TS', 'OSTO+CU+TS'),
+                                   ('MSTO', 'MSTO+CU', 'MSTO+TS', 'MSTO+CU+TS')),
+        'legends_on': True,
+        'legend_order': (3,1,2,0)
+    }
+    NAME = MVSTORubisConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTORubisConfig.DIM1
+    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s']
+    SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('m','m.c','m.s','m.c.s'))
+    DIM3 = ['1']
+    LEGENDS = [True]
+    D3YMAXES = [2.25]
+    D3TITLES = ['']
+    D3FNAMES = ['rubis_om']
+    WIDE_FIG_SIZE = (14.4, 6)
 
 
 # Overhead bar graph

@@ -15,8 +15,10 @@ from config import MVSTOTPCCOCCGraphConfig, MVSTOTPCCMVCCGraphConfig, MVSTOYCSBG
 from config import MVSTOYCSBOCCGraphConfig, MVSTOYCSBMVCCGraphConfig, MVSTORubisGraphConfig
 
 from config import YOCCGraphConfig, YMVGraphConfig, YTOCompGraphConfig
+from config import YScalabilityMergedGraphConfig
 from config import TOCCGraphConfig, TMVGraphConfig, WikiOCCGraphConfig, WikiMVGraphConfig
 from config import RubisOCCGraphConfig, RubisMVGraphConfig
+from config import WikiSideBySideGraphConfig, RubisSideBySideGraphConfig
 from config import TW1OCCZoomedGraphConfig, TW1MVZoomedGraphConfig
 from config import TWPOCCGraphConfig, TWPMVGraphConfig
 from config import TPCCFactorsGraphConfig, TPCCStackedFactorsGraphConfig, TPCCOCCStackedFactorsGraphConfig
@@ -41,13 +43,16 @@ plotter_map = {
     'y_scale_o': YOCCGraphConfig,
     'y_scale_m': YMVGraphConfig,
     'y_tictoc_comp': YTOCompGraphConfig,
+    'y_scale_merged': YScalabilityMergedGraphConfig,
     't_scale_o': TOCCGraphConfig,
     't_scale_m': TMVGraphConfig,
     't_scale_merged': TScalabilityMergedGraphConfig,
     'w_scale_o': WikiOCCGraphConfig,
     'w_scale_m': WikiMVGraphConfig,
+    'w_scale_merged': WikiSideBySideGraphConfig,
     'r_scale_o': RubisOCCGraphConfig,
     'r_scale_m': RubisMVGraphConfig,
+    'r_scale_merged': RubisSideBySideGraphConfig,
     'tw1_zoomed_o': TW1OCCZoomedGraphConfig,
     'tw1_zoomed_m': TW1MVZoomedGraphConfig,
     'twp_line_o': TWPOCCGraphConfig,
@@ -163,6 +168,8 @@ class BenchPlotter:
         self.wide_figsize = GraphGlobalConstants.WIDE_FIG_SIZE
         if hasattr(cnf, "FIG_SIZE"):
             self.figsize = cnf.FIG_SIZE
+        if hasattr(cnf, "WIDE_FIG_SIZE"):
+            self.wide_figsize = cnf.WIDE_FIG_SIZE
         print(self.figsize)
 
     def process(self, results):
