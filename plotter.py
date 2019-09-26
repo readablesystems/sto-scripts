@@ -465,11 +465,11 @@ class BenchPlotter:
 
                 num_subfigures = len(self.subfigure_dimension2)
                 if share_y:
-                    fig, ax = plt.subplots(1, num_subfigures, sharey=True, figsize=self.wide_figsize)
-                    fig.subplots_adjust(wspace=0)
+                    fig, ax = plt.subplots(1, num_subfigures, sharey=True, figsize=self.wide_figsize,
+                                           gridspec_kw={'wspace':0.0})
                 else:
-                    fig, ax = plt.subplots(num_subfigures, 1, sharex=True, figsize=self.wide_figsize)
-                    fig.subplots_adjust(hspace=0)
+                    fig, ax = plt.subplots(num_subfigures, 1, sharex=True, figsize=self.wide_figsize,
+                                           gridspec_kw={'hspace':0.0})
 
                 for didx, d2 in enumerate(self.subfigure_dimension2):
                     d2_series_names = self.graph_info['subfigure_series_names'][didx]
