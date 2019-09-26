@@ -22,12 +22,15 @@ from config import TWPOCCGraphConfig, TWPMVGraphConfig
 from config import TPCCFactorsGraphConfig, TPCCStackedFactorsGraphConfig, TPCCOCCStackedFactorsGraphConfig
 from config import TPCCIndexContentionGraphConfig
 
+from config import TScalabilityMergedGraphConfig
+
 from config import TPCCOpacityGraphConfig
 from config import TOTCCCompGraphConfig
 from config import TOCCCompGraphConfig, TMVCompGraphConfig
 from config import TMVFlattenGraphConfig, TMVGCIntervalGraphConfig
 
-from config import color_mapping, marker_mapping, linestyle_mapping, linewidth_mapping, errorbar_mapping, barcolor_mapping
+from config import color_mapping, marker_mapping, linestyle_mapping, linewidth_mapping, errorbar_mapping, \
+    barcolor_mapping
 from runner import BenchRunner
 
 # Common files and definitions needed to process experiment result files and draw graphs
@@ -40,6 +43,7 @@ plotter_map = {
     'y_tictoc_comp': YTOCompGraphConfig,
     't_scale_o': TOCCGraphConfig,
     't_scale_m': TMVGraphConfig,
+    't_scale_merged': TScalabilityMergedGraphConfig,
     'w_scale_o': WikiOCCGraphConfig,
     'w_scale_m': WikiMVGraphConfig,
     'r_scale_o': RubisOCCGraphConfig,
@@ -87,13 +91,14 @@ def file_timestamp_str():
 class GraphGlobalConstants:
     FONT_SIZE = 22
     FIG_SIZE = (8.333, 5)
+    WIDE_FIG_SIZE = (12, 5)
     BAR_WIDTH_SCALE_FACTOR = 1.3
     ERROR_KW = dict(ecolor='black', elinewidth=1.5, capsize=6, capthick=1.5)
-    TABLEAU20 = [(31,119,180), (174,199,232), (255,127,14), (255,187,120),
-                 (44,160,44), (152,223,138), (214,39,40), (255,152,150),
-                 (148,103,189), (197,176,213), (140,86,75), (196,156,148),
-                 (227,119,194), (247,182,210), (127,127,127), (199,199,199),
-                 (188,189,34), (219,219,141), (23,190,207), (158,218,229)]
+    TABLEAU20 = [(31, 119, 180), (174, 199, 232), (255, 127, 14), (255, 187, 120),
+                 (44, 160, 44), (152, 223, 138), (214, 39, 40), (255, 152, 150),
+                 (148, 103, 189), (197, 176, 213), (140, 86, 75), (196, 156, 148),
+                 (227, 119, 194), (247, 182, 210), (127, 127, 127), (199, 199, 199),
+                 (188, 189, 34), (219, 219, 141), (23, 190, 207), (158, 218, 229)]
 
     @classmethod
     def color(cls, color):
@@ -102,7 +107,7 @@ class GraphGlobalConstants:
         elif isinstance(color, str):
             return color
         if color[0] > 1 or color[1] > 1 or color[2] > 1:
-            return (color[0]/255., color[1]/255., color[2]/255.)
+            return (color[0] / 255., color[1] / 255., color[2] / 255.)
         else:
             return color
 
@@ -141,6 +146,10 @@ class BenchPlotter:
         self.graph_type = cnf.TYPE
         self.dimension1 = cnf.DIM1
         self.dimension2 = cnf.DIM2
+        if hasattr(cnf, "SUBFIG_DIM2S"):
+            self.subfigure_dimension2 = cnf.SUBFIG_DIM2S
+        else:
+            self.subfigure_dimension2 = None
         self.dimension3 = cnf.DIM3
         self.legends = cnf.LEGENDS
         self.d3ymaxes = cnf.D3YMAXES
@@ -151,6 +160,7 @@ class BenchPlotter:
             for n in cnf.DATANAMES:
                 self.datanames.push(n)
         self.figsize = GraphGlobalConstants.FIG_SIZE
+        self.wide_figsize = GraphGlobalConstants.WIDE_FIG_SIZE
         if hasattr(cnf, "FIG_SIZE"):
             self.figsize = cnf.FIG_SIZE
         print(self.figsize)
@@ -186,7 +196,7 @@ class BenchPlotter:
                         abrts_med = np.median(abrts_series)
                         cabrts_med = np.median(cabrts_series)
 
-                        #med_idx = xput_series.index(xput_med)
+                        # med_idx = xput_series.index(xput_med)
 
                         rec = [[xput_min, xput_med, xput_max],
                                abrts_med,
@@ -196,7 +206,7 @@ class BenchPlotter:
 
         return processed_results
 
-    def pack_xput_data(self, processed_results, d3, legends, graph_y_max, graph_title, save_name):
+    def pack_xput_data(self, processed_results, dim2, d3, legends, graph_y_max, graph_title):
         print("xput:")
         meta = self.graph_info.copy()
         # Default scale factor is 1 million
@@ -206,7 +216,10 @@ class BenchPlotter:
         common_x = self.dimension1
         y_series = []
         y_errors = []
-        for sut in self.dimension2:
+
+        # dimension2 is systems under comparison. Can either be supplied or use the default configuration.
+        dimension2 = self.dimension2 if dim2 is None else dim2
+        for sut in dimension2:
             print(sut)
             series_data = []
             series_error_down = []
@@ -229,7 +242,6 @@ class BenchPlotter:
             y_errors.append((series_error_down, series_error_up))
 
         meta['graph_title'] = graph_title
-        meta['save_name'] = save_name
         meta['legends_on'] = legends
         meta['d3'] = d3
 
@@ -271,7 +283,7 @@ class BenchPlotter:
         out_x = []
         out_y = []
         out_y_err = [[], []]
-        for i,y in enumerate(y_series):
+        for i, y in enumerate(y_series):
             if y != 0:
                 out_x.append(common_x[i])
                 out_y.append(y)
@@ -331,13 +343,14 @@ class BenchPlotter:
         else:
             plt.savefig('{}_{}.{}'.format(meta_info['save_name'], file_timestamp_str(), BenchPlotter.img_fmt))
 
-    def draw_lines(self, meta_info, common_x, y_series, y_errors):
-        fig, ax = plt.subplots(figsize=self.figsize)
-        num_series = len(self.dimension2)
+    def draw_lines(self, ax, subfig_idx, series_names, dim2, meta_info, common_x, y_series, y_errors):
+        #fig, ax = plt.subplots(figsize=self.figsize)
+        num_series = len(y_series)
+        use_dimension2 = self.dimension2 if dim2 is None else dim2
         lines = []
         markevery_map = meta_info.get('markevery')
         for i in range(num_series):
-            sut = self.dimension2[i]
+            sut = use_dimension2[i]
             l_color = GraphGlobalConstants.color(prop_mapping(color_mapping, sut))
             l_marker = prop_mapping(marker_mapping, sut)
             if meta_info.get('markers') is False:
@@ -360,22 +373,25 @@ class BenchPlotter:
                     markevery = markevery_map.get('default')
 
             if prop_mapping(errorbar_mapping, sut):
-                l = ax.errorbar(p_x, p_y, marker=l_marker, color=l_color, yerr=p_err, ecolor=l_color, capsize=4, linewidth=l_width, linestyle=l_style, markevery=markevery)
+                l = ax.errorbar(p_x, p_y, marker=l_marker, color=l_color, yerr=p_err, ecolor=l_color, capsize=4,
+                                linewidth=l_width, linestyle=l_style, markevery=markevery)
             else:
-                l = ax.plot(p_x, p_y, marker=l_marker, color=l_color, linewidth=l_width, linestyle=l_style, markevery=markevery)
+                l = ax.plot(p_x, p_y, marker=l_marker, color=l_color, linewidth=l_width, linestyle=l_style,
+                            markevery=markevery)
             lines.append(l)
 
         if meta_info['graph_title'] != '':
             ax.set_title(meta_info['graph_title'])
-        ax.set_ylabel(meta_info['y_label'])
-        ax.set_ylim(bottom=0)
-        if 'y_max' in meta_info:
-            ax.set_ylim(top=meta_info['y_max'])
+        if subfig_idx == 0:
+            ax.set_ylabel(meta_info['y_label'])
+            ax.set_ylim(bottom=0)
+            if 'y_max' in meta_info:
+                ax.set_ylim(top=meta_info['y_max'])
         ax.set_xlabel(meta_info['x_label'])
 
         if meta_info['legends_on']:
             slines = [l[0] for l in lines]
-            snames = self.series_names(meta_info)
+            snames = self.series_names(meta_info) if series_names is None else series_names
             if meta_info.get('legend_order') is not None:
                 xlines = []
                 xnames = []
@@ -386,11 +402,11 @@ class BenchPlotter:
             else:
                 ax.legend(slines, snames, loc='best', framealpha=0)
 
-        plt.tight_layout()
-        if BenchPlotter.show_only:
-            plt.show()
-        else:
-            plt.savefig('{}_{}.{}'.format(meta_info['save_name'], file_timestamp_str(), BenchPlotter.img_fmt))
+        #plt.tight_layout()
+        #if BenchPlotter.show_only:
+        #    plt.show()
+        #else:
+        #    plt.savefig('{}_{}.{}'.format(meta_info['save_name'], file_timestamp_str(), BenchPlotter.img_fmt))
 
     def draw_hbars(self, meta_info, common_x, y_series, y_errors):
         # common_x is ignored
@@ -407,7 +423,8 @@ class BenchPlotter:
             y_flat_err.append(y_errors[idx][0])
             y_color.append(GraphGlobalConstants.color(prop_mapping(barcolor_mapping, self.dimension2[idx])))
 
-        ax.barh(y_pos, y_flat_data, xerr=y_flat_err, align='center', color=y_color, ecolor='black', error_kw=GraphGlobalConstants.ERROR_KW)
+        ax.barh(y_pos, y_flat_data, xerr=y_flat_err, align='center', color=y_color, ecolor='black',
+                error_kw=GraphGlobalConstants.ERROR_KW)
         ax.set_yticks(y_pos)
         ax.set_yticklabels(meta_info['series_names'])
         ax.set_xlim(left=0)
@@ -419,23 +436,69 @@ class BenchPlotter:
         else:
             plt.savefig('{}_{}.{}'.format(meta_info['save_name'], file_timestamp_str(), BenchPlotter.img_fmt))
 
+    # draw_all() draws all subfigures specified in a certain graph config. It either draws individual subfigures or
+    # draws a single combined figure with shared x or y axis based on graph configuration.
     def draw_all(self, results):
         self.set_matplotlib_params()
         processed = self.process(results)
 
-        print('--throughput graph(s)--')
-        for idx in range(len(self.dimension3)):
-            d3 = self.dimension3[idx]
-            legends = self.legends[idx]
-            ymax = self.d3ymaxes[idx]
-            title = self.d3titles[idx]
-            fname = self.d3fnames[idx]
-            if self.graph_type == GraphType.BAR:
-                self.draw_bars(*self.pack_xput_data(processed, d3, legends, ymax, title, fname))
-            elif self.graph_type == GraphType.LINE:
-                self.draw_lines(*self.pack_xput_data(processed, d3, legends, ymax, title, fname))
-            elif self.graph_type == GraphType.HBAR:
-                self.draw_hbars(*self.pack_xput_data(processed, d3, legends, ymax, title, fname))
+        if 'combine_subfigures' in self.graph_info.keys():
+            print('--combine subfigures--')
+            combine_mode = self.graph_info['combine_subfigures']
+            share_y = combine_mode == 'share-y'
+            if not share_y:
+                assert combine_mode == 'share-x', 'Unrecognized subfigure combine mode: {}.'.format(combine_mode)
+
+
+            for idx, d3 in enumerate(self.dimension3):
+                legends = self.legends[idx]
+                ymax = self.d3ymaxes[idx]
+                title = self.d3titles[idx]
+                fname = self.d3fnames[idx]
+
+                num_subfigures = len(self.subfigure_dimension2)
+                if share_y:
+                    fig, ax = plt.subplots(1, num_subfigures, sharey=True, figsize=self.wide_figsize)
+                    fig.subplots_adjust(wspace=0)
+                else:
+                    fig, ax = plt.subplots(num_subfigures, 1, sharex=True, figsize=self.wide_figsize)
+                    fig.subplots_adjust(hspace=0)
+
+                for didx, d2 in enumerate(self.subfigure_dimension2):
+                    d2_series_names = self.graph_info['subfigure_series_names'][didx]
+                    if self.graph_type == GraphType.BAR:
+                        self.draw_bars(ax[didx], *self.pack_xput_data(processed, d2, d3, legends, ymax, title))
+                    elif self.graph_type == GraphType.LINE:
+                        self.draw_lines(ax[didx], didx, d2_series_names, d2, *self.pack_xput_data(processed, d2, d3, legends, ymax, title))
+                    else:
+                        assert False, 'Only bar graph and line graph are supported when combining subfigures.'
+
+                plt.tight_layout()
+                if BenchPlotter.show_only:
+                    plt.show()
+                else:
+                    plt.savefig('{}_{}.{}'.format(fname, file_timestamp_str(), BenchPlotter.img_fmt))
+        else:
+            print('--throughput graph(s)--')
+            for idx, d3 in enumerate(self.dimension3):
+                legends = self.legends[idx]
+                ymax = self.d3ymaxes[idx]
+                title = self.d3titles[idx]
+                fname = self.d3fnames[idx]
+
+                fig, ax = plt.subplots(figsize=self.figsize)
+                if self.graph_type == GraphType.BAR:
+                    self.draw_bars(ax, *self.pack_xput_data(processed, None, d3, legends, ymax, title))
+                elif self.graph_type == GraphType.LINE:
+                    self.draw_lines(ax, 0, None, None, *self.pack_xput_data(processed, None, d3, legends, ymax, title))
+                elif self.graph_type == GraphType.HBAR:
+                    self.draw_hbars(ax, *self.pack_xput_data(processed, None, d3, legends, ymax, title))
+
+                plt.tight_layout()
+                if BenchPlotter.show_only:
+                    plt.show()
+                else:
+                    plt.savefig('{}_{}.{}'.format(fname, file_timestamp_str(), BenchPlotter.img_fmt))
 
         if self.plot_aborts:
             print('--abort graph(s)--')
@@ -448,6 +511,7 @@ class BenchPlotter:
 
 def get_plotter(bench_name):
     return BenchPlotter(plotter_map[bench_name])
+
 
 def merge_results(results, name):
     file = config.get_result_file(name)

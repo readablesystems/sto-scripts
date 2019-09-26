@@ -336,6 +336,30 @@ class TMVGraphConfig:
     D3FNAMES = ['tpcc_w1_mvcc', 'tpcc_w4_mvcc', 'tpcc_part_mvcc']
 
 
+# TPCC Scalability graphs with merged subfigures
+# Sharing y-axes for OCC and MVCC schemes (to get rid of the grey lines)
+class TScalabilityMergedGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('OSTO', 'OSTO+CU', 'OSTO+TS', 'OSTO+CU+TS'),
+                                   ('MSTO', 'MSTO+CU', 'MSTO+TS', 'MSTO+CU+TS')),
+        'legends_on': True,
+        'legend_order': (3, 2, 1, 0)
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ('o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s')
+    SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('m','m.c','m.s','m.c.s'))
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [False, True, True]
+    D3YMAXES = [1.6, 4.1, 5.0]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_om_w1', 'tpcc_om_w4', 'tpcc_om_part']
+
+
 # YCSB scalability graphs
 # Self comparisons
 class YOCCGraphConfig:
