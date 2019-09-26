@@ -119,7 +119,22 @@ tpcc_stacked_factors_sys_name_map = {
     'MVCC (W0)+AL': 'mn.a/0',
     'MVCC (W0)+AL+BACKOFF': 'mn.a.r/0',
     'MVCC (W0)+AL+BACKOFF+NOEXC': 'mn.a.r.e/0',
-    'MVCC (W0)BASE': 'mn.a.r.e.h/0'
+    'MVCC (W0)BASE': 'mn.a.r.e.h/0',
+    'OCC (W1)NAIVE': 'on/1',
+    'OCC (W1)+AL': 'on.a/1',
+    'OCC (W1)+AL+BACKOFF': 'on.a.r/1',
+    'OCC (W1)+AL+BACKOFF+NOEXC': 'on.a.r.e/1',
+    'OCC (W1)BASE': 'on.a.r.e.h/1',
+    'OCC (W4)NAIVE': 'on/4',
+    'OCC (W4)+AL': 'on.a/4',
+    'OCC (W4)+AL+BACKOFF': 'on.a.r/4',
+    'OCC (W4)+AL+BACKOFF+NOEXC': 'on.a.r.e/4',
+    'OCC (W4)BASE': 'on.a.r.e.h/4',
+    'OCC (W0)NAIVE': 'on/0',
+    'OCC (W0)+AL': 'on.a/0',
+    'OCC (W0)+AL+BACKOFF': 'on.a.r/0',
+    'OCC (W0)+AL+BACKOFF+NOEXC': 'on.a.r.e/0',
+    'OCC (W0)BASE': 'on.a.r.e.h/0'
 }
 
 tpcc_index_contention_sys_name_map = {

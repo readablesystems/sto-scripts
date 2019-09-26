@@ -135,6 +135,10 @@ color_mapping = {
     'mn.a.r': 6,
     'mn.a.r.e': 8,
     'mn.a.r.e.h': 0,
+    'on.a': 4,
+    'on.a.r': 6,
+    'on.a.r.e': 8,
+    'on.a.r.e.h': 0,
     # index contention graph
     'on': 2,
     # GC graph
@@ -176,6 +180,10 @@ marker_mapping = {
     'mn.a.r': 'p',
     'mn.a.r.e': 'p',
     'mn.a.r.e.h': 'x',
+    'on.a': 'p',
+    'on.a.r': 'p',
+    'on.a.r.e': 'p',
+    'on.a.r.e.h': 'x',
     # index contention graph
     'on': None,
     # gc graph
@@ -598,6 +606,25 @@ class TPCCStackedFactorsGraphConfig:
     D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_stacked_factors_w1', 'tpcc_stacked_factors_w4', 'tpcc_stacked_factors_part']
+
+
+# TPC-C stacked factor analysis, OCC only
+class TPCCOCCStackedFactorsGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('NoOpt', '+Allocator', '+Backoff', '+NoExcept', '+HashIdx'),
+        'legends_on': True
+    }
+    NAME = MVSTOTPCCStackedFactorsConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['on', 'on.a', 'on.a.r', 'on.a.r.e', 'on.a.r.e.h']
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [False, False, True]
+    D3YMAXES = [None, None, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_stacked_factors_occ_w1', 'tpcc_stacked_factors_occ_w4', 'tpcc_stacked_factors_occ_part']
 
 
 # Index contention graph, showing throughput of delivery transactions only
