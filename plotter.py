@@ -23,6 +23,7 @@ from config import TPCCFactorsGraphConfig, TPCCStackedFactorsGraphConfig
 from config import TPCCIndexContentionGraphConfig
 
 from config import TPCCOpacityGraphConfig
+from config import TOTCCCompGraphConfig
 from config import TOCCCompGraphConfig, TMVCompGraphConfig
 from config import TMVFlattenGraphConfig, TMVGCIntervalGraphConfig
 
@@ -51,6 +52,7 @@ plotter_map = {
     'tpcc-stacked-factors': TPCCStackedFactorsGraphConfig,
     'tpcc-index-contention': TPCCIndexContentionGraphConfig,
     'tpccopacity': TPCCOpacityGraphConfig,
+    't_comp_t': TOTCCCompGraphConfig,
     't_comp_o': TOCCCompGraphConfig,
     't_comp_m': TMVCompGraphConfig,
     't_flatten': TMVFlattenGraphConfig,

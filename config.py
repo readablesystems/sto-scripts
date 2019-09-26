@@ -639,14 +639,14 @@ class TPCCOpacityGraphConfig:
     D3FNAMES = ['tpcc_op_w1', 'tpcc_op_w4', 'tpcc_op_part']
 
 
-# Comparison bar graphs with other systems
-class TOCCCompGraphConfig:
+# OCC vs TicToc comparison graph
+class TOTCCCompGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OSTO','OSTO+CU+TS','MOCC','TicToc', 'TicToc+TS', 'TicToc+CU', 'TicToc+CU+TS'),
+        'series_names': ('OSTO','OSTO+CU+TS','TicToc','TicToc+TS','TicToc+CU','TicToc+CU+TS'),
         'legends_on': True,
-        'legend_order': (1,0,6,5,4,3,2),
+        'legend_order': (1,0,5,4,3,2),
         'markevery': {
             'tictoc': (0.25, 0.01)
         }
@@ -654,7 +654,30 @@ class TOCCCompGraphConfig:
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['o','o.c.s','mocc','tictoc','tictoc.s','tictoc.c','tictoc.c.s']
+    DIM2 = ['o','o.c.s','tictoc','tictoc.s','tictoc.c','tictoc.c.s']
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [False, True, False]
+    D3YMAXES = [None, None, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_ttcc_comp_w1', 'tpcc_ttcc_comp_w4', 'tpcc_ttcc_comp_part']
+
+
+# Comparison bar graphs with other systems
+class TOCCCompGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OSTO','OSTO+CU+TS','MOCC','TicToc'),
+        'legends_on': True,
+        'legend_order': (1,0,3,2),
+        'markevery': {
+            'tictoc': (0.25, 0.01)
+        }
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['o','o.c.s','mocc','tictoc']
     DIM3 = ['1', '4', '0']
     LEGENDS = [False, True, False]
     D3YMAXES = [None, None, None]
