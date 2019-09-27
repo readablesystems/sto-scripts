@@ -647,7 +647,7 @@ setup_ycsba_baselines() {
   OCC_LABELS=("${YCSB_OCC[@]}")
   MVCC_LABELS=("${YCSB_MVCC[@]}")
   OCC_BINARIES=("${YCSB_BOTH_BINARIES[@]}")
-  MVCC_BINARIES=()
+  MVCC_BINARIES=("${YCSB_BOTH_BINARIES[@]}")
 
   call_runs() {
     default_call_runs
@@ -682,7 +682,7 @@ setup_ycsbb_baselines() {
   OCC_LABELS=("${YCSB_OCC[@]}")
   MVCC_LABELS=("${YCSB_MVCC[@]}")
   OCC_BINARIES=("${YCSB_BOTH_BINARIES[@]}")
-  MVCC_BINARIES=()
+  MVCC_BINARIES=("${YCSB_BOTH_BINARIES[@]}")
 
   call_runs() {
     default_call_runs
