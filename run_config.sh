@@ -623,6 +623,76 @@ setup_ycsba_occ() {
   }
 }
 
+setup_ycsba_baselines() {
+  EXPERIMENT_NAME="YCSB-A, OCC vs TTCC vs MVCC"
+  TIMEOUT=60
+
+  YCSB_OCC=(
+    "OCC (A)"    "-mA -idefault -g"
+    "TicToc (A)" "-mA -itictoc -g"
+  )
+
+  YCSB_MVCC=(
+    "MVCC (A)"   "-mA -imvcc -g"
+  )
+
+  YCSB_OCC_BINARIES=(
+  )
+  YCSB_MVCC_BINARIES=(
+  )
+  YCSB_BOTH_BINARIES=(
+    "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${YCSB_OCC[@]}")
+  MVCC_LABELS=("${YCSB_MVCC[@]}")
+  OCC_BINARIES=("${YCSB_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
+setup_ycsbb_baselines() {
+  EXPERIMENT_NAME="YCSB-B, OCC vs TTCC vs MVCC"
+  TIMEOUT=60
+
+  YCSB_OCC=(
+    "OCC (B)"    "-mB -idefault -g"
+    "TicToc (B)" "-mB -itictoc -g"
+  )
+
+  YCSB_MVCC=(
+    "MVCC (B)"   "-mB -imvcc -g"
+  )
+
+  YCSB_OCC_BINARIES=(
+  )
+  YCSB_MVCC_BINARIES=(
+  )
+  YCSB_BOTH_BINARIES=(
+    "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${YCSB_OCC[@]}")
+  MVCC_LABELS=("${YCSB_MVCC[@]}")
+  OCC_BINARIES=("${YCSB_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
 setup_ycsba_tictoc() {
   EXPERIMENT_NAME="YCSB-A, TicToc vs OCC"
   TIMEOUT=60
