@@ -401,6 +401,29 @@ class TPCCXSystemGraphConfig:
     WIDE_FIG_SIZE = (14,5)
 
 
+# TPC-C baseline vs CU+TS comparison graphs, low and high contention
+# OCC vs TTCC vs MVCC
+class TPCCSemanticOptGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('OCC', 'OCC+CU+TS'),('TTCC', 'TTCC+CU+TS'),('MVCC', 'MVCC+CU+TS')),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = None
+    DIM3 = ['1', '0']
+    SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
+    LEGENDS = [True, True]
+    D3YMAXES = [1.6, None]
+    D3TITLES = ['','']
+    D3FNAMES = ['tpcc_semopt_w1','tpcc_semopt_part']
+    #WIDE_FIG_SIZE = (16,5)
+
+
 # YCSB scalability graphs
 # Self comparisons
 class YOCCGraphConfig:
@@ -488,6 +511,29 @@ class YScalabilityMergedGraphConfig:
     D3YMAXES = [3.0, 11.0]
     D3TITLES = ['', '']
     D3FNAMES = ['ycsb_om_a', 'ycsb_om_b']
+
+
+# YCSB Scalability OCC vs MVCC side-by-side comparison graphs
+class YCSBSemanticOptGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('OCC', 'OCC+CU+TS'), ('TTCC', 'TTCC+CU+TS'),
+                                   ('MVCC', 'MVCC+CU+TS')),
+        'legends_on': True,
+        'legend_order': (3, 2, 1, 0)
+    }
+    NAME = MVSTOYCSBConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOYCSBConfig.DIM1
+    DIM2 = None
+    SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
+    DIM3 = ['a', 'b']
+    LEGENDS = [True, False]
+    D3YMAXES = [3.0, 11.0]
+    D3TITLES = ['', '']
+    D3FNAMES = ['ycsb_semopt_a', 'ycsb_semopt_b']
 
 
 # YCSB baseline graphs OCC vs TTCC vs MVCC

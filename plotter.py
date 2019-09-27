@@ -16,6 +16,7 @@ from config import MVSTOYCSBOCCGraphConfig, MVSTOYCSBMVCCGraphConfig, MVSTORubis
 
 from config import YOCCGraphConfig, YMVGraphConfig, YTOCompGraphConfig
 from config import YScalabilityMergedGraphConfig, YCSBBaselinesGraphConfig
+from config import YCSBSemanticOptGraphConfig
 from config import TOCCGraphConfig, TMVGraphConfig, WikiOCCGraphConfig, WikiMVGraphConfig
 from config import RubisOCCGraphConfig, RubisMVGraphConfig
 from config import WikiSideBySideGraphConfig, RubisSideBySideGraphConfig
@@ -26,6 +27,7 @@ from config import TPCCIndexContentionGraphConfig
 
 from config import TScalabilityMergedGraphConfig
 from config import TPCCBaselinesGraphConfig, TPCCXSystemGraphConfig
+from config import TPCCSemanticOptGraphConfig
 
 from config import TPCCOpacityGraphConfig
 from config import TOTCCCompGraphConfig
@@ -45,12 +47,14 @@ plotter_map = {
     'y_scale_m': YMVGraphConfig,
     'y_tictoc_comp': YTOCompGraphConfig,
     'y_base': YCSBBaselinesGraphConfig,
+    'y_semopt': YCSBSemanticOptGraphConfig,
     'y_scale_merged': YScalabilityMergedGraphConfig,
     't_scale_o': TOCCGraphConfig,
     't_scale_m': TMVGraphConfig,
     't_scale_merged': TScalabilityMergedGraphConfig,
     't_base': TPCCBaselinesGraphConfig,
-    't_xsys': TPCCXSystemGraphConfig, 
+    't_xsys': TPCCXSystemGraphConfig,
+    't_semopt': TPCCSemanticOptGraphConfig,
     'w_scale_o': WikiOCCGraphConfig,
     'w_scale_m': WikiMVGraphConfig,
     'w_scale_merged': WikiSideBySideGraphConfig,
@@ -157,6 +161,8 @@ class BenchPlotter:
         self.dimension2 = cnf.DIM2
         if hasattr(cnf, "SUBFIG_DIM2S"):
             self.subfigure_dimension2 = cnf.SUBFIG_DIM2S
+            if self.dimension2 is None:
+                self.dimension2 = [sut for subfig in self.subfigure_dimension2 for sut in subfig]
         else:
             self.subfigure_dimension2 = None
         self.dimension3 = cnf.DIM3
