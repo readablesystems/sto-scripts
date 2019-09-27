@@ -67,8 +67,8 @@ setup_rubis_tictoc() {
   ITERS=10
 
   RUBIS_OCC=(
-    "TicToc"      "-idefault -s1.0 -g"
-    "TicToc + CU" "-idefault -s1.0 -g -x"
+    "TicToc"      "-itictoc -s1.0 -g"
+    "TicToc + CU" "-itictoc -s1.0 -g -x"
   )
 
   RUBIS_MVCC=(
@@ -590,8 +590,8 @@ setup_wiki_tictoc() {
   EXPERIMENT_NAME="Wikipedia, TicToc"
 
   WIKI_OCC=(
-    "TicToc"      "-idefault -b"
-    "TicToc + CU" "-idefault -b -x"
+    "TicToc"      "-itictoc -b"
+    "TicToc + CU" "-itictoc -b -x"
   )
 
   WIKI_MVCC=(
