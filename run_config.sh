@@ -658,6 +658,46 @@ setup_ycsba_baselines() {
   }
 }
 
+setup_ycsba_semopts() {
+  EXPERIMENT_NAME="YCSB-A Semantic optimizations, OCC vs TTCC vs MVCC"
+  TIMEOUT=60
+
+  YCSB_OCC=(
+    "OCC + CU (A)"    "-mA -idefault -g -x"
+    "TicToc + CU (A)" "-mA -itictoc -g -x"
+    "OCC (A)"         "-mA -idefault -g"
+    "TicToc (A)"      "-mA -itictoc -g"
+  )
+
+  YCSB_MVCC=(
+    "MVCC + CU (A)" "-mA -imvcc -g -x"
+    "MVCC (A)"      "-mA -imvcc -g"
+  )
+
+  YCSB_OCC_BINARIES=(
+    "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+  )
+  YCSB_MVCC_BINARIES=(
+    "ycsb_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+  )
+  YCSB_BOTH_BINARIES=(
+    "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${YCSB_OCC[@]}")
+  MVCC_LABELS=("${YCSB_MVCC[@]}")
+  OCC_BINARIES=("${YCSB_OCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${YCSB_MVCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
 setup_ycsbb_baselines() {
   EXPERIMENT_NAME="YCSB-B, OCC vs TTCC vs MVCC"
   TIMEOUT=60
@@ -683,6 +723,46 @@ setup_ycsbb_baselines() {
   MVCC_LABELS=("${YCSB_MVCC[@]}")
   OCC_BINARIES=("${YCSB_BOTH_BINARIES[@]}")
   MVCC_BINARIES=("${YCSB_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
+setup_ycsbb_semopts() {
+  EXPERIMENT_NAME="YCSB-B Semantic optimizations, OCC vs TTCC vs MVCC"
+  TIMEOUT=60
+
+  YCSB_OCC=(
+    "OCC + CU (B)"    "-mB -idefault -g -x"
+    "TicToc + CU (B)" "-mB -itictoc -g -x"
+    "OCC (B)"         "-mB -idefault -g"
+    "TicToc (B)"      "-mB -itictoc -g"
+  )
+
+  YCSB_MVCC=(
+    "MVCC + CU (B)" "-mB -imvcc -g -x"
+    "MVCC (B)"      "-mB -imvcc -g"
+  )
+
+  YCSB_OCC_BINARIES=(
+    "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+  )
+  YCSB_MVCC_BINARIES=(
+    "ycsb_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+  )
+  YCSB_BOTH_BINARIES=(
+    "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${YCSB_OCC[@]}")
+  MVCC_LABELS=("${YCSB_MVCC[@]}")
+  OCC_BINARIES=("${YCSB_OCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${YCSB_MVCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
 
   call_runs() {
     default_call_runs
