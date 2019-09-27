@@ -377,6 +377,7 @@ class TPCCBaselinesGraphConfig:
     D3YMAXES = [None, None]
     D3TITLES = ['', '']
     D3FNAMES = ['tpcc_baselines_w1', 'tpcc_baselines_part']
+    FIG_SIZE = (5,5)
 
 
 # TPC-C Cross-system comparison: OCC, TTCC, MVCC, Cicada, ERMIA, MOCC
@@ -385,20 +386,20 @@ class TPCCXSystemGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('OCC', 'TTCC', 'MOCC'), ('MVCC', 'Cicada', 'ERMIA')),
+        'subfigure_series_names': (('OCC', 'MOCC'), ('TTCC',), ('MVCC', 'Cicada', 'ERMIA')),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['o','tictoc','mocc', 'm', 'c', 'e']
-    DIM3 = ['1']
-    SUBFIG_DIM2S = (('o','tictoc','mocc'),('m','c','e'))
-    LEGENDS = [True]
-    D3YMAXES = [0.8]
-    D3TITLES = ['']
-    D3FNAMES = ['tpcc_xsys_w1']
-    WIDE_FIG_SIZE = (14,5)
+    DIM2 = None
+    DIM3 = ['1', '0']
+    SUBFIG_DIM2S = (('o','mocc'),('tictoc',),('m','c','e'))
+    LEGENDS = [True, True]
+    D3YMAXES = [0.8, 5]
+    D3TITLES = ['', '']
+    D3FNAMES = ['tpcc_xsys_w1', 'tpcc_xsys_part']
+    #WIDE_FIG_SIZE = (15,5)
 
 
 # TPC-C baseline vs CU+TS comparison graphs, low and high contention
@@ -408,8 +409,11 @@ class TPCCSemanticOptGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('OCC', 'OCC+CU+TS'),('TTCC', 'TTCC+CU+TS'),('MVCC', 'MVCC+CU+TS')),
-        'legends_on': True
+        'subfigure_series_names': (('OCC', 'OCC+CU+TS'),
+                                   ('TTCC', 'TTCC+CU+TS'),
+                                   ('MVCC', 'MVCC+CU+TS')),
+        'legends_on': True,
+        'legend_order': (1,0)
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
@@ -422,6 +426,28 @@ class TPCCSemanticOptGraphConfig:
     D3TITLES = ['','']
     D3FNAMES = ['tpcc_semopt_w1','tpcc_semopt_part']
     #WIDE_FIG_SIZE = (16,5)
+
+
+# TPC-C Individual CU/TS improvement graphs
+# OCC vs TTCC vs MVCC
+class TPCCSemanticIndGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('OCC+CU', 'OCC+TS'),('TTCC+CU', 'TTCC+TS'),('MVCC+CU', 'MVCC+TS')),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = None
+    DIM3 = ['1', '0']
+    SUBFIG_DIM2S = (('o.c','o.s'),('tictoc.c','tictoc.s'),('m.c','m.s'))
+    LEGENDS = [True, True]
+    D3YMAXES = [1.6, None]
+    D3TITLES = ['','']
+    D3FNAMES = ['tpcc_semind_w1','tpcc_semind_part']
 
 
 # YCSB scalability graphs
@@ -522,15 +548,15 @@ class YCSBSemanticOptGraphConfig:
         'subfigure_series_names': (('OCC', 'OCC+CU+TS'), ('TTCC', 'TTCC+CU+TS'),
                                    ('MVCC', 'MVCC+CU+TS')),
         'legends_on': True,
-        'legend_order': (3, 2, 1, 0)
+        'legend_order': (1,0)
     }
-    NAME = MVSTOYCSBConfig.NAME
+    NAME = YCSBTicTocCompConfig.NAME
     TYPE = GraphType.LINE
-    DIM1 = MVSTOYCSBConfig.DIM1
+    DIM1 = YCSBTicTocCompConfig.DIM1
     DIM2 = None
     SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
     DIM3 = ['a', 'b']
-    LEGENDS = [True, False]
+    LEGENDS = [True, True]
     D3YMAXES = [3.0, 11.0]
     D3TITLES = ['', '']
     D3FNAMES = ['ycsb_semopt_a', 'ycsb_semopt_b']
@@ -553,6 +579,7 @@ class YCSBBaselinesGraphConfig:
     D3YMAXES = [None, None]
     D3TITLES = ['', '']
     D3FNAMES = ['ycsb_a_baselines', 'ycsb_b_baselines']
+    FIG_SIZE = (5,5)
 
 
 # Wikipedia + RUBiS graphs
@@ -596,28 +623,48 @@ class WikiMVGraphConfig:
     D3FNAMES = ['wiki_mvcc']
 
 
+# Wikipedia baseline comparisons (OCC, TTCC, MVCC)
+class WikiBaselineGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'TTCC', 'MVCC'),
+        'legends_on': True,
+    }
+    NAME = MVSTOWikiConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOWikiConfig.DIM1
+    DIM2 = ['o', 'tictoc', 'm']
+    DIM3 = ['1']
+    LEGENDS = [True, True]
+    D3YMAXES = [None, None]
+    D3TITLES = ['', '']
+    D3FNAMES = ['wiki_baselines']
+    FIG_SIZE = (5,5)
+
+
 # Wikipedia OCC, MVCC side-by-side comparison graphs
 class WikiSideBySideGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('OSTO', 'OSTO+CU', 'OSTO+TS', 'OSTO+CU+TS'),
-                                   ('MSTO', 'MSTO+CU', 'MSTO+TS', 'MSTO+CU+TS')),
+        'subfigure_series_names': (('OCC', 'OCC+CU+TS'),
+                                   ('TTCC', 'TTCC+CU+TS'),
+                                   ('MVCC', 'MVCC+CU+TS')),
         'legends_on': True,
-        'legend_order': (3,1,2,0)
+        'legend_order': (1,0)
     }
     NAME = MVSTOWikiConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOWikiConfig.DIM1
-    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s']
-    SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('m','m.c','m.s','m.c.s'))
+    DIM2 = None
+    SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
     DIM3 = ['1']
-    LEGENDS = [False]
+    LEGENDS = [True]
     D3YMAXES = [0.6]
     D3TITLES = ['']
-    D3FNAMES = ['wiki_om']
-    WIDE_FIG_SIZE = (14.4, 6)
+    D3FNAMES = ['wiki_otm']
 
 
 class RubisOCCGraphConfig:
@@ -658,28 +705,47 @@ class RubisMVGraphConfig:
     D3FNAMES = ['rubis_mvcc']
 
 
+class RubisBaselineGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'TTCC', 'MVCC'),
+        'legends_on': True,
+    }
+    NAME = MVSTORubisConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTORubisConfig.DIM1
+    DIM2 = ['o', 'tictoc', 'm']
+    DIM3 = ['1']
+    LEGENDS = [True, True]
+    D3YMAXES = [None, None]
+    D3TITLES = ['', '']
+    D3FNAMES = ['rubis_baselines']
+    FIG_SIZE = (5,5)
+
+
 # Rubis OCC, MVCC side-by-side comparison graphs
 class RubisSideBySideGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('OSTO', 'OSTO+CU', 'OSTO+TS', 'OSTO+CU+TS'),
-                                   ('MSTO', 'MSTO+CU', 'MSTO+TS', 'MSTO+CU+TS')),
+        'subfigure_series_names': (('OCC', 'OCC+CU+TS'),
+                                   ('TTCC', 'TTCC+CU+TS'),
+                                   ('MVCC', 'MVCC+CU+TS')),
         'legends_on': True,
-        'legend_order': (3,1,2,0)
+        'legend_order': (1,0)
     }
     NAME = MVSTORubisConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTORubisConfig.DIM1
-    DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s']
-    SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('m','m.c','m.s','m.c.s'))
+    DIM2 = None
+    SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
     DIM3 = ['1']
     LEGENDS = [True]
     D3YMAXES = [2.25]
     D3TITLES = ['']
-    D3FNAMES = ['rubis_om']
-    WIDE_FIG_SIZE = (14.4, 6)
+    D3FNAMES = ['rubis_otm']
 
 
 # Overhead bar graph
@@ -826,6 +892,7 @@ class TPCCOCCStackedFactorsGraphConfig:
     D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_stacked_factors_occ_w1', 'tpcc_stacked_factors_occ_w4', 'tpcc_stacked_factors_occ_part']
+    FIG_SIZE = (6,6)
 
 
 # Index contention graph, showing throughput of delivery transactions only
@@ -847,6 +914,7 @@ class TPCCIndexContentionGraphConfig:
     D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_index_contention_w1', 'tpcc_index_contention_w4', 'tpcc_index_contention_part']
+    FIG_SIZE = (6,6)
 
 
 # Graphs with opacity results

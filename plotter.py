@@ -20,6 +20,7 @@ from config import YCSBSemanticOptGraphConfig
 from config import TOCCGraphConfig, TMVGraphConfig, WikiOCCGraphConfig, WikiMVGraphConfig
 from config import RubisOCCGraphConfig, RubisMVGraphConfig
 from config import WikiSideBySideGraphConfig, RubisSideBySideGraphConfig
+from config import WikiBaselineGraphConfig, RubisBaselineGraphConfig
 from config import TW1OCCZoomedGraphConfig, TW1MVZoomedGraphConfig
 from config import TWPOCCGraphConfig, TWPMVGraphConfig
 from config import TPCCFactorsGraphConfig, TPCCStackedFactorsGraphConfig, TPCCOCCStackedFactorsGraphConfig
@@ -27,7 +28,7 @@ from config import TPCCIndexContentionGraphConfig
 
 from config import TScalabilityMergedGraphConfig
 from config import TPCCBaselinesGraphConfig, TPCCXSystemGraphConfig
-from config import TPCCSemanticOptGraphConfig
+from config import TPCCSemanticOptGraphConfig, TPCCSemanticIndGraphConfig
 
 from config import TPCCOpacityGraphConfig
 from config import TOTCCCompGraphConfig
@@ -55,11 +56,14 @@ plotter_map = {
     't_base': TPCCBaselinesGraphConfig,
     't_xsys': TPCCXSystemGraphConfig,
     't_semopt': TPCCSemanticOptGraphConfig,
+    't_semind': TPCCSemanticIndGraphConfig,
     'w_scale_o': WikiOCCGraphConfig,
     'w_scale_m': WikiMVGraphConfig,
+    'w_base': WikiBaselineGraphConfig,
     'w_scale_merged': WikiSideBySideGraphConfig,
     'r_scale_o': RubisOCCGraphConfig,
     'r_scale_m': RubisMVGraphConfig,
+    'r_base': RubisBaselineGraphConfig,
     'r_scale_merged': RubisSideBySideGraphConfig,
     'tw1_zoomed_o': TW1OCCZoomedGraphConfig,
     'tw1_zoomed_m': TW1MVZoomedGraphConfig,
