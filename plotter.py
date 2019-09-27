@@ -15,7 +15,7 @@ from config import MVSTOTPCCOCCGraphConfig, MVSTOTPCCMVCCGraphConfig, MVSTOYCSBG
 from config import MVSTOYCSBOCCGraphConfig, MVSTOYCSBMVCCGraphConfig, MVSTORubisGraphConfig
 
 from config import YOCCGraphConfig, YMVGraphConfig, YTOCompGraphConfig
-from config import YScalabilityMergedGraphConfig
+from config import YScalabilityMergedGraphConfig, YCSBBaselinesGraphConfig
 from config import TOCCGraphConfig, TMVGraphConfig, WikiOCCGraphConfig, WikiMVGraphConfig
 from config import RubisOCCGraphConfig, RubisMVGraphConfig
 from config import WikiSideBySideGraphConfig, RubisSideBySideGraphConfig
@@ -25,6 +25,7 @@ from config import TPCCFactorsGraphConfig, TPCCStackedFactorsGraphConfig, TPCCOC
 from config import TPCCIndexContentionGraphConfig
 
 from config import TScalabilityMergedGraphConfig
+from config import TPCCBaselinesGraphConfig, TPCCXSystemGraphConfig
 
 from config import TPCCOpacityGraphConfig
 from config import TOTCCCompGraphConfig
@@ -43,10 +44,13 @@ plotter_map = {
     'y_scale_o': YOCCGraphConfig,
     'y_scale_m': YMVGraphConfig,
     'y_tictoc_comp': YTOCompGraphConfig,
+    'y_base': YCSBBaselinesGraphConfig,
     'y_scale_merged': YScalabilityMergedGraphConfig,
     't_scale_o': TOCCGraphConfig,
     't_scale_m': TMVGraphConfig,
     't_scale_merged': TScalabilityMergedGraphConfig,
+    't_base': TPCCBaselinesGraphConfig,
+    't_xsys': TPCCXSystemGraphConfig, 
     'w_scale_o': WikiOCCGraphConfig,
     'w_scale_m': WikiMVGraphConfig,
     'w_scale_merged': WikiSideBySideGraphConfig,

@@ -360,6 +360,47 @@ class TScalabilityMergedGraphConfig:
     D3FNAMES = ['tpcc_om_w1', 'tpcc_om_w4', 'tpcc_om_part']
 
 
+# TPC-C baselines comparison, OCC vs TTCC vs MVCC
+class TPCCBaselinesGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'TTCC', 'MVCC'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['o','tictoc','m']
+    DIM3 = ['1', '0']
+    LEGENDS = [True, False]
+    D3YMAXES = [None, None]
+    D3TITLES = ['', '']
+    D3FNAMES = ['tpcc_baselines_w1', 'tpcc_baselines_part']
+
+
+# TPC-C Cross-system comparison: OCC, TTCC, MVCC, Cicada, ERMIA, MOCC
+class TPCCXSystemGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('OCC', 'TTCC', 'MOCC'), ('MVCC', 'Cicada', 'ERMIA')),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['o','tictoc','mocc', 'm', 'c', 'e']
+    DIM3 = ['1']
+    SUBFIG_DIM2S = (('o','tictoc','mocc'),('m','c','e'))
+    LEGENDS = [True]
+    D3YMAXES = [0.8]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_xsys_w1']
+    WIDE_FIG_SIZE = (14,5)
+
+
 # YCSB scalability graphs
 # Self comparisons
 class YOCCGraphConfig:
@@ -447,6 +488,26 @@ class YScalabilityMergedGraphConfig:
     D3YMAXES = [3.0, 11.0]
     D3TITLES = ['', '']
     D3FNAMES = ['ycsb_om_a', 'ycsb_om_b']
+
+
+# YCSB baseline graphs OCC vs TTCC vs MVCC
+class YCSBBaselinesGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'TTCC', 'MVCC'),
+        'legends_on': True,
+    }
+    NAME = YCSBTicTocCompConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = YCSBTicTocCompConfig.DIM1
+    DIM2 = ['o', 'tictoc', 'm']
+    DIM3 = ['a', 'b']
+    LEGENDS = [True, True]
+    D3YMAXES = [None, None]
+    D3TITLES = ['', '']
+    D3FNAMES = ['ycsb_a_baselines', 'ycsb_b_baselines']
+
 
 # Wikipedia + RUBiS graphs
 class WikiOCCGraphConfig:

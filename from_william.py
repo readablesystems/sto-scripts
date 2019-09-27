@@ -160,11 +160,13 @@ ycsb_sys_name_map = {
 }
 
 ycsb_tictoc_comp_sys_name_map = {
-	'name': 'ycsb_tictoc_comp',
-	'OCC (A)': 'o/a',
-	'OCC (B)': 'o/b',
-	'TicToc (A)': 'tictoc/a',
-	'TicToc (B)': 'tictoc/b',
+    'name': 'ycsb_tictoc_comp',
+    'OCC (A)': 'o/a',
+    'OCC (B)': 'o/b',
+    'MVCC (A)': 'm/a',
+    'MVCC (B)': 'm/b',
+    'TicToc (A)': 'tictoc/a',
+    'TicToc (B)': 'tictoc/b',
 }
 
 wiki_sys_name_map = {
@@ -199,7 +201,7 @@ tpcc_safe_flatten_file = 'tpcc_safe_flatten_results.txt'
 ycsb_out_file = config.get_result_file(config.MVSTOYCSBConfig.NAME)
 ycsb_result_file = 'ycsb_results.txt'
 
-# YCSB TicToc vs. OCC comparison (convert using the generic convert() function)
+# YCSB baseline CC comparisons (convert using the generic convert() function)
 ycsb_tictoc_comp_out_file = config.get_result_file(config.YCSBTicTocCompConfig.NAME)
 ycsb_tictoc_comp_result_file = 'ycsb_tictoc_results.txt'
 
