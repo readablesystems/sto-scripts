@@ -363,6 +363,7 @@ class BenchPlotter:
             plt.show()
         else:
             plt.savefig('{}_{}.{}'.format(meta_info['save_name'], file_timestamp_str(), BenchPlotter.img_fmt))
+        plt.close(fig)
 
     def draw_lines(self, ax, subfig_idx, series_names, dim2, meta_info, common_x, y_series, y_errors):
         #fig, ax = plt.subplots(figsize=self.figsize)
@@ -499,6 +500,7 @@ class BenchPlotter:
                     plt.show()
                 else:
                     plt.savefig('{}_{}.{}'.format(fname, file_timestamp_str(), BenchPlotter.img_fmt))
+                plt.close(fig)
         else:
             print('--throughput graph(s)--')
             for idx, d3 in enumerate(self.dimension3):
@@ -520,6 +522,7 @@ class BenchPlotter:
                     plt.show()
                 else:
                     plt.savefig('{}_{}.{}'.format(fname, file_timestamp_str(), BenchPlotter.img_fmt))
+                plt.close(fig)
 
         if self.plot_aborts:
             print('--abort graph(s)--')
