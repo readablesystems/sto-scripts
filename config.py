@@ -118,10 +118,10 @@ color_mapping = {
     'c': 8,
     'e': 10,
     'mocc': 12,
-    'tictoc': 14,
-    'tictoc.s': 16,
-    'tictoc.c': 17,
-    'tictoc.c.s': 15,
+    'tictoc': 18,
+    'tictoc.s': 14,
+    'tictoc.c': 13,
+    'tictoc.c.s': 16,
     'op': 11,
     'op.c': 13,
     'op.s': 15,
@@ -360,12 +360,12 @@ class TScalabilityMergedGraphConfig:
     D3FNAMES = ['tpcc_om_w1', 'tpcc_om_w4', 'tpcc_om_part']
 
 
-# TPC-C baselines comparison, OCC vs TTCC vs MVCC
+# TPC-C baselines comparison, OCC vs TicToc vs MVCC
 class TPCCBaselinesGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC', 'TTCC', 'MVCC'),
+        'series_names': ('OSTO', 'TSTO', 'MSTO'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -380,13 +380,13 @@ class TPCCBaselinesGraphConfig:
     FIG_SIZE = (5,5)
 
 
-# TPC-C Cross-system comparison: OCC, TTCC, MVCC, Cicada, ERMIA, MOCC
+# TPC-C Cross-system comparison: OCC, TicToc, MVCC, Cicada, ERMIA, MOCC
 class TPCCXSystemGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('OCC', 'MOCC'), ('TTCC',), ('MVCC', 'Cicada', 'ERMIA')),
+        'subfigure_series_names': (('OSTO', 'MOCC'), ('TSTO',), ('MSTO', 'Cicada', 'ERMIA')),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -403,15 +403,15 @@ class TPCCXSystemGraphConfig:
 
 
 # TPC-C baseline vs CU+TS comparison graphs, low and high contention
-# OCC vs TTCC vs MVCC
+# OCC vs TicToc vs MVCC
 class TPCCSemanticOptGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('OCC', 'OCC+CU+TS'),
-                                   ('TTCC', 'TTCC+CU+TS'),
-                                   ('MVCC', 'MVCC+CU+TS')),
+        'subfigure_series_names': (('OSTO', 'OSTO+CU+TS'),
+                                   ('TSTO', 'TSTO+CU+TS'),
+                                   ('MSTO', 'MSTO+CU+TS')),
         'legends_on': True,
         'legend_order': (1,0)
     }
@@ -429,13 +429,13 @@ class TPCCSemanticOptGraphConfig:
 
 
 # TPC-C Individual CU/TS improvement graphs
-# OCC vs TTCC vs MVCC
+# OCC vs TicToc vs MVCC
 class TPCCSemanticIndGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('OCC+CU', 'OCC+TS'),('TTCC+CU', 'TTCC+TS'),('MVCC+CU', 'MVCC+TS')),
+        'subfigure_series_names': (('OSTO+CU', 'OSTO+TS'),('TSTO+CU', 'TSTO+TS'),('MSTO+CU', 'MSTO+TS')),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -545,8 +545,8 @@ class YCSBSemanticOptGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('OCC', 'OCC+CU+TS'), ('TTCC', 'TTCC+CU+TS'),
-                                   ('MVCC', 'MVCC+CU+TS')),
+        'subfigure_series_names': (('OSTO', 'OSTO+CU+TS'), ('TSTO', 'TSTO+CU+TS'),
+                                   ('MSTO', 'MSTO+CU+TS')),
         'legends_on': True,
         'legend_order': (1,0)
     }
@@ -562,12 +562,12 @@ class YCSBSemanticOptGraphConfig:
     D3FNAMES = ['ycsb_semopt_a', 'ycsb_semopt_b']
 
 
-# YCSB baseline graphs OCC vs TTCC vs MVCC
+# YCSB baseline graphs OCC vs TicToc vs MVCC
 class YCSBBaselinesGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC', 'TTCC', 'MVCC'),
+        'series_names': ('OSTO', 'TSTO', 'MSTO'),
         'legends_on': True,
     }
     NAME = YCSBTicTocCompConfig.NAME
@@ -623,12 +623,12 @@ class WikiMVGraphConfig:
     D3FNAMES = ['wiki_mvcc']
 
 
-# Wikipedia baseline comparisons (OCC, TTCC, MVCC)
+# Wikipedia baseline comparisons (OCC, TicToc, MVCC)
 class WikiBaselineGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC', 'TTCC', 'MVCC'),
+        'series_names': ('OSTO', 'TSTO', 'MSTO'),
         'legends_on': True,
     }
     NAME = MVSTOWikiConfig.NAME
@@ -649,9 +649,9 @@ class WikiSideBySideGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('OCC', 'OCC+CU+TS'),
-                                   ('TTCC', 'TTCC+CU+TS'),
-                                   ('MVCC', 'MVCC+CU+TS')),
+        'subfigure_series_names': (('OSTO', 'OSTO+CU+TS'),
+                                   ('TSTO', 'TSTO+CU+TS'),
+                                   ('MSTO', 'MSTO+CU+TS')),
         'legends_on': True,
         'legend_order': (1,0)
     }
@@ -709,7 +709,7 @@ class RubisBaselineGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('OCC', 'TTCC', 'MVCC'),
+        'series_names': ('OSTO', 'TSTO', 'MSTO'),
         'legends_on': True,
     }
     NAME = MVSTORubisConfig.NAME
@@ -730,9 +730,9 @@ class RubisSideBySideGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('OCC', 'OCC+CU+TS'),
-                                   ('TTCC', 'TTCC+CU+TS'),
-                                   ('MVCC', 'MVCC+CU+TS')),
+        'subfigure_series_names': (('OSTO', 'OSTO+CU+TS'),
+                                   ('TSTO', 'TSTO+CU+TS'),
+                                   ('MSTO', 'MSTO+CU+TS')),
         'legends_on': True,
         'legend_order': (1,0)
     }
