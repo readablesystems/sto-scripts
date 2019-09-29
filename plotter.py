@@ -100,11 +100,6 @@ def prop_mapping(m, sut):
     return None
 
 
-def file_timestamp_str():
-    dt_now = datetime.datetime.now()
-    return '{:04d}{:02d}{:02d}{:02d}'.format(dt_now.year, dt_now.month, dt_now.day, dt_now.hour)
-
-
 class GraphGlobalConstants:
     FONT_SIZE = 22
     FIG_SIZE = (8.333, 5)
@@ -133,6 +128,7 @@ class BenchPlotter:
     show_only = True
     img_fmt = 'pdf'
     plot_aborts = False
+    write_timestamp = True
 
     def set_matplotlib_params(self):
         fnt_sz = GraphGlobalConstants.FONT_SIZE
@@ -151,6 +147,14 @@ class BenchPlotter:
         mpl.rcParams['ytick.labelsize'] = fnt_sz
         mpl.rcParams['legend.fontsize'] = 16
         mpl.rcParams['figure.titlesize'] = 'medium'
+
+    @classmethod
+    def file_timestamp_str(cls):
+        if cls.write_timestamp:
+            dt_now = datetime.datetime.now()
+            return '{:04d}{:02d}{:02d}{:02d}'.format(dt_now.year, dt_now.month, dt_now.day, dt_now.hour)
+        else:
+            return 'latest'
 
     @classmethod
     def key(cls, d1, d2, d3):
@@ -499,7 +503,7 @@ class BenchPlotter:
                 if BenchPlotter.show_only:
                     plt.show()
                 else:
-                    plt.savefig('{}_{}.{}'.format(fname, file_timestamp_str(), BenchPlotter.img_fmt))
+                    plt.savefig('{}_{}.{}'.format(fname, self.file_timestamp_str(), BenchPlotter.img_fmt))
                 plt.close(fig)
         else:
             print('--throughput graph(s)--')
@@ -521,7 +525,7 @@ class BenchPlotter:
                 if BenchPlotter.show_only:
                     plt.show()
                 else:
-                    plt.savefig('{}_{}.{}'.format(fname, file_timestamp_str(), BenchPlotter.img_fmt))
+                    plt.savefig('{}_{}.{}'.format(fname, self.file_timestamp_str(), BenchPlotter.img_fmt))
                 plt.close(fig)
 
         if self.plot_aborts:
@@ -557,6 +561,8 @@ if __name__ == '__main__':
                    help="Set if want to save graph as file. (Default False, show figure only).")
     psr.add_option("-t", "--image-type", action="store", type="string", dest="ext", default="",
                    help="Set the image type (pdf/png). Implies --save-to-file.")
+    psr.add_option("-n", "--no-timestamp", action="store_false", dest="write_timestamp", default=True,
+                   help="Write \"latest\" instead of the timestamp to end of the file name.")
 
     supported_exts = ["pdf", "png"]
 
@@ -572,6 +578,8 @@ if __name__ == '__main__':
             BenchPlotter.show_only = False
         else:
             psr.error("Unsupported image file extension: {}.".format(opts.ext))
+    if not opts.write_timestamp:
+        BenchPlotter.write_timestamp = False
 
     if len(args) == 0:
         psr.error("Please specify at least one benchmark to plot.");
