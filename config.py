@@ -914,7 +914,7 @@ class TPCCIndexContentionGraphConfig:
     D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_index_contention_w1', 'tpcc_index_contention_w4', 'tpcc_index_contention_part']
-    FIG_SIZE = (6,6)
+    FIG_SIZE = (9,5)
 
 
 # Graphs with opacity results
