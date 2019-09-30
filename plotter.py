@@ -359,8 +359,12 @@ class BenchPlotter:
         ax.set_xlabel(meta_info['x_label'])
 
         if meta_info['legends_on']:
+            if 'legend_ncol' in meta_info.keys():
+                legend_n_columns = meta_info['legend_ncol']
+            else:
+                legend_n_columns = 1
             ax.legend([r[0] for r in rects], self.series_names(meta_info),
-                      loc='best')
+                      loc='best', ncol=legend_n_columns)
 
         plt.tight_layout()
         if BenchPlotter.show_only:
@@ -418,15 +422,19 @@ class BenchPlotter:
         if meta_info['legends_on']:
             slines = [l[0] for l in lines]
             snames = self.series_names(meta_info) if series_names is None else series_names
+            if 'legend_ncol' in meta_info.keys():
+                legend_n_columns = meta_info['legend_ncol']
+            else:
+                legend_n_columns = 1
             if meta_info.get('legend_order') is not None:
                 xlines = []
                 xnames = []
                 for i in meta_info['legend_order']:
                     xlines.append(slines[i])
                     xnames.append(snames[i])
-                ax.legend(xlines, xnames, loc='best', framealpha=0)
+                ax.legend(xlines, xnames, loc='best', framealpha=0, ncol=legend_n_columns)
             else:
-                ax.legend(slines, snames, loc='best', framealpha=0)
+                ax.legend(slines, snames, loc='best', framealpha=0, ncol=legend_n_columns)
 
         #plt.tight_layout()
         #if BenchPlotter.show_only:

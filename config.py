@@ -880,19 +880,20 @@ class TPCCOCCStackedFactorsGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('NoOpt', '+Allocator', '+Backoff', '+NoExcept', '+HashIdx'),
-        'legends_on': True
+        'series_names': ('NoOpt', '+Allocator', '+Backoff', '+NoExcept', '+HashIdx (OSTO)'),
+        'legends_on': True,
+        'legend_order': (4,3,2,1,0)
     }
     NAME = MVSTOTPCCStackedFactorsConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['on', 'on.a', 'on.a.r', 'on.a.r.e', 'on.a.r.e.h']
-    DIM3 = ['1', '4', '0']
-    LEGENDS = [False, False, True]
-    D3YMAXES = [None, None, None]
+    DIM3 = ['1', '0']
+    LEGENDS = [False, True]
+    D3YMAXES = [None, None]
     D3TITLES = ['', '', '']
-    D3FNAMES = ['tpcc_stacked_factors_occ_w1', 'tpcc_stacked_factors_occ_w4', 'tpcc_stacked_factors_occ_part']
-    FIG_SIZE = (6,6)
+    D3FNAMES = ['tpcc_stacked_factors_occ_w1', 'tpcc_stacked_factors_occ_part']
+    FIG_SIZE = (6.1,6.1)
 
 
 # Index contention graph, showing throughput of delivery transactions only
@@ -902,7 +903,7 @@ class TPCCIndexContentionGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Ktxns/sec)',
         'scale_factor': 1000.0,
-        'series_names': ('NoOpt', '+CAIndex'),
+        'series_names': ('OSTO', '-CAIndex'),
         'legends_on': True
     }
     NAME = MVSTOTPCCIndexContentionConfig.NAME
