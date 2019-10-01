@@ -119,9 +119,9 @@ color_mapping = {
     'e': 10,
     'mocc': 12,
     'tictoc': 18,
-    'tictoc.s': 14,
-    'tictoc.c': 13,
-    'tictoc.c.s': 16,
+    'tictoc.s': 4,
+    'tictoc.c': 2,
+    'tictoc.c.s': 6,
     'op': 11,
     'op.c': 13,
     'op.s': 15,
@@ -167,10 +167,10 @@ marker_mapping = {
     'c':       '^',
     'e':       '>',
     'mocc':    'd',
-    'tictoc':  'h',
-    'tictoc.s':  'h',
-    'tictoc.c':  'h',
-    'tictoc.c.s':  'h',
+    'tictoc':  '$T$',
+    'tictoc.s': '$T$',
+    'tictoc.c': '$T$',
+    'tictoc.c.s': '$T$',
     'mf':      'h',
     'mf.c':    'H',
     'mf.c.s':  'x',
@@ -207,10 +207,9 @@ linestyle_mapping = {
     'e': (0, (2, 3)),
     'c': (0, (2, 3)),
     'mocc': (0, (2, 3)),
-    'tictoc': (0, (2, 3)),
-    'tictoc.s': (0, (2, 3)),
-    'tictoc.c': (0, (2, 3)),
-    'tictoc.c.s': (0, (2, 3)),
+    'tictoc.s': 'dotted',
+    'tictoc.c': 'dashed',
+    'tictoc.c.s': 'dashdot',
 }
 
 linewidth_mapping = {
@@ -219,10 +218,6 @@ linewidth_mapping = {
     'mocc': 3,
     'c': 3,
     'e': 3,
-    'tictoc': 3,
-    'tictoc.s': 3,
-    'tictoc.c': 3,
-    'tictoc.c.s': 3,
 }
 
 errorbar_mapping = {
@@ -903,8 +898,9 @@ class TPCCIndexContentionGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Ktxns/sec)',
         'scale_factor': 1000.0,
-        'series_names': ('OSTO', '-CAIndex'),
-        'legends_on': True
+        'series_names': ('-CAIndex', 'OSTO'),
+        'legends_on': True,
+        'legend_order': (1, 0)
     }
     NAME = MVSTOTPCCIndexContentionConfig.NAME
     TYPE = GraphType.LINE
