@@ -62,6 +62,41 @@ setup_rubis() {
   }
 }
 
+setup_rubis_mvcc() {
+  EXPERIMENT_NAME="RUBiS MVCC only"
+  ITERS=10
+
+  RUBIS_OCC=(
+  )
+
+  RUBIS_MVCC=(
+    "MVCC"        "-imvcc -s1.0 -g"
+    "MVCC + CU"   "-imvcc -s1.0 -g -x"
+  )
+
+  RUBIS_OCC_BINARIES=(
+  )
+  RUBIS_MVCC_BINARIES=(
+    "rubis_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+  )
+  RUBIS_BOTH_BINARIES=(
+    "rubis_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${RUBIS_OCC[@]}")
+  MVCC_LABELS=("${RUBIS_MVCC[@]}")
+  OCC_BINARIES=("${RUBIS_OCC_BINARIES[@]}" "${RUBIS_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${RUBIS_MVCC_BINARIES[@]}" "${RUBIS_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
 setup_rubis_tictoc() {
   EXPERIMENT_NAME="RUBiS, TicToc"
   ITERS=10
