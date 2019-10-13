@@ -52,7 +52,7 @@ def ProcessDiff(result_file, diff_file):
             for _, rf_row in rf_dict.items():
                 field_names = rf_row.keys()
                 break
-            writer = csv.DictWriter(wf, filednames=field_names)
+            writer = csv.DictWriter(wf, field_names)
             writer.writeheader()
             for _, rf_row in rf_dict.items():
                 writer.writerow(rf_row)
@@ -61,4 +61,4 @@ def ProcessDiff(result_file, diff_file):
         print('File I/O error.')
         return
 
-ProcessDiff(args.result_file, args.diff_file)
+ProcessDiff(args.result_file[0], args.diff_file)
