@@ -13,6 +13,9 @@
 # setup_tpcc_safe_flatten: TPC-C with safer flattening MVCC, 1, 4, and scaling warehouses
 # setup_tpcc_scaled: TPC-C, #warehouses = #threads
 # setup_tpcc_tictoc: TPC-C, 1, 4, and scaling warehouses, using TicToc
+# setup_tpcc_stacked_factors:
+# setup_tpcc_stacked_factors_occ
+# setup_tpcc_stacked_factors_mvcc: TPC-C factor analysis experiments.
 # setup_wiki: Wikipedia
 # setup_ycsba: YCSB-A
 # setup_ycsba_occ: YCSB-A, OCC only
@@ -542,8 +545,8 @@ setup_tpcc_factors() {
   }
 }
 
-setup_tpcc_new_factors() {
-  EXPERIMENT_NAME="TPC-C Factors (New/Stacked)"
+setup_tpcc_stacked_factors() {
+  EXPERIMENT_NAME="TPC-C Stacked Factors - All"
 
   TPCC_OCC=(
     "OCC (W1)"          "-idefault -g -w1"
@@ -552,9 +555,9 @@ setup_tpcc_new_factors() {
   )
 
   TPCC_MVCC=(
-    "MVCC (W1)"          "-imvcc -g -w1 -r1000"
-    "MVCC (W4)"          "-imvcc -g -w4 -r1000"
-    "MVCC (W0)"          "-imvcc -g -r1000"
+    "MVCC (W1)"          "-imvcc -g -w1"
+    "MVCC (W4)"          "-imvcc -g -w4"
+    "MVCC (W0)"          "-imvcc -g"
   )
 
   TPCC_OCC_BINARIES=(
@@ -564,8 +567,92 @@ setup_tpcc_new_factors() {
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-naive" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 CONTENTION_REG=0 USE_LIBCMALLOC=1 USE_EXCEPTION=1" "NAIVE"
     "tpcc_bench" "-f1" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 CONTENTION_REG=0 USE_EXCEPTION=1" "+AL"
-    "tpcc_bench" "-f2" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 USE_EXCEPTION=1" "+AL+BACKOFF"
-    "tpcc_bench" "-f3" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0" "+AL+BACKOFF+NOEXC"
+    "tpcc_bench" "-f2" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 CONTENTION_REG=0" "+AL+NOEXC"
+    "tpcc_bench" "-f3" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0" "+AL+NOEXC+BACKOFF"
+    #"tpcc_bench" "-f4" "NDEBUG=1 INLINED_VERSIONS=1" "+AL+BACKOFF+NOEXC+HASH"
+    "tpcc_bench" "-base"  "NDEBUG=1 INLINED_VERSIONS=1" "BASE"
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=("${TPCC_MVCC[@]}")
+  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
+setup_tpcc_stacked_factors_occ() {
+  EXPERIMENT_NAME="TPC-C Stacked Factors (OCC-only)"
+
+  TPCC_OCC=(
+    "OCC (W1)"          "-idefault -g -w1"
+    "OCC (W4)"          "-idefault -g -w4"
+    "OCC (W0)"          "-idefault -g"
+  )
+
+  TPCC_MVCC=(
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-naive" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 CONTENTION_REG=0 USE_LIBCMALLOC=1 USE_EXCEPTION=1" "NAIVE"
+    "tpcc_bench" "-f1" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 CONTENTION_REG=0 USE_EXCEPTION=1" "+AL"
+    "tpcc_bench" "-f2" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 CONTENTION_REG=0" "+AL+NOEXC"
+    "tpcc_bench" "-f3" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0" "+AL+NOEXC+BACKOFF"
+    #"tpcc_bench" "-f4" "NDEBUG=1 INLINED_VERSIONS=1" "+AL+BACKOFF+NOEXC+HASH"
+    "tpcc_bench" "-base"  "NDEBUG=1 INLINED_VERSIONS=1" "BASE"
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=("${TPCC_MVCC[@]}")
+  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
+setup_tpcc_stacked_factors_mvcc() {
+  EXPERIMENT_NAME="TPC-C Stacked Factors (MVCC-only)"
+
+  TPCC_OCC=(
+  )
+
+  TPCC_MVCC=(
+    "MVCC (W1)"          "-imvcc -g -w1"
+    "MVCC (W4)"          "-imvcc -g -w4"
+    "MVCC (W0)"          "-imvcc -g"
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-naive" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 CONTENTION_REG=0 USE_LIBCMALLOC=1 USE_EXCEPTION=1" "NAIVE"
+    "tpcc_bench" "-f1" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 CONTENTION_REG=0 USE_EXCEPTION=1" "+AL"
+    "tpcc_bench" "-f2" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0 CONTENTION_REG=0" "+AL+NOEXC"
+    "tpcc_bench" "-f3" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0" "+AL+NOEXC+BACKOFF"
     #"tpcc_bench" "-f4" "NDEBUG=1 INLINED_VERSIONS=1" "+AL+BACKOFF+NOEXC+HASH"
     "tpcc_bench" "-base"  "NDEBUG=1 INLINED_VERSIONS=1" "BASE"
   )
