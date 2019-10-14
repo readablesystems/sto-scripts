@@ -662,6 +662,40 @@ setup_wiki() {
   }
 }
 
+setup_wiki_mvcc() {
+  EXPERIMENT_NAME="Wikipedia (MVCC only)"
+
+  WIKI_OCC=(
+  )
+
+  WIKI_MVCC=(
+    "MVCC"        "-imvcc -b"
+    "MVCC + CU"   "-imvcc -b -x"
+  )
+
+  WIKI_OCC_BINARIES=(
+  )
+  WIKI_MVCC_BINARIES=(
+    "wiki_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+  )
+  WIKI_BOTH_BINARIES=(
+    "wiki_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${WIKI_OCC[@]}")
+  MVCC_LABELS=("${WIKI_MVCC[@]}")
+  OCC_BINARIES=("${WIKI_OCC_BINARIES[@]}" "${WIKI_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${WIKI_MVCC_BINARIES[@]}" "${WIKI_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
 setup_wiki_tictoc() {
   EXPERIMENT_NAME="Wikipedia, TicToc"
 
