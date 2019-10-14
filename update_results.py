@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import os
 import csv
 import argparse
 
@@ -52,10 +53,15 @@ def ProcessDiff(result_file, diff_file):
             for _, rf_row in rf_dict.items():
                 field_names = rf_row.keys()
                 break
-            writer = csv.DictWriter(wf, field_names)
+            writer = csv.DictWriter(wf, field_names, dialect='unix')
             writer.writeheader()
             for _, rf_row in rf_dict.items():
                 writer.writerow(rf_row)
+        try:
+            os.rename('update_csv_tmp', result_file)
+        except (OSError):
+            print('Rename failed.')
+            return
 
     except (FileNotFoundError, IOError):
         print('File I/O error.')
