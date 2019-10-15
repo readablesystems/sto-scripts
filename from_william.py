@@ -107,44 +107,44 @@ tpcc_stacked_factors_sys_name_map = {
     'name': 'tpcc_stacked_factors',
     'MVCC (W1)NAIVE': 'mn/1',
     'MVCC (W1)+AL': 'mn.a/1',
-    'MVCC (W1)+AL+BACKOFF': 'mn.a.r/1',
-    'MVCC (W1)+AL+BACKOFF+NOEXC': 'mn.a.r.e/1',
+    'MVCC (W1)+AL+NOEXC': 'mn.a.e/1',
+    'MVCC (W1)+AL+NOEXC+BACKOFF': 'mn.a.r.e/1',
     'MVCC (W1)BASE': 'mn.a.r.e.h/1',
     'MVCC (W4)NAIVE': 'mn/4',
     'MVCC (W4)+AL': 'mn.a/4',
-    'MVCC (W4)+AL+BACKOFF': 'mn.a.r/4',
-    'MVCC (W4)+AL+BACKOFF+NOEXC': 'mn.a.r.e/4',
+    'MVCC (W4)+AL+NOEXC': 'mn.a.e/4',
+    'MVCC (W4)+AL+NOEXC+BACKOFF': 'mn.a.r.e/4',
     'MVCC (W4)BASE': 'mn.a.r.e.h/4',
     'MVCC (W0)NAIVE': 'mn/0',
     'MVCC (W0)+AL': 'mn.a/0',
-    'MVCC (W0)+AL+BACKOFF': 'mn.a.r/0',
-    'MVCC (W0)+AL+BACKOFF+NOEXC': 'mn.a.r.e/0',
+    'MVCC (W0)+AL+NOEXC': 'mn.a.e/0',
+    'MVCC (W0)+AL+NOEXC+BACKOFF': 'mn.a.r.e/0',
     'MVCC (W0)BASE': 'mn.a.r.e.h/0',
     'OCC (W1)NAIVE': 'on/1',
     'OCC (W1)+AL': 'on.a/1',
-    'OCC (W1)+AL+BACKOFF': 'on.a.r/1',
-    'OCC (W1)+AL+BACKOFF+NOEXC': 'on.a.r.e/1',
+    'OCC (W1)+AL+NOEXC': 'on.a.e/1',
+    'OCC (W1)+AL+NOEXC+BACKOFF': 'on.a.r.e/1',
     'OCC (W1)BASE': 'on.a.r.e.h/1',
     'OCC (W4)NAIVE': 'on/4',
     'OCC (W4)+AL': 'on.a/4',
-    'OCC (W4)+AL+BACKOFF': 'on.a.r/4',
-    'OCC (W4)+AL+BACKOFF+NOEXC': 'on.a.r.e/4',
+    'OCC (W4)+AL+NOEXC': 'on.a.e/4',
+    'OCC (W4)+AL+NOEXC+BACKOFF': 'on.a.r.e/4',
     'OCC (W4)BASE': 'on.a.r.e.h/4',
     'OCC (W0)NAIVE': 'on/0',
     'OCC (W0)+AL': 'on.a/0',
-    'OCC (W0)+AL+BACKOFF': 'on.a.r/0',
-    'OCC (W0)+AL+BACKOFF+NOEXC': 'on.a.r.e/0',
+    'OCC (W0)+AL+NOEXC': 'on.a.e/0',
+    'OCC (W0)+AL+NOEXC+BACKOFF': 'on.a.r.e/0',
     'OCC (W0)BASE': 'on.a.r.e.h/0'
 }
 
 tpcc_index_contention_sys_name_map = {
-	'name': 'tpcc_index_contention',
-	'OCC (W1)-CONT-AWARE-IDX': 'on/1',
-	'OCC (W4)-CONT-AWARE-IDX': 'on/4',
-	'OCC (W0)-CONT-AWARE-IDX': 'on/0',
-	'OCC (W1)BASE': 'o/1',
-	'OCC (W4)BASE': 'o/4',
-	'OCC (W0)BASE': 'o/0'
+    'name': 'tpcc_index_contention',
+    'OCC (W1)-CONT-AWARE-IDX': 'on/1',
+    'OCC (W4)-CONT-AWARE-IDX': 'on/4',
+    'OCC (W0)-CONT-AWARE-IDX': 'on/0',
+    'OCC (W1)BASE': 'o/1',
+    'OCC (W4)BASE': 'o/4',
+    'OCC (W0)BASE': 'o/0'
 }
 
 ycsb_sys_name_map = {
@@ -517,6 +517,5 @@ if __name__ == '__main__':
     results = {}
     results = convert(tpcc_index_contention_result_file, tpcc_index_contention_sys_name_map, results)
     if results:
-    	with open(tpcc_index_contention_out_file, 'w') as wf:
-    		json.dump(results, wf, indent=4, sort_keys=True)
-
+        with open(tpcc_index_contention_out_file, 'w') as wf:
+            json.dump(results, wf, indent=4, sort_keys=True)

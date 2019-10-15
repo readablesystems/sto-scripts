@@ -55,7 +55,7 @@ class MVSTOTPCCFactorsConfig:
 class MVSTOTPCCStackedFactorsConfig:
     NAME = 'tpcc_stacked_factors'
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
-    DIM2 = ['mn', 'mn.a', 'mn.a.r', 'mn.a.r.e', 'mn.a.r.e.h']
+    DIM2 = ['mn', 'mn.a', 'mn.a.e', 'mn.a.r.e', 'mn.a.r.e.h']
     DIM3 = ['1', '4', '0']
 
 
@@ -132,11 +132,11 @@ color_mapping = {
     # stacked factors graph
     'mn': 2,
     'mn.a': 4,
-    'mn.a.r': 6,
+    'mn.a.e': 6,
     'mn.a.r.e': 8,
     'mn.a.r.e.h': 0,
     'on.a': 4,
-    'on.a.r': 6,
+    'on.a.e': 6,
     'on.a.r.e': 8,
     'on.a.r.e.h': 0,
     # index contention graph
@@ -177,11 +177,11 @@ marker_mapping = {
     # stacked factors line graph
     'mn': 'p',
     'mn.a': 'p',
-    'mn.a.r': 'p',
+    'mn.a.e': 'p',
     'mn.a.r.e': 'p',
     'mn.a.r.e.h': 'x',
     'on.a': 'p',
-    'on.a.r': 'p',
+    'on.a.e': 'p',
     'on.a.r.e': 'p',
     'on.a.r.e.h': 'x',
     # index contention graph
@@ -856,13 +856,13 @@ class TPCCStackedFactorsGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('NoOpt', '+Allocator', '+Backoff', '+NoExcept', '+HashIdx'),
+        'series_names': ('NoOpt', '+Allocator', '+NoExcept', '+Backoff', '+HashIdx'),
         'legends_on': True
     }
     NAME = MVSTOTPCCStackedFactorsConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
-    DIM2 = ['mn', 'mn.a', 'mn.a.r', 'mn.a.r.e', 'mn.a.r.e.h']
+    DIM2 = ['mn', 'mn.a', 'mn.a.e', 'mn.a.r.e', 'mn.a.r.e.h']
     DIM3 = ['1', '4', '0']
     LEGENDS = [False, False, True]
     D3YMAXES = [None, None, None]
@@ -875,14 +875,13 @@ class TPCCOCCStackedFactorsGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('NoOpt', '+Allocator', '+Backoff', '+NoExcept', '+HashIdx (OSTO)'),
+        'series_names': ('NoOpt', '+Allocator', '+NoExcept', '+Backoff', '+HashIdx (OSTO)'),
         'legends_on': True,
-        'legend_order': (4,3,2,1,0)
     }
     NAME = MVSTOTPCCStackedFactorsConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
-    DIM2 = ['on', 'on.a', 'on.a.r', 'on.a.r.e', 'on.a.r.e.h']
+    DIM2 = ['on', 'on.a', 'on.a.e', 'on.a.r.e', 'on.a.r.e.h']
     DIM3 = ['1', '0']
     LEGENDS = [False, True]
     D3YMAXES = [None, None]
