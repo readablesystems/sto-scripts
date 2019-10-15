@@ -52,6 +52,13 @@ class MVSTOTPCCFactorsConfig:
     DIM3 = ['1']
 
 
+class MVSTOTPCCNonCumuFactorsConfig:
+    NAME = 'tpcc_noncumu_factors'
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['m-a', 'm-e', 'm-r', 'm-h', 'm', 'o-a', 'o-e', 'o-r', 'o-h', 'o']
+    DIM3 = ['1', '4', '0']
+
+
 class MVSTOTPCCStackedFactorsConfig:
     NAME = 'tpcc_stacked_factors'
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
@@ -135,10 +142,20 @@ color_mapping = {
     'mn.a.e': 6,
     'mn.a.r.e': 8,
     'mn.a.r.e.h': 0,
+    'm-a': 2,
+    'm-e': 4,
+    'm-r': 6,
+    'm-h': 8,
+    'm': 0,
     'on.a': 4,
     'on.a.e': 6,
     'on.a.r.e': 8,
     'on.a.r.e.h': 0,
+    'o-a': 2,
+    'o-e': 4,
+    'o-r': 6,
+    'o-h': 8,
+    'o': 0,
     # index contention graph
     'on': 2,
     # GC graph
@@ -184,6 +201,14 @@ marker_mapping = {
     'on.a.e': 'p',
     'on.a.r.e': 'p',
     'on.a.r.e.h': 'x',
+    'm-a': 'p',
+    'm-e': 'p',
+    'm-r': 'p',
+    'm-h': 'p',
+    'o-a': 'p',
+    'o-e': 'p',
+    'o-r': 'p',
+    'o-h': 'p',
     # index contention graph
     'on': None,
     # gc graph
@@ -849,6 +874,47 @@ class TPCCFactorsGraphConfig:
     D3YMAXES = [None]
     D3TITLES = ['']
     D3FNAMES = ['tpcc_factors']
+
+
+# TPC-C non cumulative factor analysis garphs
+class TPCCNonCumuFactorsMVCCGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('-RPMalloc', '-NoExcept', '-Backoff', '-HashIdx', 'MSTO'),
+        'legends_on': True
+    }
+    NAME = MVSTOTPCCNonCumuFactorsConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['m-a', 'm-e', 'm-r', 'm-h', 'm']
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [True, True, True]
+    D3YMAXES = [None, None, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_noncumu_factors_mvcc_w1',
+                'tpcc_noncumu_factors_mvcc_w4',
+                'tpcc_noncumu_factors_mvcc_part']
+
+
+class TPCCNonCumuFactorsOCCGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('-RPMalloc', '-NoExcept', '-Backoff', '-HashIdx', 'MSTO'),
+        'legends_on': True
+    }
+    NAME = MVSTOTPCCNonCumuFactorsConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['o-a', 'o-e', 'o-r', 'o-h', 'o']
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [True, True, True]
+    D3YMAXES = [None, None, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_noncumu_factors_occ_w1',
+                'tpcc_noncumu_factors_occ_w4',
+                'tpcc_noncumu_factors_occ_part']
 
 
 # TPC-C stacked factor analysis, MVCC only
