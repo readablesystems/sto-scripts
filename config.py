@@ -895,13 +895,14 @@ class TPCCNonCumuFactorsMVCCGraphConfig:
     D3FNAMES = ['tpcc_noncumu_factors_mvcc_w1',
                 'tpcc_noncumu_factors_mvcc_w4',
                 'tpcc_noncumu_factors_mvcc_part']
+    FIG_SIZE = (6, 6)
 
 
 class TPCCNonCumuFactorsOCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('-RPMalloc', '-NoExcept', '-Backoff', '-HashIdx', 'MSTO'),
+        'series_names': ('-RPMalloc', '-NoExcept', '-Backoff', '-HashIdx', 'OSTO'),
         'legends_on': True
     }
     NAME = MVSTOTPCCNonCumuFactorsConfig.NAME
@@ -915,6 +916,7 @@ class TPCCNonCumuFactorsOCCGraphConfig:
     D3FNAMES = ['tpcc_noncumu_factors_occ_w1',
                 'tpcc_noncumu_factors_occ_w4',
                 'tpcc_noncumu_factors_occ_part']
+    FIG_SIZE = (6, 6)
 
 
 # TPC-C stacked factor analysis, MVCC only
