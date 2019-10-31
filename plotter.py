@@ -421,6 +421,7 @@ class BenchPlotter:
             if 'y_max' in meta_info:
                 ax.set_ylim(top=meta_info['y_max'])
         ax.set_xlabel(meta_info['x_label'])
+        ax.tick_params('y', left=True, right=True)
 
         if meta_info['legends_on']:
             slines = [l[0] for l in lines]

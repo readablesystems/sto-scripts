@@ -116,7 +116,7 @@ color_mapping = {
     'o.c': 2,
     'o.s': 4,
     'o.c.s': 6,
-    'm': 0,
+    'm': (16, 76, 100),
     'm.c': 2,
     'm.s': 4,
     'm.s.i': 4,
@@ -146,7 +146,6 @@ color_mapping = {
     'm-e': 4,
     'm-r': 6,
     'm-h': 8,
-    'm': 0,
     'on.a': 4,
     'on.a.e': 6,
     'on.a.r.e': 8,
@@ -155,7 +154,6 @@ color_mapping = {
     'o-e': 4,
     'o-r': 6,
     'o-h': 8,
-    'o': 0,
     # index contention graph
     'on': 2,
     # GC graph
