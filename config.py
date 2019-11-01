@@ -204,10 +204,10 @@ marker_mapping = {
     'm-e': 'p',
     'm-r': 'p',
     'm-h': 'p',
-    'o-a': None,
-    'o-e': None,
-    'o-r': None,
-    'o-h': None,
+    'o-a': 'o',
+    'o-e': '^',
+    'o-r': 'v',
+    'o-h': 's',
     'o-base': None,
     # index contention graph
     'on': None,
@@ -903,22 +903,29 @@ class TPCCNonCumuFactorsOCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('-RPMalloc', '-NoExcept', '-Backoff', '-HashIdx', 'OSTO'),
+        'series_names': ('-MemAllocator', '-EfficientAborts', '-ContentionRegulation', '-HashIdx', 'OSTO Baseline'),
         'legends_on': True,
-        'legend_order': (4,2,1,0,3)
+        'legend_order': (4,2,0,1,3),
+        'markevery': {
+            'o-base': 5,
+            'o-a': 5,
+            'o-e': 5,
+            'o-r': 5,
+            'o-h': 5
+        },
     }
     NAME = MVSTOTPCCNonCumuFactorsConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['o-a', 'o-e', 'o-r', 'o-h', 'o-base']
     DIM3 = ['1', '4', '0']
-    LEGENDS = [True, True, True]
+    LEGENDS = [False, True, True]
     D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_noncumu_factors_occ_w1',
                 'tpcc_noncumu_factors_occ_w4',
                 'tpcc_noncumu_factors_occ_part']
-    FIG_SIZE = (6.2, 6.2)
+    FIG_SIZE = (6, 6)
 
 
 # TPC-C stacked factor analysis, MVCC only
