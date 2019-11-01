@@ -125,17 +125,17 @@ tpcc_noncumu_factors_sys_name_map = {
     'OCC (W1)-NOEXC': 'o-e/1',
     'OCC (W1)-BACKOFF': 'o-r/1',
     'OCC (W1)-HASH': 'o-h/1',
-    'OCC (W1)BASE': 'o/1',
+    'OCC (W1)BASE': 'o-base/1',
     'OCC (W4)-AL': 'o-a/4',
     'OCC (W4)-NOEXC': 'o-e/4',
     'OCC (W4)-BACKOFF': 'o-r/4',
     'OCC (W4)-HASH': 'o-h/4',
-    'OCC (W4)BASE': 'o/4',
+    'OCC (W4)BASE': 'o-base/4',
     'OCC (W0)-AL': 'o-a/0',
     'OCC (W0)-NOEXC': 'o-e/0',
     'OCC (W0)-BACKOFF': 'o-r/0',
     'OCC (W0)-HASH': 'o-h/0',
-    'OCC (W0)BASE': 'o/0',
+    'OCC (W0)BASE': 'o-base/0',
 }
 
 tpcc_stacked_factors_sys_name_map = {

@@ -154,6 +154,7 @@ color_mapping = {
     'o-e': 4,
     'o-r': 6,
     'o-h': 8,
+    'o-base': 0,
     # index contention graph
     'on': 2,
     # GC graph
@@ -203,10 +204,11 @@ marker_mapping = {
     'm-e': 'p',
     'm-r': 'p',
     'm-h': 'p',
-    'o-a': 'p',
-    'o-e': 'p',
-    'o-r': 'p',
-    'o-h': 'p',
+    'o-a': None,
+    'o-e': None,
+    'o-r': None,
+    'o-h': None,
+    'o-base': None,
     # index contention graph
     'on': None,
     # gc graph
@@ -241,6 +243,7 @@ linewidth_mapping = {
     'mocc': 3,
     'c': 3,
     'e': 3,
+    'o-base': 4,
 }
 
 errorbar_mapping = {
@@ -901,12 +904,13 @@ class TPCCNonCumuFactorsOCCGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('-RPMalloc', '-NoExcept', '-Backoff', '-HashIdx', 'OSTO'),
-        'legends_on': True
+        'legends_on': True,
+        'legend_order': (4,2,1,0,3)
     }
     NAME = MVSTOTPCCNonCumuFactorsConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
-    DIM2 = ['o-a', 'o-e', 'o-r', 'o-h', 'o']
+    DIM2 = ['o-a', 'o-e', 'o-r', 'o-h', 'o-base']
     DIM3 = ['1', '4', '0']
     LEGENDS = [True, True, True]
     D3YMAXES = [None, None, None]
@@ -914,7 +918,7 @@ class TPCCNonCumuFactorsOCCGraphConfig:
     D3FNAMES = ['tpcc_noncumu_factors_occ_w1',
                 'tpcc_noncumu_factors_occ_w4',
                 'tpcc_noncumu_factors_occ_part']
-    FIG_SIZE = (6, 6)
+    FIG_SIZE = (6.2, 6.2)
 
 
 # TPC-C stacked factor analysis, MVCC only
