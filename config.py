@@ -407,20 +407,21 @@ class TPCCXSystemGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('OSTO', 'MOCC'), ('TSTO',), ('MSTO', 'Cicada', 'ERMIA')),
+        'subfigure_series_names': (('OSTO', 'MOCC'), ('TSTO',), ('MSTO', 'Cicada', 'ERMIA', '')),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
+    LEGEND_FONT_SIZE = 20
     DIM1 = MVSTOConfig.DIM1
     DIM2 = None
     DIM3 = ['1', '0']
-    SUBFIG_DIM2S = (('o','mocc'),('tictoc',),('m','c','e'))
+    SUBFIG_DIM2S = (('o','mocc'),('tictoc',),('m','c','e',None))
     LEGENDS = [True, True]
     D3YMAXES = [0.8, 5]
     D3TITLES = ['', '']
     D3FNAMES = ['tpcc_xsys_w1', 'tpcc_xsys_part']
-    #WIDE_FIG_SIZE = (15,5)
+    WIDE_FIG_SIZE = (12,5)
 
 
 # TPC-C baseline vs CU+TS comparison graphs, low and high contention
@@ -438,6 +439,7 @@ class TPCCSemanticOptGraphConfig:
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
+    LEGEND_FONT_SIZE = 18
     DIM1 = MVSTOConfig.DIM1
     DIM2 = None
     DIM3 = ['1', '0']
@@ -573,6 +575,7 @@ class YCSBSemanticOptGraphConfig:
     }
     NAME = YCSBTicTocCompConfig.NAME
     TYPE = GraphType.LINE
+    LEGEND_FONT_SIZE = 18
     DIM1 = YCSBTicTocCompConfig.DIM1
     DIM2 = None
     SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
@@ -903,7 +906,7 @@ class TPCCNonCumuFactorsOCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('Slow allocator', 'Inefficient aborts', 'No contention regulation', 'No hash indexes', 'OSTO Baseline'),
+        'series_names': ('Slow allocator', 'Inefficient aborts', 'No contention\nregulation', 'No hash indexes', 'OSTO Baseline'),
         'legends_on': True,
         'legend_order': (4,2,0,1,3),
         'markevery': {
@@ -972,14 +975,15 @@ class TPCCOCCStackedFactorsGraphConfig:
 class TPCCIndexContentionGraphConfig:
     INFO = {
         'x_label': '# threads',
-        'y_label': 'Throughput (Ktxns/sec)',
+        'y_label': 'Delivery throughput\n(Ktxns/sec)',
         'scale_factor': 1000.0,
-        'series_names': ('-CAIndex', 'OSTO'),
+        'series_names': ('High-contention indexes', 'OSTO'),
         'legends_on': True,
         'legend_order': (1, 0)
     }
     NAME = MVSTOTPCCIndexContentionConfig.NAME
     TYPE = GraphType.LINE
+    LEGEND_FONT_SIZE = 24
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['on', 'o']
     DIM3 = ['1', '4', '0']

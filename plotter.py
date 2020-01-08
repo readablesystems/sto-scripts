@@ -94,6 +94,8 @@ plotter_map = {
 
 
 def prop_mapping(m, sut):
+    if not sut:
+        return None
     if sut in m:
         return m[sut]
     if sut.endswith('-secondary') and 'secondary' in m:
@@ -121,7 +123,9 @@ class GraphGlobalConstants:
             color = cls.TABLEAU20[color]
         elif isinstance(color, str):
             return color
-        if color[0] > 1 or color[1] > 1 or color[2] > 1:
+        if not color:
+            return 'none'
+        elif color[0] > 1 or color[1] > 1 or color[2] > 1:
             return (color[0] / 255., color[1] / 255., color[2] / 255.)
         else:
             return color
@@ -148,7 +152,7 @@ class BenchPlotter:
         mpl.rcParams['axes.labelsize'] = fnt_sz
         mpl.rcParams['xtick.labelsize'] = fnt_sz
         mpl.rcParams['ytick.labelsize'] = fnt_sz
-        mpl.rcParams['legend.fontsize'] = 16
+        mpl.rcParams['legend.fontsize'] = self.legend_fnt_sz
         mpl.rcParams['figure.titlesize'] = 'medium'
 
     @classmethod
@@ -161,7 +165,7 @@ class BenchPlotter:
 
     @classmethod
     def key(cls, d1, d2, d3):
-        if d2.endswith('-secondary'):
+        if d2 and d2.endswith('-secondary'):
             d2 = d2[0:len(d2) - 10]
         return '{0}/{1}/{2}'.format(d3, d2, d1)
 
@@ -176,6 +180,10 @@ class BenchPlotter:
                 self.dimension2 = [sut for subfig in self.subfigure_dimension2 for sut in subfig]
         else:
             self.subfigure_dimension2 = None
+        if hasattr(cnf, "LEGEND_FONT_SIZE"):
+            self.legend_fnt_sz = cnf.LEGEND_FONT_SIZE
+        else:
+            self.legend_fnt_sz = 16
         self.dimension3 = cnf.DIM3
         self.legends = cnf.LEGENDS
         self.d3ymaxes = cnf.D3YMAXES

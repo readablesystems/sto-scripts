@@ -32,7 +32,7 @@ class BenchRunner:
     # generate a key uniquely identifying an experiment
     # n is the trail id
     def key(cls, d1, d2, d3, n):
-        if d2.endswith('-secondary'):
+        if d2 and d2.endswith('-secondary'):
             d2 = d2[0:len(d2) - 10]
         return '{0}/{1}/{2}/{3}'.format(d3, d2, d1, n)
 
