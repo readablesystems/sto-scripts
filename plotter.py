@@ -16,7 +16,7 @@ from config import MVSTOYCSBOCCGraphConfig, MVSTOYCSBMVCCGraphConfig, MVSTORubis
 
 from config import YOCCGraphConfig, YMVGraphConfig, YTOCompGraphConfig
 from config import YScalabilityMergedGraphConfig, YCSBBaselinesGraphConfig
-from config import YCSBSemanticOptGraphConfig
+from config import YCSBSemanticOptGraphConfig, YCSBSemanticIndGraphConfig
 from config import TOCCGraphConfig, TMVGraphConfig, WikiOCCGraphConfig, WikiMVGraphConfig
 from config import RubisOCCGraphConfig, RubisMVGraphConfig
 from config import WikiSideBySideGraphConfig, RubisSideBySideGraphConfig
@@ -30,6 +30,7 @@ from config import TPCCIndexContentionGraphConfig
 from config import TScalabilityMergedGraphConfig
 from config import TPCCBaselinesGraphConfig, TPCCXSystemGraphConfig
 from config import TPCCSemanticOptGraphConfig, TPCCSemanticIndGraphConfig
+from config import TPCCDramaticGraphConfig
 
 from config import TPCCOpacityGraphConfig
 from config import TOTCCCompGraphConfig
@@ -50,6 +51,7 @@ plotter_map = {
     'y_tictoc_comp': YTOCompGraphConfig,
     'y_base': YCSBBaselinesGraphConfig,
     'y_semopt': YCSBSemanticOptGraphConfig,
+    'y_semind': YCSBSemanticIndGraphConfig,
     'y_scale_merged': YScalabilityMergedGraphConfig,
     't_scale_o': TOCCGraphConfig,
     't_scale_m': TMVGraphConfig,
@@ -58,6 +60,7 @@ plotter_map = {
     't_xsys': TPCCXSystemGraphConfig,
     't_semopt': TPCCSemanticOptGraphConfig,
     't_semind': TPCCSemanticIndGraphConfig,
+    't_dramatic': TPCCDramaticGraphConfig,
     'w_scale_o': WikiOCCGraphConfig,
     'w_scale_m': WikiMVGraphConfig,
     'w_base': WikiBaselineGraphConfig,

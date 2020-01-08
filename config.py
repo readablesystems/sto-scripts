@@ -473,6 +473,25 @@ class TPCCSemanticIndGraphConfig:
     D3FNAMES = ['tpcc_semind_w1','tpcc_semind_part']
 
 
+class TPCCDramaticGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('OCC', 'MVCC', 'OCC+CU+TS'),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['o','m']
+    DIM3 = ['1']
+    LEGENDS = [True]
+    D3YMAXES = [1.4]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_dramatic_peek_w1']
+    FIG_SIZE = (10.6,6)
+
+
 # YCSB scalability graphs
 # Self comparisons
 class YOCCGraphConfig:
@@ -584,6 +603,29 @@ class YCSBSemanticOptGraphConfig:
     D3YMAXES = [3.0, 11.0]
     D3TITLES = ['', '']
     D3FNAMES = ['ycsb_semopt_a', 'ycsb_semopt_b']
+
+
+# YCSB Scalability OCC vs MVCC side-by-side comparison graphs
+class YCSBSemanticIndGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('OSTO', 'OSTO+CU', 'OSTO+TS', 'OSTO+CU+TS'), ('TSTO', 'TSTO+CU', 'TSTO+TS', 'TSTO+CU+TS'),
+                                   ('MSTO', 'MSTO+CU', 'MSTO+TS', 'MSTO+CU+TS')),
+        'legends_on': True,
+        'legend_order': (2,1,0)
+    }
+    NAME = YCSBTicTocCompConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = YCSBTicTocCompConfig.DIM1
+    DIM2 = None
+    SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('tictoc','tictoc.c','tictoc.s','tictoc.c.s'),('m','m.c','m.s','m.c.s'))
+    DIM3 = ['a', 'b']
+    LEGENDS = [True, True]
+    D3YMAXES = [3.0, 11.0]
+    D3TITLES = ['', '']
+    D3FNAMES = ['ycsb_semind_a', 'ycsb_semind_b']
 
 
 # YCSB baseline graphs OCC vs TicToc vs MVCC
@@ -977,7 +1019,7 @@ class TPCCIndexContentionGraphConfig:
         'x_label': '# threads',
         'y_label': 'Delivery throughput\n(Ktxns/sec)',
         'scale_factor': 1000.0,
-        'series_names': ('High-contention indexes', 'OSTO'),
+        'series_names': ('Index contention', 'OSTO'),
         'legends_on': True,
         'legend_order': (1, 0)
     }
@@ -991,7 +1033,7 @@ class TPCCIndexContentionGraphConfig:
     D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_index_contention_w1', 'tpcc_index_contention_w4', 'tpcc_index_contention_part']
-    FIG_SIZE = (9,5)
+    FIG_SIZE = (8,5)
 
 
 # Graphs with opacity results
