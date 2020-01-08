@@ -903,7 +903,7 @@ class TPCCNonCumuFactorsOCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('-MemAllocator', '-EfficientAborts', '-ContentionRegulation', '-HashIdx', 'OSTO Baseline'),
+        'series_names': ('Slow allocator', 'Inefficient aborts', 'No contention regulation', 'No hash indexes', 'OSTO Baseline'),
         'legends_on': True,
         'legend_order': (4,2,0,1,3),
         'markevery': {
