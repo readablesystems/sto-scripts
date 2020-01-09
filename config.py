@@ -948,7 +948,7 @@ class TPCCNonCumuFactorsOCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('Slow allocator', 'Inefficient aborts', 'No contention\nregulation', 'No hash indexes', 'OSTO Baseline'),
+        'series_names': ('Slow allocator', 'Inefficient aborts', 'No contention\nregulation', 'No hash indexes', 'OSTO Baseline                      '),
         'legends_on': True,
         'legend_order': (4,2,0,1,3),
         'markevery': {
@@ -964,7 +964,8 @@ class TPCCNonCumuFactorsOCCGraphConfig:
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['o-a', 'o-e', 'o-r', 'o-h', 'o-base']
     DIM3 = ['1', '4', '0']
-    LEGENDS = [False, True, True]
+    LEGENDS = [True, False, True]
+    LEGEND_SELECT = [(0,3), (0,-1), (3,5)]
     D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_noncumu_factors_occ_w1',

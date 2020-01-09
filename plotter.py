@@ -189,6 +189,10 @@ class BenchPlotter:
             self.legend_fnt_sz = 16
         self.dimension3 = cnf.DIM3
         self.legends = cnf.LEGENDS
+        if hasattr(cnf, "LEGEND_SELECT"):
+            self.legend_select = cnf.LEGEND_SELECT
+        else:
+            self.legend_select = [(0, -1) for i in range(self.dimension3)]
         self.d3ymaxes = cnf.D3YMAXES
         self.d3titles = cnf.D3TITLES
         self.d3fnames = cnf.D3FNAMES
@@ -387,8 +391,10 @@ class BenchPlotter:
             plt.savefig('{}_{}.{}'.format(meta_info['save_name'], file_timestamp_str(), BenchPlotter.img_fmt))
         plt.close(fig)
 
-    def draw_lines(self, ax, subfig_idx, series_names, dim2, meta_info, common_x, y_series, y_errors):
+    def draw_lines(self, ax, subfig_idx, legend_select, series_names, dim2, meta_info, common_x, y_series, y_errors):
         #fig, ax = plt.subplots(figsize=self.figsize)
+        ls0 = legend_select[0]
+        ls1 = legend_select[1]
         num_series = len(y_series)
         use_dimension2 = self.dimension2 if dim2 is None else dim2
         lines = []
@@ -437,6 +443,7 @@ class BenchPlotter:
         if meta_info['legends_on']:
             slines = [l[0] for l in lines]
             snames = self.series_names(meta_info) if series_names is None else series_names
+
             if 'legend_ncol' in meta_info.keys():
                 legend_n_columns = meta_info['legend_ncol']
             else:
@@ -447,9 +454,9 @@ class BenchPlotter:
                 for i in meta_info['legend_order']:
                     xlines.append(slines[i])
                     xnames.append(snames[i])
-                ax.legend(xlines, xnames, loc='best', framealpha=0, ncol=legend_n_columns)
+                ax.legend(xlines[ls0:ls1], xnames[ls0:ls1], loc='best', framealpha=0, ncol=legend_n_columns)
             else:
-                ax.legend(slines, snames, loc='best', framealpha=0, ncol=legend_n_columns)
+                ax.legend(slines[ls0:ls1], snames[ls0:ls1], loc='best', framealpha=0, ncol=legend_n_columns)
 
         #plt.tight_layout()
         #if BenchPlotter.show_only:
@@ -535,12 +542,13 @@ class BenchPlotter:
                 ymax = self.d3ymaxes[idx]
                 title = self.d3titles[idx]
                 fname = self.d3fnames[idx]
+                legend_select = self.legend_select[idx]
 
                 fig, ax = plt.subplots(figsize=self.figsize)
                 if self.graph_type == GraphType.BAR:
                     self.draw_bars(ax, *self.pack_xput_data(processed, None, d3, legends, ymax, title))
                 elif self.graph_type == GraphType.LINE:
-                    self.draw_lines(ax, 0, None, None, *self.pack_xput_data(processed, None, d3, legends, ymax, title))
+                    self.draw_lines(ax, 0, legend_select, None, None, *self.pack_xput_data(processed, None, d3, legends, ymax, title))
                 elif self.graph_type == GraphType.HBAR:
                     self.draw_hbars(ax, *self.pack_xput_data(processed, None, d3, legends, ymax, title))
 
