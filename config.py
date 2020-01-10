@@ -154,7 +154,7 @@ color_mapping = {
     'o-e': 4,
     'o-r': 6,
     'o-h': 8,
-    'o-base': 0,
+    'o-base': 18,
     # index contention graph
     'on': 2,
     # GC graph
