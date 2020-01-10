@@ -192,7 +192,7 @@ class BenchPlotter:
         if hasattr(cnf, "LEGEND_SELECT"):
             self.legend_select = cnf.LEGEND_SELECT
         else:
-            self.legend_select = [(0, -1) for i in range(self.dimension3)]
+            self.legend_select = [(0, -1) for i in range(len(self.dimension3))]
         self.d3ymaxes = cnf.D3YMAXES
         self.d3titles = cnf.D3TITLES
         self.d3fnames = cnf.D3FNAMES
@@ -417,7 +417,7 @@ class BenchPlotter:
                     markevery = markevery_map[sutd3]
                 elif sut in markevery_map:
                     markevery = markevery_map[sut]
-                elif sut.endswith('-secondary') and 'secondary' in markevery_map:
+                elif sut and sut.endswith('-secondary') and 'secondary' in markevery_map:
                     markevery = markevery_map['secondary']
                 else:
                     markevery = markevery_map.get('default')
@@ -511,6 +511,7 @@ class BenchPlotter:
                 ymax = self.d3ymaxes[idx]
                 title = self.d3titles[idx]
                 fname = self.d3fnames[idx]
+                legend_select = self.legend_select[idx]
 
                 num_subfigures = len(self.subfigure_dimension2)
                 if share_y:
@@ -525,7 +526,7 @@ class BenchPlotter:
                     if self.graph_type == GraphType.BAR:
                         self.draw_bars(ax[didx], *self.pack_xput_data(processed, d2, d3, legends, ymax, title))
                     elif self.graph_type == GraphType.LINE:
-                        self.draw_lines(ax[didx], didx, d2_series_names, d2, *self.pack_xput_data(processed, d2, d3, legends, ymax, title))
+                        self.draw_lines(ax[didx], didx, legend_select, d2_series_names, d2, *self.pack_xput_data(processed, d2, d3, legends, ymax, title))
                     else:
                         assert False, 'Only bar graph and line graph are supported when combining subfigures.'
 
