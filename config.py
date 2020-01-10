@@ -111,11 +111,11 @@ barcolor_mapping = {
 }
 
 color_mapping = {
-    'o': 0,
-    'onr': 9,
-    'o.c': 2,
+    'o': 18,
     'o.s': 4,
+    'o.c': 2,
     'o.c.s': 6,
+    'onr': 9,
     'm': (16, 76, 100),
     'm.c': 2,
     'm.s': 4,
@@ -125,9 +125,9 @@ color_mapping = {
     'c': 8,
     'e': 10,
     'mocc': 12,
-    'tictoc': 18,
-    'tictoc.s': 4,
+    'tictoc': 0,
     'tictoc.c': 2,
+    'tictoc.s': 4,
     'tictoc.c.s': 6,
     'op': 11,
     'op.c': 13,
