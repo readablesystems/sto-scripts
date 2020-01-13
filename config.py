@@ -1130,7 +1130,7 @@ class TMVFlattenGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('MVCC','MVCC-','MVCC+CU','MVCC+CU-','MVCC+CU+TS','MVCC+CU+TS-'),
+        'series_names': ('MVCC','MVCC*','MVCC+CU','MVCC+CU*','MVCC+CU+TS','MVCC+CU+TS*'),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -1139,6 +1139,7 @@ class TMVFlattenGraphConfig:
     DIM2 = ['m','mf','m.c','mf.c','m.c.s','mf.c.s']
     DIM3 = ['1', '4', '0']
     LEGENDS = [True, True, True]
+    D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_mvcc_flatten_w1', 'tpcc_mvcc_flatten_w4', 'tpcc_mvcc_flatten_part']
 

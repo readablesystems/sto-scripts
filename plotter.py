@@ -192,7 +192,7 @@ class BenchPlotter:
         if hasattr(cnf, "LEGEND_SELECT"):
             self.legend_select = cnf.LEGEND_SELECT
         else:
-            self.legend_select = [(0, -1) for i in range(len(self.dimension3))]
+            self.legend_select = [(0, len(self.dimension2)) for i in range(len(self.dimension3))]
         self.d3ymaxes = cnf.D3YMAXES
         self.d3titles = cnf.D3TITLES
         self.d3fnames = cnf.D3FNAMES
