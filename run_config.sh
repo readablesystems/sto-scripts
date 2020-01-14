@@ -268,7 +268,7 @@ setup_tpcc_mvcc() {
 }
 
 setup_tpcc_mvcc_1gc() {
-	EXPERIMENT_NAME="TPC-C MVCC (1ms GC)"
+  EXPERIMENT_NAME="TPC-C MVCC (1ms GC)"
 
   TPCC_OCC=(
   )
@@ -289,6 +289,86 @@ setup_tpcc_mvcc_1gc() {
   )
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=()
+  MVCC_LABELS=("${TPCC_MVCC[@]}")
+  OCC_BINARIES=()
+  MVCC_BINARIES=("${TPCC_MVCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
+setup_tpcc_mvcc_nots_1gc() {
+  EXPERIMENT_NAME="TPC-C MVCC, no TS (1ms GC)"
+
+  TPCC_OCC=(
+  )
+
+  TPCC_MVCC=(
+    "MVCC (W1)"        "-imvcc -g -w1 -r1000"
+    "MVCC + CU (W1)"   "-imvcc -g -x -w1 -r1000"
+    "MVCC (W4)"        "-imvcc -g -w4 -r1000"
+    "MVCC + CU (W4)"   "-imvcc -g -x -w4 -r1000"
+    "MVCC (W0)"        "-imvcc -g -r1000"
+    "MVCC + CU (W0)"   "-imvcc -g -x -r1000"
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=()
+  MVCC_LABELS=("${TPCC_MVCC[@]}")
+  OCC_BINARIES=()
+  MVCC_BINARIES=("${TPCC_MVCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
+setup_tpcc_mvcc_ts_1gc() {
+  EXPERIMENT_NAME="TPC-C MVCC, with TS (1ms GC)"
+
+  TPCC_OCC=(
+  )
+
+  TPCC_MVCC=(
+    "MVCC (W1)"        "-imvcc -g -w1 -r1000"
+    "MVCC + CU (W1)"   "-imvcc -g -x -w1 -r1000"
+    "MVCC (W4)"        "-imvcc -g -w4 -r1000"
+    "MVCC + CU (W4)"   "-imvcc -g -x -w4 -r1000"
+    "MVCC (W0)"        "-imvcc -g -r1000"
+    "MVCC + CU (W0)"   "-imvcc -g -x -r1000"
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+    "tpcc_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+  )
+  TPCC_BOTH_BINARIES=(
   )
 
   OCC_LABELS=()
