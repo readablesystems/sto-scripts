@@ -550,8 +550,8 @@ setup_tpcc_scaled() {
   }
 }
 
-setup_tpcc_tictoc() {
-  EXPERIMENT_NAME="TPC-C TicToc"
+setup_tpcc_tictoc_full() {
+  EXPERIMENT_NAME="TPC-C TicToc (full phantom protection)"
 
   TPCC_OCC=(
     "TicToc (W1)"      "-itictoc -n -g -w1"
@@ -560,6 +560,47 @@ setup_tpcc_tictoc() {
     "TicToc + CU (W4)" "-itictoc -n -g -w4 -x"
     "TicToc (W0)"      "-itictoc -n -g"
     "TicToc + CU (W0)" "-itictoc -n -g -x"
+  )
+
+  TPCC_MVCC=(
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1" ""
+    "tpcc_bench" "-tsplit" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + ST"
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=()
+  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
+setup_tpcc_tictoc_incorrect() {
+  EXPERIMENT_NAME="TPC-C TicToc (incorrect)"
+
+  TPCC_OCC=(
+    "TicToc (W1)"      "-itictoc -g -w1"
+    "TicToc + CU (W1)" "-itictoc -g -w1 -x"
+    "TicToc (W4)"      "-itictoc -g -w4"
+    "TicToc + CU (W4)" "-itictoc -g -w4 -x"
+    "TicToc (W0)"      "-itictoc -g"
+    "TicToc + CU (W0)" "-itictoc -g -x"
   )
 
   TPCC_MVCC=(
