@@ -392,12 +392,12 @@ setup_tpcc_occ() {
   EXPERIMENT_NAME="TPC-C OCC"
 
   TPCC_OCC=(
-    "OCC (W1)"         "-idefault -g -w1"
-    "OCC + CU (W1)"    "-idefault -g -x -w1"
-    "OCC (W4)"         "-idefault -g -w4"
-    "OCC + CU (W4)"    "-idefault -g -x -w4"
-    "OCC (W0)"         "-idefault -g"
-    "OCC + CU (W0)"    "-idefault -g -x"
+    "OCC (W1)"         "-idefault -g -w1 -r1000"
+    "OCC + CU (W1)"    "-idefault -g -x -w1 -r1000"
+    "OCC (W4)"         "-idefault -g -w4 -r1000"
+    "OCC + CU (W4)"    "-idefault -g -x -w4 -r1000"
+    "OCC (W0)"         "-idefault -g -r1000"
+    "OCC + CU (W0)"    "-idefault -g -x -r1000"
   )
 
   TPCC_MVCC=(
@@ -409,7 +409,7 @@ setup_tpcc_occ() {
   TPCC_MVCC_BINARIES=(
   )
   TPCC_BOTH_BINARIES=(
-    "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
+    "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1" ""
   )
 
   OCC_LABELS=("${TPCC_OCC[@]}")
