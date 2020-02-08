@@ -554,12 +554,12 @@ setup_tpcc_tictoc_full() {
   EXPERIMENT_NAME="TPC-C TicToc (full phantom protection)"
 
   TPCC_OCC=(
-    "TicToc (W1)"      "-itictoc -n -g -w1"
-    "TicToc + CU (W1)" "-itictoc -n -g -w1 -x"
-    "TicToc (W4)"      "-itictoc -n -g -w4"
-    "TicToc + CU (W4)" "-itictoc -n -g -w4 -x"
-    "TicToc (W0)"      "-itictoc -n -g"
-    "TicToc + CU (W0)" "-itictoc -n -g -x"
+    "TicToc (W1)"      "-itictoc -n -g -w1 -r1000"
+    "TicToc + CU (W1)" "-itictoc -n -g -w1 -x -r1000"
+    "TicToc (W4)"      "-itictoc -n -g -w4 -r1000"
+    "TicToc + CU (W4)" "-itictoc -n -g -w4 -x -r1000"
+    "TicToc (W0)"      "-itictoc -n -g -r1000"
+    "TicToc + CU (W0)" "-itictoc -n -g -x -r1000"
   )
 
   TPCC_MVCC=(
@@ -595,12 +595,12 @@ setup_tpcc_tictoc_incorrect() {
   EXPERIMENT_NAME="TPC-C TicToc (incorrect)"
 
   TPCC_OCC=(
-    "TicToc (W1)"      "-itictoc -g -w1"
-    "TicToc + CU (W1)" "-itictoc -g -w1 -x"
-    "TicToc (W4)"      "-itictoc -g -w4"
-    "TicToc + CU (W4)" "-itictoc -g -w4 -x"
-    "TicToc (W0)"      "-itictoc -g"
-    "TicToc + CU (W0)" "-itictoc -g -x"
+    "TicToc (W1)"      "-itictoc -g -w1 -r1000"
+    "TicToc + CU (W1)" "-itictoc -g -w1 -x -r1000"
+    "TicToc (W4)"      "-itictoc -g -w4 -r1000"
+    "TicToc + CU (W4)" "-itictoc -g -w4 -x -r1000"
+    "TicToc (W0)"      "-itictoc -g -r1000"
+    "TicToc + CU (W0)" "-itictoc -g -x -r1000"
   )
 
   TPCC_MVCC=(
