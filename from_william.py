@@ -8,23 +8,24 @@ from runner import BenchRunner as br
 
 WILLIAM_TRIALS = 5
 
-tpcc_sys_name_map = {
+tpcc_occ_sys_name_map = {
     'name': 'tpcc',
     'OCC (W0)': 'o/0',
-    #'OCC (W0) + NOREG': 'onr/0',
     'OCC + CU (W0)': 'o.c/0',
     'OCC (W0) + SV': 'o.s/0',
     'OCC + CU (W0) + SV': 'o.c.s/0',
     'OCC (W1)': 'o/1',
-    #'OCC (W1) + NOREG': 'onr/1',
     'OCC + CU (W1)': 'o.c/1',
     'OCC (W1) + SV': 'o.s/1',
     'OCC + CU (W1) + SV': 'o.c.s/1',
     'OCC (W4)': 'o/4',
-    #'OCC (W4) + NOREG': 'onr/4',
     'OCC + CU (W4)': 'o.c/4',
     'OCC (W4) + SV': 'o.s/4',
-    'OCC + CU (W4) + SV': 'o.c.s/4',
+    'OCC + CU (W4) + SV': 'o.c.s/4'
+}
+
+tpcc_mvcc_sys_name_map = {
+    'name': 'tpcc',
     'MVCC (W0)': 'm/0',
     'MVCC (W0) + ST': 'm.s/0',
     'MVCC + CU (W0)': 'm.c/0',
@@ -37,6 +38,23 @@ tpcc_sys_name_map = {
     'MVCC (W4) + ST': 'm.s/4',
     'MVCC + CU (W4)': 'm.c/4',
     'MVCC + CU (W4) + ST': 'm.c.s/4'
+}
+
+# MVCC TS implemented as vertical partitioning
+tpcc_mvcc_slow_sys_name_map = {
+    'name': 'tpcc',
+    'MVCC (W0)': 'm-/0',
+    'MVCC (W0) + ST': 'm-.s/0',
+    'MVCC + CU (W0)': 'm-.c/0',
+    'MVCC + CU (W0) + ST': 'm-.c.s/0',
+    'MVCC (W1)': 'm-/1',
+    'MVCC (W1) + ST': 'm-.s/1',
+    'MVCC + CU (W1)': 'm-.c/1',
+    'MVCC + CU (W1) + ST': 'm-.c.s/1',
+    'MVCC (W4)': 'm-/4',
+    'MVCC (W4) + ST': 'm-.s/4',
+    'MVCC + CU (W4)': 'm-.c/4',
+    'MVCC + CU (W4) + ST': 'm-.c.s/4'
 }
 
 tpcc_opacity_sys_name_map = {
@@ -69,6 +87,22 @@ tpcc_tictoc_sys_name_map = {
     'TicToc + CU (W0) + ST': 'tictoc.c.s/0',
     'TicToc + CU (W1) + ST': 'tictoc.c.s/1',
     'TicToc + CU (W4) + ST': 'tictoc.c.s/4',
+}
+
+tpcc_tictoc_wrong_sys_name_map = {
+    'name': 'tpcc',
+    'TicToc (W0)': 'ttcc-wrong/0',
+    'TicToc (W1)': 'ttcc-wrong/1',
+    'TicToc (W4)': 'ttcc-wrong/4',
+    'TicToc + CU (W0)': 'ttcc-wrong.c/0',
+    'TicToc + CU (W1)': 'ttcc-wrong.c/1',
+    'TicToc + CU (W4)': 'ttcc-wrong.c/4',
+    'TicToc (W0) + ST': 'ttcc-wrong.s/0',
+    'TicToc (W1) + ST': 'ttcc-wrong.s/1',
+    'TicToc (W4) + ST': 'ttcc-wrong.s/4',
+    'TicToc + CU (W0) + ST': 'ttcc-wrong.c.s/0',
+    'TicToc + CU (W1) + ST': 'ttcc-wrong.c.s/1',
+    'TicToc + CU (W4) + ST': 'ttcc-wrong.c.s/4',
 }
 
 tpcc_gc_sys_name_map = {
@@ -258,9 +292,13 @@ rubis_sys_name_map = {
 }
 
 tpcc_out_file = config.get_result_file(config.MVSTOConfig.NAME)
-tpcc_result_file = 'tpcc_results.txt'
+tpcc_occ_result_file = 'tpcc_occ_results.txt'
+tpcc_mvcc_file = 'tpcc_mvcc_results.txt'
+tpcc_mvcc_slow_file = 'tpcc_mvcc_slow_results.txt'
 tpcc_opacity_file = 'tpcc_opacity_results.txt'
 tpcc_tictoc_file = 'tpcc_tictoc_results.txt'
+# "Wrong" means incomplete phantom protection :)
+tpcc_tictoc_wrong_file = 'tpcc_tictoc_wrong_results.txt'
 tpcc_safe_flatten_file = 'tpcc_safe_flatten_results.txt'
 ycsb_out_file = config.get_result_file(config.MVSTOYCSBConfig.NAME)
 ycsb_result_file = 'ycsb_results.txt'
@@ -507,9 +545,12 @@ def convert_tpcc_gc_all(sys_name_map, compatible_results):
 
 if __name__ == '__main__':
     results = {}
-    results = convert(tpcc_result_file, tpcc_sys_name_map, results)
+    results = convert(tpcc_occ_result_file, tpcc_occ_sys_name_map, results)
+    results = convert(tpcc_mvcc_file, tpcc_mvcc_sys_name_map, results)
+    results = convert(tpcc_mvcc_slow_file, tpcc_mvcc_slow_sys_name_map, results)
     results = convert(tpcc_opacity_file, tpcc_opacity_sys_name_map, results)
     results = convert(tpcc_tictoc_file, tpcc_tictoc_sys_name_map, results)
+    results = convert(tpcc_tictoc_wrong_file, tpcc_tictoc_wrong_sys_name_map, results)
     results = convert_tpcc_gc_all(tpcc_gc_sys_name_map, results)
     results = convert(tpcc_safe_flatten_file, tpcc_safe_flatten_sys_name_map, results)
     results = convert_cicada(results)
@@ -539,7 +580,7 @@ if __name__ == '__main__':
         with open(rubis_out_file, 'w') as wf:
             json.dump(results, wf, indent=4, sort_keys=True)
     results = {}
-    results = convert(tpcc_result_file, tpcc_sys_name_map, results)
+    results = convert(tpcc_occ_result_file, tpcc_occ_sys_name_map, results)
     results = convert(tpcc_factors_result_file, tpcc_factors_sys_name_map, results)
     results = convert_cicada(results)
     if results:
