@@ -30,6 +30,7 @@ from config import TPCCIndexContentionGraphConfig
 from config import TScalabilityMergedGraphConfig
 from config import TPCCBaselinesGraphConfig, TPCCXSystemGraphConfig
 from config import TPCCSemanticOptGraphConfig, TPCCSemanticIndGraphConfig
+from config import TPCCTicTocPhantomProtectionGraphConfig
 from config import TPCCDramaticGraphConfig
 
 from config import TPCCOpacityGraphConfig
@@ -60,6 +61,7 @@ plotter_map = {
     't_xsys': TPCCXSystemGraphConfig,
     't_semopt': TPCCSemanticOptGraphConfig,
     't_semind': TPCCSemanticIndGraphConfig,
+    't_ttcc_pp': TPCCTicTocPhantomProtectionGraphConfig,
     't_dramatic': TPCCDramaticGraphConfig,
     'w_scale_o': WikiOCCGraphConfig,
     'w_scale_m': WikiMVGraphConfig,
@@ -95,6 +97,9 @@ plotter_map = {
     'mvstorubis': MVSTORubisGraphConfig
 }
 
+# Configure default figure sizes for thesis or VLDB paper.
+FIG_SIZE_FOR = 'thesis' # use 'vldb' for smaller sizes
+
 
 def prop_mapping(m, sut):
     if not sut:
@@ -110,7 +115,7 @@ def prop_mapping(m, sut):
 
 class GraphGlobalConstants:
     FONT_SIZE = 22
-    FIG_SIZE = (8.333, 5)
+    FIG_SIZE = (8.333, 5) if FIG_SIZE_FOR == 'thesis' else (5, 5)
     WIDE_FIG_SIZE = (12, 5)
     BAR_WIDTH_SCALE_FACTOR = 1.3
     ERROR_KW = dict(ecolor='black', elinewidth=1.5, capsize=6, capthick=1.5)

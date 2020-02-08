@@ -129,6 +129,10 @@ color_mapping = {
     'tictoc.c': 2,
     'tictoc.s': 4,
     'tictoc.c.s': 6,
+    'ttcc-wrong':  3,
+    'ttcc-wrong.s': 5,
+    'ttcc-wrong.c': 7,
+    'ttcc-wrong.c.s': 9,
     'op': 11,
     'op.c': 13,
     'op.s': 15,
@@ -187,6 +191,10 @@ marker_mapping = {
     'tictoc.s': '$T$',
     'tictoc.c': '$T$',
     'tictoc.c.s': '$T$',
+    'ttcc-wrong':  '$T$',
+    'ttcc-wrong.s': '$T$',
+    'ttcc-wrong.c': '$T$',
+    'ttcc-wrong.c.s': '$T$',
     'mf':      'h',
     'mf.c':    'H',
     'mf.c.s':  'x',
@@ -235,6 +243,9 @@ linestyle_mapping = {
     'tictoc.s': 'dotted',
     'tictoc.c': 'dashed',
     'tictoc.c.s': 'dashdot',
+    'ttcc-wrong.s': 'dotted',
+    'ttcc-wrong.c': 'dotted',
+    'ttcc-wrong.c.s': 'dotted',
 }
 
 linewidth_mapping = {
@@ -398,7 +409,6 @@ class TPCCBaselinesGraphConfig:
     D3YMAXES = [None, None]
     D3TITLES = ['', '']
     D3FNAMES = ['tpcc_baselines_w1', 'tpcc_baselines_part']
-    FIG_SIZE = (5,5)
 
 
 # TPC-C Cross-system comparison: OCC, TicToc, MVCC, Cicada, ERMIA, MOCC
@@ -442,12 +452,12 @@ class TPCCSemanticOptGraphConfig:
     LEGEND_FONT_SIZE = 18
     DIM1 = MVSTOConfig.DIM1
     DIM2 = None
-    DIM3 = ['1', '0']
+    DIM3 = ['1', '4', '0']
     SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
-    LEGENDS = [True, True]
-    D3YMAXES = [1.6, None]
-    D3TITLES = ['','']
-    D3FNAMES = ['tpcc_semopt_w1','tpcc_semopt_part']
+    LEGENDS = [True, True, True]
+    D3YMAXES = [1.6, None, None]
+    D3TITLES = ['','','']
+    D3FNAMES = ['tpcc_semopt_w1','tpcc_semopt_w4','tpcc_semopt_part']
     #WIDE_FIG_SIZE = (16,5)
 
 
@@ -471,6 +481,26 @@ class TPCCSemanticIndGraphConfig:
     D3YMAXES = [1.6, None]
     D3TITLES = ['','']
     D3FNAMES = ['tpcc_semind_w1','tpcc_semind_part']
+
+
+class TPCCTicTocPhantomProtectionGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('TSTO', 'TSTO-pp'),('TSTO+CU+TS', 'TSTO+CU+TS-pp')),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = None
+    SUBFIG_DIM2S = (('tictoc', 'ttcc-wrong'), ('tictoc.c.s', 'ttcc-wrong.c.s'))
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [True, True, True]
+    D3YMAXES = [1.2, 3.6, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_tictoc_ppcost_w1', 'tpcc_tictoc_ppcost_w4', 'tpcc_tictoc_ppcost_part']
 
 
 class TPCCDramaticGraphConfig:
