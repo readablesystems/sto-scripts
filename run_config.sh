@@ -68,6 +68,41 @@ setup_rubis() {
   }
 }
 
+setup_rubis_occ() {
+  EXPERIMENT_NAME="RUBiS (OCC only)"
+  ITERS=10
+
+  RUBIS_OCC=(
+    "OCC"         "-idefault -s1.0 -g"
+    "OCC + CU"    "-idefault -s1.0 -g -x"
+  )
+
+  RUBIS_MVCC=(
+  )
+
+  RUBIS_OCC_BINARIES=(
+    "rubis_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+  )
+  RUBIS_MVCC_BINARIES=(
+  )
+  RUBIS_BOTH_BINARIES=(
+    "rubis_bench" "-both" "NDEBUG=1" ""
+  )
+
+  OCC_LABELS=("${RUBIS_OCC[@]}")
+  MVCC_LABELS=("${RUBIS_MVCC[@]}")
+  OCC_BINARIES=("${RUBIS_OCC_BINARIES[@]}" "${RUBIS_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${RUBIS_MVCC_BINARIES[@]}" "${RUBIS_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
 setup_rubis_mvcc() {
   EXPERIMENT_NAME="RUBiS MVCC only"
   ITERS=10
@@ -983,6 +1018,40 @@ setup_wiki() {
   )
   WIKI_BOTH_BINARIES=(
     "wiki_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${WIKI_OCC[@]}")
+  MVCC_LABELS=("${WIKI_MVCC[@]}")
+  OCC_BINARIES=("${WIKI_OCC_BINARIES[@]}" "${WIKI_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${WIKI_MVCC_BINARIES[@]}" "${WIKI_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
+setup_wiki_occ() {
+  EXPERIMENT_NAME="Wikipedia (OCC only)"
+
+  WIKI_OCC=(
+    "OCC"         "-idefault -b"
+    "OCC + CU"    "-idefault -b -x"
+  )
+
+  WIKI_MVCC=(
+  )
+
+  WIKI_OCC_BINARIES=(
+    "wiki_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+  )
+  WIKI_MVCC_BINARIES=(
+  )
+  WIKI_BOTH_BINARIES=(
+    "wiki_bench" "-both" "NDEBUG=1" ""
   )
 
   OCC_LABELS=("${WIKI_OCC[@]}")
