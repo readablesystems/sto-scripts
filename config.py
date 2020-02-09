@@ -498,7 +498,7 @@ class TPCCTicTocPhantomProtectionGraphConfig:
     SUBFIG_DIM2S = (('tictoc', 'ttcc-wrong'), ('tictoc.c.s', 'ttcc-wrong.c.s'))
     DIM3 = ['1', '4', '0']
     LEGENDS = [True, True, True]
-    D3YMAXES = [1.2, 3.6, None]
+    D3YMAXES = [1.4, 4.0, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_tictoc_ppcost_w1', 'tpcc_tictoc_ppcost_w4', 'tpcc_tictoc_ppcost_part']
 
