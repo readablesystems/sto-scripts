@@ -1360,18 +1360,19 @@ setup_ycsbb_semopts() {
 }
 
 setup_ycsba_tictoc() {
-  EXPERIMENT_NAME="YCSB-A, TicToc vs OCC"
+  EXPERIMENT_NAME="YCSB-A, TicToc only"
   TIMEOUT=60
 
   YCSB_OCC=(
-    "OCC (A)"    "-mA -idefault -g"
-    "TicToc (A)" "-mA -itictoc -g"
+    "TicToc (A)"    "-mA -itictoc -g"
+    "TicToc + CU (A)" "-mA -itictoc -g -x"
   )
 
   YCSB_MVCC=(
   )
 
   YCSB_OCC_BINARIES=(
+    "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
   )
   YCSB_MVCC_BINARIES=(
   )
@@ -1502,18 +1503,19 @@ setup_ycsbb_occ() {
 }
 
 setup_ycsbb_tictoc() {
-  EXPERIMENT_NAME="YCSB-B, TicToc vs OCC"
+  EXPERIMENT_NAME="YCSB-B, TicToc only"
   TIMEOUT=60
 
   YCSB_OCC=(
-    "OCC (B)"    "-mB -idefault -g"
-    "TicToc (B)" "-mB -itictoc -g"
+    "TicToc (B)"    "-mB -itictoc -g"
+    "TicToc + CU (B)" "-mB -itictoc -g -x"
   )
 
   YCSB_MVCC=(
   )
 
   YCSB_OCC_BINARIES=(
+    "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
   )
   YCSB_MVCC_BINARIES=(
   )
