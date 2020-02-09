@@ -455,7 +455,7 @@ class TPCCSemanticOptGraphConfig:
     DIM3 = ['1', '4', '0']
     SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
     LEGENDS = [True, True, True]
-    D3YMAXES = [1.6, None, None]
+    D3YMAXES = [2.1, None, None]
     D3TITLES = ['','','']
     D3FNAMES = ['tpcc_semopt_w1','tpcc_semopt_w4','tpcc_semopt_part']
     #WIDE_FIG_SIZE = (16,5)
