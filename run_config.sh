@@ -303,7 +303,48 @@ setup_tpcc_mvcc() {
 }
 
 setup_tpcc_mvcc_1gc() {
-  EXPERIMENT_NAME="TPC-C MVCC (1ms GC)"
+  EXPERIMENT_NAME="TPC-C MVCC (1ms GC, integrated TS)"
+
+  TPCC_OCC=(
+  )
+
+  TPCC_MVCC=(
+    "MVCC (W1)"        "-imvcc -g -w1 -r1000"
+    "MVCC + CU (W1)"   "-imvcc -g -x -w1 -r1000"
+    "MVCC (W4)"        "-imvcc -g -w4 -r1000"
+    "MVCC + CU (W4)"   "-imvcc -g -x -w4 -r1000"
+    "MVCC (W0)"        "-imvcc -g -r1000"
+    "MVCC + CU (W0)"   "-imvcc -g -x -r1000"
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+    "tpcc_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + ST"
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=()
+  MVCC_LABELS=("${TPCC_MVCC[@]}")
+  OCC_BINARIES=()
+  MVCC_BINARIES=("${TPCC_MVCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
+setup_tpcc_mvcc_vp_1gc() {
+  EXPERIMENT_NAME="TPC-C MVCC (1ms GC, vertical partitioning, REQUIRES MASTER BRANCH)"
 
   TPCC_OCC=(
   )
@@ -1069,7 +1110,7 @@ setup_wiki_occ() {
 }
 
 setup_wiki_mvcc() {
-  EXPERIMENT_NAME="Wikipedia (MVCC only)"
+  EXPERIMENT_NAME="Wikipedia (MVCC only, integrated TS)"
 
   WIKI_OCC=(
   )
@@ -1082,7 +1123,7 @@ setup_wiki_mvcc() {
   WIKI_OCC_BINARIES=(
   )
   WIKI_MVCC_BINARIES=(
-    "wiki_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "wiki_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + ST"
   )
   WIKI_BOTH_BINARIES=(
     "wiki_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -1395,7 +1436,7 @@ setup_ycsba_tictoc() {
 }
 
 setup_ycsba_mvcc() {
-  EXPERIMENT_NAME="YCSB-A, MVCC only"
+  EXPERIMENT_NAME="YCSB-A, MVCC only, integrated TS"
   TIMEOUT=60
 
   YCSB_OCC=(
@@ -1409,7 +1450,7 @@ setup_ycsba_mvcc() {
   YCSB_OCC_BINARIES=(
   )
   YCSB_MVCC_BINARIES=(
-    "ycsb_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + ST"
   )
   YCSB_BOTH_BINARIES=(
     "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -1538,7 +1579,7 @@ setup_ycsbb_tictoc() {
 }
 
 setup_ycsbb_mvcc() {
-  EXPERIMENT_NAME="YCSB-B, MVCC only"
+  EXPERIMENT_NAME="YCSB-B, MVCC only, integrated TS"
   TIMEOUT=60
 
   YCSB_OCC=(
@@ -1552,7 +1593,7 @@ setup_ycsbb_mvcc() {
   YCSB_OCC_BINARIES=(
   )
   YCSB_MVCC_BINARIES=(
-    "ycsb_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + ST"
   )
   YCSB_BOTH_BINARIES=(
     "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
