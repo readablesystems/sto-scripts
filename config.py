@@ -122,7 +122,7 @@ color_mapping = {
     'm.s.i': 4,
     'm.c.s': 6,
     'm.c.s.i': 6,
-    'mvp':  3,
+    'mvp': (16, 76, 100),
     'mvp.s': 5,
     'mvp.c': 7,
     'mvp.c.s': 9,
@@ -411,7 +411,7 @@ class TPCCBaselinesGraphConfig:
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['o','tictoc','m']
+    DIM2 = ['o','tictoc','mvp']
     DIM3 = ['1', '0']
     LEGENDS = [True, False]
     D3YMAXES = [None, None]
@@ -434,7 +434,7 @@ class TPCCXSystemGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = None
     DIM3 = ['1', '0']
-    SUBFIG_DIM2S = (('o','mocc'),('tictoc',),('m','c','e',None))
+    SUBFIG_DIM2S = (('o','mocc'),('tictoc',),('mvp','c','e',None))
     LEGENDS = [True, True]
     D3YMAXES = [0.8, 5]
     D3TITLES = ['', '']
@@ -461,7 +461,7 @@ class TPCCSemanticOptGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = None
     DIM3 = ['1', '4', '0']
-    SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
+    SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('mvp','m.c.s'))
     LEGENDS = [True, True, True]
     D3YMAXES = [2.4, None, None]
     D3TITLES = ['','','']
