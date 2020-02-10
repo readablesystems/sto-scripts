@@ -43,18 +43,18 @@ tpcc_mvcc_sys_name_map = {
 # MVCC TS implemented as vertical partitioning
 tpcc_mvcc_slow_sys_name_map = {
     'name': 'tpcc',
-    'MVCC (W0)': 'm-/0',
-    'MVCC (W0) + ST': 'm-.s/0',
-    'MVCC + CU (W0)': 'm-.c/0',
-    'MVCC + CU (W0) + ST': 'm-.c.s/0',
-    'MVCC (W1)': 'm-/1',
-    'MVCC (W1) + ST': 'm-.s/1',
-    'MVCC + CU (W1)': 'm-.c/1',
-    'MVCC + CU (W1) + ST': 'm-.c.s/1',
-    'MVCC (W4)': 'm-/4',
-    'MVCC (W4) + ST': 'm-.s/4',
-    'MVCC + CU (W4)': 'm-.c/4',
-    'MVCC + CU (W4) + ST': 'm-.c.s/4'
+    'MVCC (W0)': 'mvp/0',
+    'MVCC (W0) + ST': 'mvp.s/0',
+    'MVCC + CU (W0)': 'mvp.c/0',
+    'MVCC + CU (W0) + ST': 'mvp.c.s/0',
+    'MVCC (W1)': 'mvp/1',
+    'MVCC (W1) + ST': 'mvp.s/1',
+    'MVCC + CU (W1)': 'mvp.c/1',
+    'MVCC + CU (W1) + ST': 'mvp.c.s/1',
+    'MVCC (W4)': 'mvp/4',
+    'MVCC (W4) + ST': 'mvp.s/4',
+    'MVCC + CU (W4)': 'mvp.c/4',
+    'MVCC + CU (W4) + ST': 'mvp.c.s/4'
 }
 
 tpcc_opacity_sys_name_map = {

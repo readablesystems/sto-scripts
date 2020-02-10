@@ -122,6 +122,10 @@ color_mapping = {
     'm.s.i': 4,
     'm.c.s': 6,
     'm.c.s.i': 6,
+    'mvp':  3,
+    'mvp.s': 5,
+    'mvp.c': 7,
+    'mvp.c.s': 9,
     'c': 8,
     'e': 10,
     'mocc': 12,
@@ -184,6 +188,10 @@ marker_mapping = {
     'm.s.i':   'x',
     'm.c.s':   'x',
     'm.c.s.i': 'x',
+    'mvp': 'x',
+    'mvp.s': 'x',
+    'mvp.c': 'x',
+    'mvp.c.s': 'x',
     'c':       '^',
     'e':       '>',
     'mocc':    'd',
@@ -455,7 +463,7 @@ class TPCCSemanticOptGraphConfig:
     DIM3 = ['1', '4', '0']
     SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
     LEGENDS = [True, True, True]
-    D3YMAXES = [2.1, None, None]
+    D3YMAXES = [2.4, None, None]
     D3TITLES = ['','','']
     D3FNAMES = ['tpcc_semopt_w1','tpcc_semopt_w4','tpcc_semopt_part']
     #WIDE_FIG_SIZE = (16,5)
@@ -483,6 +491,7 @@ class TPCCSemanticIndGraphConfig:
     D3FNAMES = ['tpcc_semind_w1','tpcc_semind_part']
 
 
+# Comparing TicToc without and without full phantom protection (leaf node TicToc timestamp)
 class TPCCTicTocPhantomProtectionGraphConfig:
     INFO = {
         'x_label': '# threads',
@@ -501,6 +510,28 @@ class TPCCTicTocPhantomProtectionGraphConfig:
     D3YMAXES = [1.4, 4.0, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_tictoc_ppcost_w1', 'tpcc_tictoc_ppcost_w4', 'tpcc_tictoc_ppcost_part']
+
+
+# Comparing TS implementation in MVCC: Integrated (current default) vs. Vertical Partitioning
+class TPCCMVCCTsImplGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('MSTO+TS', 'MSTO+TS(vp)'),('MSTO+CU+TS', 'TSTO+CU+TS(vp)')),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = None
+    SUBFIG_DIM2S = (('m.s', 'mvp.s'), ('m.c.s', 'mvp.c.s'))
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [True, True, True]
+    D3YMAXES = [2.2, 2.2, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_mvcc_tscomp_w1', 'tpcc_mvcc_tscomp_w4', 'tpcc_mvcc_tscomp_part']
+
 
 
 class TPCCDramaticGraphConfig:
