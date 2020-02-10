@@ -104,7 +104,7 @@ setup_rubis_occ() {
 }
 
 setup_rubis_mvcc() {
-  EXPERIMENT_NAME="RUBiS MVCC only"
+  EXPERIMENT_NAME="RUBiS MVCC only (integrated TS)"
   ITERS=10
 
   RUBIS_OCC=(
@@ -118,7 +118,7 @@ setup_rubis_mvcc() {
   RUBIS_OCC_BINARIES=(
   )
   RUBIS_MVCC_BINARIES=(
-    "rubis_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "rubis_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + ST"
   )
   RUBIS_BOTH_BINARIES=(
     "rubis_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
