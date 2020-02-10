@@ -216,18 +216,6 @@ tpcc_index_contention_sys_name_map = {
     'OCC (W0)BASE': 'o/0'
 }
 
-ycsb_sys_name_map = {
-    'name': 'ycsb',
-    'OCC ({})': 'o',
-    'OCC ({}) + CU': 'o.c',
-    'OCC ({}) + SV': 'o.s',
-    'OCC ({}) + CU + SV': 'o.c.s',
-    'MVCC ({})': 'm',
-    'MVCC ({}) + ST': 'm.s',
-    'MVCC ({}) + CU': 'm.c',
-    'MVCC ({}) + CU + ST': 'm.c.s',
-}
-
 ycsb_tictoc_comp_sys_name_map = {
     'name': 'ycsb_tictoc_comp',
     'OCC (A)': 'o/a',
@@ -558,11 +546,6 @@ if __name__ == '__main__':
     results = convert_mocc(results)
     if results:
         with open(tpcc_out_file, 'w') as wf:
-            json.dump(results, wf, indent=4, sort_keys=True)
-    results = {}
-    results = convert_ycsb_all(ycsb_sys_name_map, results)
-    if results:
-        with open(ycsb_out_file, 'w') as wf:
             json.dump(results, wf, indent=4, sort_keys=True)
     results = {}
     results = convert(ycsb_tictoc_comp_result_file, ycsb_tictoc_comp_sys_name_map, results)

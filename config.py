@@ -839,7 +839,7 @@ class RubisSideBySideGraphConfig:
     SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
     DIM3 = ['1']
     LEGENDS = [True]
-    D3YMAXES = [2.25]
+    D3YMAXES = [4.5]
     D3TITLES = ['']
     D3FNAMES = ['rubis_otm']
 
