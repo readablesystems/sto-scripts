@@ -1075,7 +1075,7 @@ class TPCCOCCStackedFactorsGraphConfig:
 class TPCCIndexContentionGraphConfig:
     INFO = {
         'x_label': '# threads',
-        'y_label': 'Delivery throughput\n(Ktxns/sec)',
+        'y_label': 'Throughput (Ktxns/sec)',
         'scale_factor': 1000.0,
         'series_names': ('Index contention', 'OSTO'),
         'legends_on': True,
@@ -1083,15 +1083,15 @@ class TPCCIndexContentionGraphConfig:
     }
     NAME = MVSTOTPCCIndexContentionConfig.NAME
     TYPE = GraphType.LINE
-    LEGEND_FONT_SIZE = 24
+    #LEGEND_FONT_SIZE = 24
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['on', 'o']
-    DIM3 = ['1', '4', '0']
-    LEGENDS = [True, True, True]
-    D3YMAXES = [None, None, None]
-    D3TITLES = ['', '', '']
-    D3FNAMES = ['tpcc_index_contention_w1', 'tpcc_index_contention_w4', 'tpcc_index_contention_part']
-    FIG_SIZE = (8,5)
+    DIM3 = ['1', '0']
+    LEGENDS = [True, True]
+    D3YMAXES = [None, None]
+    D3TITLES = ['', '']
+    D3FNAMES = ['tpcc_index_contention_w1', 'tpcc_index_contention_part']
+    #FIG_SIZE = (8,5)
 
 
 # Graphs with opacity results
