@@ -81,7 +81,7 @@ plotter_map = {
     't_noncumu_o': TPCCNonCumuFactorsOCCGraphConfig,
     'tpcc-stacked-factors': TPCCStackedFactorsGraphConfig,
     'tpcc-stacked-factors-occ': TPCCOCCStackedFactorsGraphConfig,
-    'tpcc-index-contention': TPCCIndexContentionGraphConfig,
+    't_idxcont': TPCCIndexContentionGraphConfig,
     'tpccopacity': TPCCOpacityGraphConfig,
     't_comp_t': TOTCCCompGraphConfig,
     't_comp_o': TOCCCompGraphConfig,

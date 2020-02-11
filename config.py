@@ -226,7 +226,7 @@ marker_mapping = {
     'o-h': 's',
     'o-base': None,
     # index contention graph
-    'on': None,
+    'on': 'o',
     # gc graph
     'm.r0':    '^',
     'm.r1k':   '^',
