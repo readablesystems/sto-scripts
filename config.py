@@ -706,7 +706,6 @@ class YCSBBaselinesGraphConfig:
     D3YMAXES = [None, None]
     D3TITLES = ['', '']
     D3FNAMES = ['ycsb_a_baselines', 'ycsb_b_baselines']
-    FIG_SIZE = (5,5)
 
 
 # Wikipedia + RUBiS graphs
@@ -767,7 +766,6 @@ class WikiBaselineGraphConfig:
     D3YMAXES = [None, None]
     D3TITLES = ['', '']
     D3FNAMES = ['wiki_baselines']
-    FIG_SIZE = (5,5)
 
 
 # Wikipedia OCC, MVCC side-by-side comparison graphs
@@ -848,7 +846,6 @@ class RubisBaselineGraphConfig:
     D3YMAXES = [None, None]
     D3TITLES = ['', '']
     D3FNAMES = ['rubis_baselines']
-    FIG_SIZE = (5,5)
 
 
 # Rubis OCC, MVCC side-by-side comparison graphs
@@ -1024,15 +1021,14 @@ class TPCCNonCumuFactorsOCCGraphConfig:
     TYPE = GraphType.LINE
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['o-a', 'o-e', 'o-r', 'o-h', 'o-base']
-    DIM3 = ['1', '4', '0']
-    LEGENDS = [True, False, True]
-    LEGEND_SELECT = [(0,3), (0,-1), (3,5)]
+    DIM3 = ['1', '0']
+    LEGENDS = [True, True]
+    LEGEND_SELECT = [(0,3), (3,5)]
     D3YMAXES = [None, None, None]
-    D3TITLES = ['', '', '']
+    D3TITLES = ['', '']
     D3FNAMES = ['tpcc_noncumu_factors_occ_w1',
-                'tpcc_noncumu_factors_occ_w4',
                 'tpcc_noncumu_factors_occ_part']
-    FIG_SIZE = (6, 6)
+    #FIG_SIZE = (6, 6)
 
 
 # TPC-C stacked factor analysis, MVCC only
