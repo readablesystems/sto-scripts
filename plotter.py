@@ -19,7 +19,7 @@ from config import YScalabilityMergedGraphConfig, YCSBBaselinesGraphConfig
 from config import YCSBSemanticOptGraphConfig, YCSBSemanticIndGraphConfig
 from config import TOCCGraphConfig, TMVGraphConfig, WikiOCCGraphConfig, WikiMVGraphConfig
 from config import RubisOCCGraphConfig, RubisMVGraphConfig
-from config import WikiSideBySideGraphConfig, RubisSideBySideGraphConfig
+from config import WikiSemanticOptGraphConfig, RubisSemanticOptGraphConfig
 from config import WikiBaselineGraphConfig, RubisBaselineGraphConfig
 from config import TW1OCCZoomedGraphConfig, TW1MVZoomedGraphConfig
 from config import TWPOCCGraphConfig, TWPMVGraphConfig
@@ -67,11 +67,11 @@ plotter_map = {
     'w_scale_o': WikiOCCGraphConfig,
     'w_scale_m': WikiMVGraphConfig,
     'w_base': WikiBaselineGraphConfig,
-    'w_scale_merged': WikiSideBySideGraphConfig,
+    'w_semopt': WikiSemanticOptGraphConfig,
     'r_scale_o': RubisOCCGraphConfig,
     'r_scale_m': RubisMVGraphConfig,
     'r_base': RubisBaselineGraphConfig,
-    'r_scale_merged': RubisSideBySideGraphConfig,
+    'r_semopt': RubisSemanticOptGraphConfig,
     'tw1_zoomed_o': TW1OCCZoomedGraphConfig,
     'tw1_zoomed_m': TW1MVZoomedGraphConfig,
     'twp_line_o': TWPOCCGraphConfig,

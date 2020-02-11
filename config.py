@@ -769,7 +769,7 @@ class WikiBaselineGraphConfig:
 
 
 # Wikipedia OCC, MVCC side-by-side comparison graphs
-class WikiSideBySideGraphConfig:
+class WikiSemanticOptGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
@@ -849,7 +849,7 @@ class RubisBaselineGraphConfig:
 
 
 # Rubis OCC, MVCC side-by-side comparison graphs
-class RubisSideBySideGraphConfig:
+class RubisSemanticOptGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
