@@ -19,6 +19,7 @@
 # setup_tpcc_stacked_factors: (see below)
 # setup_tpcc_stacked_factors_occ: (see below)
 # setup_tpcc_stacked_factors_mvcc: TPC-C factor analysis experiments.
+# setup_tpcc_occ_idx_cont: TPC-C OCC index contention.
 # setup_wiki: Wikipedia
 # setup_ycsba: YCSB-A
 # setup_ycsba_occ: YCSB-A, OCC only
@@ -1000,13 +1001,13 @@ setup_tpcc_stacked_factors_mvcc() {
   }
 }
 
-setup_tpcc_contention_aware_idx() {
+setup_tpcc_occ_idx_cont() {
   EXPERIMENT_NAME="TPC-C Contention-aware Indexing"
 
   TPCC_OCC=(
-    "OCC (W1)" "-idefault -g -w1"
-    "OCC (W4)" "-idefault -g -w4"
-    "OCC (W0)" "-idefault -g"
+    "OCC (W1)" "-idefault -g -w1 -r1000"
+    "OCC (W4)" "-idefault -g -w4 -r1000"
+    "OCC (W0)" "-idefault -g -r1000"
   )
 
   TPCC_MVCC=(
