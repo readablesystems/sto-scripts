@@ -628,6 +628,47 @@ setup_tpcc_scaled() {
   }
 }
 
+setup_tpcc_history_key() {
+  EXPERIMENT_NAME="TPC-C History Table Sequential Insert Experiments (OCC and TicToc)"
+
+  TPCC_OCC=(
+    "OCC (W1)"         "-idefault -g -w1 -r1000"
+    "OCC + CU (W1)"    "-idefault -g -w1 -x -r1000"
+    "TicToc (W1)"      "-itictoc -n -g -w1 -r1000"
+    "TicToc + CU (W1)" "-itictoc -n -g -w1 -x -r1000"
+  )
+
+  TPCC_MVCC=(
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-base"   "NDEBUG=1 OBSERVE_C_BALANCE=1" ""
+    "tpcc_bench" "-seq"    "NDEBUG=1 OBSERVE_C_BALANCE=1 HISTORY_SEQ_INSERT=1" " + SEQ"
+    "tpcc_bench" "-ts"     "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + TS"
+    "tpcc_bench" "-ts-seq" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1 HISTORY_SEQ_INSERT=1" " + TS + SEQ"
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=()
+  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
 setup_tpcc_tictoc_full() {
   EXPERIMENT_NAME="TPC-C TicToc (full phantom protection)"
 
