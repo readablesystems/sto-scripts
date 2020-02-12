@@ -937,10 +937,10 @@ setup_tpcc_mvcc_cu() {
     "tpcc_bench" "-curr" "NDEBUG=1 INLINED_VERSIONS=1"  "+ CURR"
   )
 
-  OCC_LABELS=("${TPCC_OCC[@]}")
+  OCC_LABELS=()
   MVCC_LABELS=("${TPCC_MVCC[@]}")
-  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
-  MVCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+  OCC_BINARIES=()
+  MVCC_BINARIES=("${TPCC_MVCC_BINARIES[@]}" "${TPCC_BOTH_BINARIES[@]}")
 
   call_runs() {
     default_call_runs
