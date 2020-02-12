@@ -497,7 +497,7 @@ class TPCCTicTocPhantomProtectionGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('TSTO', 'TSTO-pp'),('TSTO+CU+TS', 'TSTO+CU+TS-pp')),
+        'subfigure_series_names': (('TSTO', 'TSTO (incorrect)'),('TSTO+CU+TS', 'TSTO+CU+TS (incorrect)')),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -505,11 +505,11 @@ class TPCCTicTocPhantomProtectionGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = None
     SUBFIG_DIM2S = (('tictoc', 'ttcc-wrong'), ('tictoc.c.s', 'ttcc-wrong.c.s'))
-    DIM3 = ['1', '4', '0']
-    LEGENDS = [True, True, True]
-    D3YMAXES = [1.4, 4.0, None]
-    D3TITLES = ['', '', '']
-    D3FNAMES = ['tpcc_tictoc_ppcost_w1', 'tpcc_tictoc_ppcost_w4', 'tpcc_tictoc_ppcost_part']
+    DIM3 = ['1', '0']
+    LEGENDS = [True, True]
+    D3YMAXES = [1.4, None]
+    D3TITLES = ['', '']
+    D3FNAMES = ['tpcc_tictoc_ppcost_w1', 'tpcc_tictoc_ppcost_part']
 
 
 # Comparing TS implementation in MVCC: Integrated (current default) vs. Vertical Partitioning
