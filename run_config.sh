@@ -8,13 +8,14 @@
 # setup_tpcc: TPC-C, 1, 4, and scaling (#wh = #th) warehouses, OCC and MVCC
 # setup_tpcc_gc: TPC-C, 1 and scaling warehouses, gc cycle of 1ms, 100ms, 10s (off)
 # setup_tpcc_mvcc: TPC-C, 1, 4, and scaling warehouses, MVCC only
-# setup_tpcc_mvcc: TPC-C, 1, 4, and scaling warehouses, OCC only
+# setup_tpcc_occ: TPC-C, 1, 4, and scaling warehouses, OCC only
 # setup_tpcc_opacity: TPC-C with opacity, 1, 4, and scaling warehouses
 # setup_tpcc_safe_flatten: TPC-C with safer flattening MVCC, 1, 4, and scaling warehouses
 # setup_tpcc_scaled: TPC-C, #warehouses = #threads
 # setup_tpcc_tictoc: TPC-C, 1, 4, and scaling warehouses, using TicToc
 # setup_tpcc_noncumu_factors: (see below)
 # setup_tpcc_noncumu_factors_occ: (see below)
+# setup_tpcc_mvcc_cu: TPC-C CU read at present vs past.
 # setup_tpcc_stacked_factors_mvcc: TPC-C non-cumulative factors.
 # setup_tpcc_stacked_factors: (see below)
 # setup_tpcc_stacked_factors_occ: (see below)
@@ -853,6 +854,46 @@ setup_tpcc_noncumu_factors_mvcc() {
     "tpcc_bench" "-f3" "NDEBUG=1 INLINED_VERSIONS=1 CONTENTION_REG=0" "-BACKOFF"
     "tpcc_bench" "-f4" "NDEBUG=1 INLINED_VERSIONS=1 USE_HASH_INDEX=0" "-HASH"
     "tpcc_bench" "-f0" "NDEBUG=1 INLINED_VERSIONS=1"                  "BASE"
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=("${TPCC_MVCC[@]}")
+  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
+setup_tpcc_mvcc_cu() {
+  EXPERIMENT_NAME="TPC-C CU read at present vs past (integrated TS)."
+
+  TPCC_OCC=(
+  )
+
+  TPCC_MVCC=(
+    "MVCC (W1)" "-imvcc -g -x -w1 -r1000"
+    "MVCC (W4)" "-imvcc -g -x -w4 -r1000"
+    "MVCC (W0)" "-imvcc -g -x -r1000"
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+    "tpcc_bench" "-ts-past" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1 CU_READ_AT_PRESENT=0" " + ST + PAST"
+    "tpcc_bench" "-ts-curr" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1"  "+ ST + CURR"
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-past" "NDEBUG=1 INLINED_VERSIONS=1 CU_READ_AT_PRESENT=0" " + PAST"
+    "tpcc_bench" "-curr" "NDEBUG=1 INLINED_VERSIONS=1"  "+ CURR"
   )
 
   OCC_LABELS=("${TPCC_OCC[@]}")
