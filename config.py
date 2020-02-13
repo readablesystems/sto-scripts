@@ -112,9 +112,11 @@ barcolor_mapping = {
 
 color_mapping = {
     'o': 18,
+    'o-s': 1,
     'o.s': 4,
     'o.c': 2,
     'o.c.s': 6,
+    'o-s.c.s': 7,
     'onr': 9,
     'm': (16, 76, 100),
     'm.c': 2,
@@ -132,9 +134,11 @@ color_mapping = {
     'e': 10,
     'mocc': 12,
     'tictoc': 0,
+    'tictoc-s':1,
     'tictoc.c': 2,
     'tictoc.s': 4,
     'tictoc.c.s': 6,
+    'tictoc-s.c.s': 7,
     'ttcc-wrong':  3,
     'ttcc-wrong.s': 5,
     'ttcc-wrong.c': 7,
@@ -200,9 +204,11 @@ marker_mapping = {
     'e':       '>',
     'mocc':    'd',
     'tictoc':  '$T$',
+    'tictoc-s': '$T$',
     'tictoc.s': '$T$',
     'tictoc.c': '$T$',
     'tictoc.c.s': '$T$',
+    'tictoc-s.c.s': '$T$',
     'ttcc-wrong':  '$T$',
     'ttcc-wrong.s': '$T$',
     'ttcc-wrong.c': '$T$',
@@ -245,6 +251,7 @@ linestyle_mapping = {
     'op.s': 'dotted',
     'm.s': 'dotted',
     'o.c.s': 'dashdot',
+    'o-s.c.s': 'dashdot',
     'op.c.s': 'dashdot',
     'm.c.s': 'dashdot',
     'secondary': (0, (1, 3)),
@@ -255,6 +262,7 @@ linestyle_mapping = {
     'tictoc.s': 'dotted',
     'tictoc.c': 'dashed',
     'tictoc.c.s': 'dashdot',
+    'tictoc-s.c.s': 'dashdot',
     'ttcc-wrong.s': 'dotted',
     'ttcc-wrong.c': 'dotted',
     'ttcc-wrong.c.s': 'dotted',
@@ -556,6 +564,45 @@ class TPCCMVCCCuImplGraphConfig:
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_mvcc_cucomp_w1', 'tpcc_mvcc_cucomp_w4', 'tpcc_mvcc_cucomp_part']
 
+
+class TPCCHistoryKeyBaselineGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('OSTO', 'OSTO (SeqKey)'),('TSTO', 'TSTO (SeqKey)')),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = None
+    SUBFIG_DIM2S = (('o','o-s'), ('tictoc', 'tictoc-s'))
+    DIM3 = ['1']
+    LEGENDS = [True]
+    D3YMAXES = [1.0]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_history_key_base_w1']
+
+
+class TPCCHistoryKeySemoptGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('OSTO', 'OSTO+CU+TS', 'OSTO+CU+TS (SeqKey)'),('TSTO', 'TSTO+CU+TS', 'TSTO+CU+TS (SeqKey)')),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = None
+    SUBFIG_DIM2S = (('o','o.c.s','o-s.c.s'), ('tictoc','tictoc.c.s','tictoc-s.c.s'))
+    DIM3 = ['1']
+    LEGENDS = [True]
+    D3YMAXES = [2.25]
+    D3TITLES = ['']
+    D3FNAMES = ['tpcc_history_key_semopt_w1']
 
 
 class TPCCDramaticGraphConfig:

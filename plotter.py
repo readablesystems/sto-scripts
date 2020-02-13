@@ -31,6 +31,7 @@ from config import TScalabilityMergedGraphConfig
 from config import TPCCBaselinesGraphConfig, TPCCXSystemGraphConfig
 from config import TPCCSemanticOptGraphConfig, TPCCSemanticIndGraphConfig
 from config import TPCCTicTocPhantomProtectionGraphConfig, TPCCMVCCTsImplGraphConfig, TPCCMVCCCuImplGraphConfig
+from config import TPCCHistoryKeyBaselineGraphConfig, TPCCHistoryKeySemoptGraphConfig
 from config import TPCCDramaticGraphConfig
 
 from config import TPCCOpacityGraphConfig
@@ -64,6 +65,8 @@ plotter_map = {
     't_ttcc_pp': TPCCTicTocPhantomProtectionGraphConfig,
     't_mvp': TPCCMVCCTsImplGraphConfig,
     't_mcp': TPCCMVCCCuImplGraphConfig,
+    't_hkbase': TPCCHistoryKeyBaselineGraphConfig,
+    't_hksemopt': TPCCHistoryKeySemoptGraphConfig,
     't_dramatic': TPCCDramaticGraphConfig,
     'w_scale_o': WikiOCCGraphConfig,
     'w_scale_m': WikiMVGraphConfig,
