@@ -128,8 +128,7 @@ color_mapping = {
     'm.c.s.i': 6,
     'mvp': (16, 76, 100),
     'mvp.s': 5,
-    'mvp.c': 7,
-    'mvp.c.s': 9,
+    'mvp.c.s': 7,
     'c': 8,
     'e': 10,
     'mocc': 12,
@@ -247,13 +246,17 @@ linestyle_mapping = {
     'o.c': 'dashed',
     'op.c': 'dashed',
     'm.c': 'dashed',
+    'm.cp': 'dashed',
     'o.s': 'dotted',
     'op.s': 'dotted',
     'm.s': 'dotted',
+    'mvp.s': 'dotted',
     'o.c.s': 'dashdot',
     'o-s.c.s': 'dashdot',
     'op.c.s': 'dashdot',
     'm.c.s': 'dashdot',
+    'm.cp.s': 'dashdot',
+    'mvp.c.s': 'dashdot',
     'secondary': (0, (1, 3)),
     'default': 'solid',
     'e': (0, (2, 3)),
@@ -530,7 +533,7 @@ class TPCCMVCCTsImplGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('MSTO+TS', 'MSTO+TS (vertical partitioning)'),('MSTO+CU+TS', 'MSTO+CU+TS (vertical partitioning)')),
+        'subfigure_series_names': (('MSTO+TS', 'MSTO+TS (VertPart)'),('MSTO+CU+TS', 'MSTO+CU+TS (VertPart)')),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -550,14 +553,14 @@ class TPCCMVCCCuImplGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('MSTO', 'MSTO+CU', 'MSTO+CU (past)'),('MSTO+CU+TS', 'MSTO+CU+TS (past)')),
+        'subfigure_series_names': (('MSTO+CU', 'MSTO+CU (ReadPast)'),('MSTO+CU+TS', 'MSTO+CU+TS (ReadPast)')),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
     DIM2 = None
-    SUBFIG_DIM2S = (('mvp', 'm.c', 'm.cp'), ('m.c.s', 'm.cp.s'))
+    SUBFIG_DIM2S = (('m.c', 'm.cp'), ('m.c.s', 'm.cp.s'))
     DIM3 = ['1', '4', '0']
     LEGENDS = [True, True, True]
     D3YMAXES = [2.2, 2.2, None]
