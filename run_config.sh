@@ -646,9 +646,7 @@ setup_tpcc_history_key() {
   TPCC_MVCC_BINARIES=(
   )
   TPCC_BOTH_BINARIES=(
-    "tpcc_bench" "-base"   "NDEBUG=1 OBSERVE_C_BALANCE=1" ""
     "tpcc_bench" "-seq"    "NDEBUG=1 OBSERVE_C_BALANCE=1 HISTORY_SEQ_INSERT=1" " + SEQ"
-    "tpcc_bench" "-ts"     "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + TS"
     "tpcc_bench" "-ts-seq" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1 HISTORY_SEQ_INSERT=1" " + TS + SEQ"
   )
 
