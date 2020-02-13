@@ -930,11 +930,9 @@ setup_tpcc_mvcc_cu() {
   )
   TPCC_MVCC_BINARIES=(
     "tpcc_bench" "-ts-past" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1 CU_READ_AT_PRESENT=0" " + ST + PAST"
-    "tpcc_bench" "-ts-curr" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1"  "+ ST + CURR"
   )
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-past" "NDEBUG=1 INLINED_VERSIONS=1 CU_READ_AT_PRESENT=0" " + PAST"
-    "tpcc_bench" "-curr" "NDEBUG=1 INLINED_VERSIONS=1"  "+ CURR"
   )
 
   OCC_LABELS=()

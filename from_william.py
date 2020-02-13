@@ -57,6 +57,16 @@ tpcc_mvcc_slow_sys_name_map = {
     'MVCC + CU (W4) + ST': 'mvp.c.s/4'
 }
 
+tpcc_mvcc_cupast_sys_name_map = {
+    'name': 'tpcc',
+    'MVCC (W1) + ST + PAST': 'm.cp.s/1',
+    'MVCC (W4) + ST + PAST': 'm.cp.s/4',
+    'MVCC (W0) + ST + PAST': 'm.cp.s/0',
+    'MVCC (W1) + PAST': 'm.cp/1',
+    'MVCC (W4) + PAST': 'm.cp/4',
+    'MVCC (W0) + PAST': 'm.cp/0'
+}
+
 tpcc_opacity_sys_name_map = {
     'name': 'tpcc',
     'OPQ (W0)': 'op/0',
@@ -287,6 +297,7 @@ tpcc_opacity_file = 'tpcc_opacity_results.txt'
 tpcc_tictoc_file = 'tpcc_tictoc_results.txt'
 # "Wrong" means incomplete phantom protection :)
 tpcc_tictoc_wrong_file = 'tpcc_tictoc_wrong_results.txt'
+tpcc_mvcc_cupast_file = 'tpcc_mvcc_cu_past_results.txt'
 tpcc_safe_flatten_file = 'tpcc_safe_flatten_results.txt'
 ycsb_out_file = config.get_result_file(config.MVSTOYCSBConfig.NAME)
 ycsb_result_file = 'ycsb_results.txt'
@@ -539,6 +550,7 @@ if __name__ == '__main__':
     results = convert(tpcc_opacity_file, tpcc_opacity_sys_name_map, results)
     results = convert(tpcc_tictoc_file, tpcc_tictoc_sys_name_map, results)
     results = convert(tpcc_tictoc_wrong_file, tpcc_tictoc_wrong_sys_name_map, results)
+    results = convert(tpcc_mvcc_cupast_file, tpcc_mvcc_cupast_sys_name_map, results)
     results = convert_tpcc_gc_all(tpcc_gc_sys_name_map, results)
     results = convert(tpcc_safe_flatten_file, tpcc_safe_flatten_sys_name_map, results)
     results = convert_cicada(results)

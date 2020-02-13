@@ -118,9 +118,11 @@ color_mapping = {
     'onr': 9,
     'm': (16, 76, 100),
     'm.c': 2,
+    'm.cp': 3,
     'm.s': 4,
     'm.s.i': 4,
     'm.c.s': 6,
+    'm.cp.s': 7,
     'm.c.s.i': 6,
     'mvp': (16, 76, 100),
     'mvp.s': 5,
@@ -184,9 +186,11 @@ marker_mapping = {
     'op.c.s':  None,
     'm':       'x',
     'm.c':     'x',
+    'm.cp':    'x',
     'm.s':     'x',
     'm.s.i':   'x',
     'm.c.s':   'x',
+    'm.cp.s':   'x',
     'm.c.s.i': 'x',
     'mvp': 'x',
     'mvp.s': 'x',
@@ -518,7 +522,7 @@ class TPCCMVCCTsImplGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('MSTO+TS', 'MSTO+TS(vp)'),('MSTO+CU+TS', 'TSTO+CU+TS(vp)')),
+        'subfigure_series_names': (('MSTO+TS', 'MSTO+TS (vertical partitioning)'),('MSTO+CU+TS', 'MSTO+CU+TS (vertical partitioning)')),
         'legends_on': True
     }
     NAME = MVSTOConfig.NAME
@@ -531,6 +535,26 @@ class TPCCMVCCTsImplGraphConfig:
     D3YMAXES = [2.2, 2.2, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_mvcc_tscomp_w1', 'tpcc_mvcc_tscomp_w4', 'tpcc_mvcc_tscomp_part']
+
+
+class TPCCMVCCCuImplGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('MSTO', 'MSTO+CU', 'MSTO+CU (past)'),('MSTO+CU+TS', 'MSTO+CU+TS (past)')),
+        'legends_on': True
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = None
+    SUBFIG_DIM2S = (('mvp', 'm.c', 'm.cp'), ('m.c.s', 'm.cp.s'))
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [True, True, True]
+    D3YMAXES = [2.2, 2.2, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_mvcc_cucomp_w1', 'tpcc_mvcc_cucomp_w4', 'tpcc_mvcc_cucomp_part']
 
 
 
