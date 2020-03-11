@@ -327,6 +327,8 @@ tpcc_stacked_factors_out_file = config.get_result_file(config.MVSTOTPCCStackedFa
 tpcc_stacked_factors_result_file = 'tpcc_stacked_factors_results.txt'
 tpcc_noncumu_factors_out_file = config.get_result_file(config.MVSTOTPCCNonCumuFactorsConfig.NAME)
 tpcc_noncumu_factors_result_file = 'tpcc_noncumu_factors_results.txt'
+old_tpcc_noncumu_factors_out_file = config.get_result_file(config.OldMVSTOTPCCNonCumuFactorsConfig.NAME)
+old_tpcc_noncumu_factors_result_file = 'old_tpcc_noncumu_factors_results.txt'
 tpcc_index_contention_out_file = config.get_result_file(config.MVSTOTPCCIndexContentionConfig.NAME)
 tpcc_index_contention_result_file = 'tpcc_index_contention_results.txt'
 tpcc_factors_out_file = config.get_result_file(config.MVSTOTPCCFactorsConfig.NAME)
@@ -605,6 +607,11 @@ if __name__ == '__main__':
     results = convert(tpcc_noncumu_factors_result_file, tpcc_noncumu_factors_sys_name_map, results)
     if results:
         with open(tpcc_noncumu_factors_out_file, 'w') as wf:
+            json.dump(results, wf, indent=4, sort_keys=True)
+    results = {}
+    results = convert(old_tpcc_noncumu_factors_result_file, tpcc_noncumu_factors_sys_name_map, results)
+    if results:
+        with open(old_tpcc_noncumu_factors_out_file, 'w') as wf:
             json.dump(results, wf, indent=4, sort_keys=True)
     results = {}
     results = convert(tpcc_index_contention_result_file, tpcc_index_contention_sys_name_map, results)

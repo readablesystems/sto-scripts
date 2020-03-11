@@ -59,6 +59,13 @@ class MVSTOTPCCNonCumuFactorsConfig:
     DIM3 = ['1', '4', '0']
 
 
+class OldMVSTOTPCCNonCumuFactorsConfig:
+    NAME = 'old_tpcc_noncumu_factors'
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['m-a', 'm-e', 'm-r', 'm-h', 'm', 'o-a', 'o-e', 'o-r', 'o-h', 'o']
+    DIM3 = ['1', '4', '0']
+
+
 class MVSTOTPCCStackedFactorsConfig:
     NAME = 'tpcc_stacked_factors'
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
