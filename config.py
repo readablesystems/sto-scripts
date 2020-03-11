@@ -1112,6 +1112,35 @@ class TPCCNonCumuFactorsOCCGraphConfig:
     #FIG_SIZE = (6, 6)
 
 
+class OldTPCCNonCumuFactorsOCCGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('Slow allocator', 'Inefficient aborts', 'No contention\nregulation', 'No hash indexes', 'OSTO Baseline                      '),
+        'legends_on': True,
+        'legend_order': (4,2,0,1,3),
+        'markevery': {
+            'o-base': 5,
+            'o-a': 5,
+            'o-e': 5,
+            'o-r': 5,
+            'o-h': 5
+        },
+    }
+    NAME = OldMVSTOTPCCNonCumuFactorsConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['o-a', 'o-e', 'o-r', 'o-h', 'o-base']
+    DIM3 = ['1', '0']
+    LEGENDS = [True, True]
+    LEGEND_SELECT = [(0,3), (3,5)]
+    D3YMAXES = [None, None, None]
+    D3TITLES = ['', '']
+    D3FNAMES = ['tpcc_noncumu_factors_occ_w1',
+                'tpcc_noncumu_factors_occ_part']
+    #FIG_SIZE = (6, 6)
+
+
 # TPC-C stacked factor analysis, MVCC only
 class TPCCStackedFactorsGraphConfig:
     INFO = {

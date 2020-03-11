@@ -24,7 +24,7 @@ from config import WikiBaselineGraphConfig, RubisBaselineGraphConfig
 from config import TW1OCCZoomedGraphConfig, TW1MVZoomedGraphConfig
 from config import TWPOCCGraphConfig, TWPMVGraphConfig
 from config import TPCCFactorsGraphConfig, TPCCStackedFactorsGraphConfig, TPCCOCCStackedFactorsGraphConfig
-from config import TPCCNonCumuFactorsMVCCGraphConfig, TPCCNonCumuFactorsOCCGraphConfig
+from config import TPCCNonCumuFactorsMVCCGraphConfig, TPCCNonCumuFactorsOCCGraphConfig, OldTPCCNonCumuFactorsOCCGraphConfig
 from config import TPCCIndexContentionGraphConfig
 
 from config import TScalabilityMergedGraphConfig
@@ -83,6 +83,7 @@ plotter_map = {
     'tpccfactors': TPCCFactorsGraphConfig,
     't_noncumu_m': TPCCNonCumuFactorsMVCCGraphConfig,
     't_noncumu_o': TPCCNonCumuFactorsOCCGraphConfig,
+    'old_t_noncumu_o': OldTPCCNonCumuFactorsOCCGraphConfig,
     'tpcc-stacked-factors': TPCCStackedFactorsGraphConfig,
     'tpcc-stacked-factors-occ': TPCCOCCStackedFactorsGraphConfig,
     't_idxcont': TPCCIndexContentionGraphConfig,
