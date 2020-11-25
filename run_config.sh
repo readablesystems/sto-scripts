@@ -50,7 +50,7 @@ setup_rubis() {
     "rubis_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
   )
   RUBIS_MVCC_BINARIES=(
-    "rubis_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "rubis_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   RUBIS_BOTH_BINARIES=(
     "rubis_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -120,7 +120,7 @@ setup_rubis_mvcc() {
   RUBIS_OCC_BINARIES=(
   )
   RUBIS_MVCC_BINARIES=(
-    "rubis_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + ST"
+    "rubis_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   RUBIS_BOTH_BINARIES=(
     "rubis_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -200,7 +200,7 @@ setup_tpcc() {
     "tpcc_bench" "-occ" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + SV"
   )
   TPCC_MVCC_BINARIES=(
-    "tpcc_bench" "-mvcc" "NDEBUG=1 OBSERVE_C_BALANCE=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "tpcc_bench" "-mvcc" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
@@ -281,7 +281,7 @@ setup_tpcc_mvcc() {
   TPCC_OCC_BINARIES=(
   )
   TPCC_MVCC_BINARIES=(
-    "tpcc_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "tpcc_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -322,7 +322,7 @@ setup_tpcc_mvcc_1gc() {
   TPCC_OCC_BINARIES=(
   )
   TPCC_MVCC_BINARIES=(
-    "tpcc_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + ST"
+    "tpcc_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -363,7 +363,7 @@ setup_tpcc_mvcc_vp_1gc() {
   TPCC_OCC_BINARIES=(
   )
   TPCC_MVCC_BINARIES=(
-    "tpcc_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "tpcc_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -444,7 +444,7 @@ setup_tpcc_mvcc_ts_1gc() {
   TPCC_OCC_BINARIES=(
   )
   TPCC_MVCC_BINARIES=(
-    "tpcc_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "tpcc_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   TPCC_BOTH_BINARIES=(
   )
@@ -566,7 +566,7 @@ setup_tpcc_safe_flatten() {
   TPCC_OCC_BINARIES=(
   )
   TPCC_MVCC_BINARIES=(
-    "tpcc_bench" "-mvcc" "NDEBUG=1 INLINED_VERSIONS=1 SPLIT_TABLE=1 OBSERVE_C_BALANCE=1 SAFE_FLATTEN=1" " + ST"
+    "tpcc_bench" "-mvcc" "NDEBUG=1 INLINED_VERSIONS=1 FINE_GRAINED=1 OBSERVE_C_BALANCE=1 SAFE_FLATTEN=1" " + SV"
   )
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1 OBSERVE_C_BALANCE=1 SAFE_FLATTEN=1" ""
@@ -608,7 +608,7 @@ setup_tpcc_scaled() {
     "tpcc_bench" "-occ" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + SV"
   )
   TPCC_MVCC_BINARIES=(
-    "tpcc_bench" "-mvcc" "NDEBUG=1 OBSERVE_C_BALANCE=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "tpcc_bench" "-mvcc" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1 INLINED_VERSIONS=1" ""
@@ -688,7 +688,7 @@ setup_tpcc_tictoc_full() {
   )
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1" ""
-    "tpcc_bench" "-tsplit" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + ST"
+    "tpcc_bench" "-tsplit" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + SV"
   )
 
   OCC_LABELS=("${TPCC_OCC[@]}")
@@ -729,7 +729,7 @@ setup_tpcc_tictoc_incorrect() {
   )
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-both" "NDEBUG=1 OBSERVE_C_BALANCE=1" ""
-    "tpcc_bench" "-tsplit" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + ST"
+    "tpcc_bench" "-tsplit" "NDEBUG=1 OBSERVE_C_BALANCE=1 FINE_GRAINED=1" " + SV"
   )
 
   OCC_LABELS=("${TPCC_OCC[@]}")
@@ -927,7 +927,7 @@ setup_tpcc_mvcc_cu() {
   TPCC_OCC_BINARIES=(
   )
   TPCC_MVCC_BINARIES=(
-    "tpcc_bench" "-ts-past" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1 CU_READ_AT_PRESENT=0" " + ST + PAST"
+    "tpcc_bench" "-ts-past" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1 CU_READ_AT_PRESENT=0" " + SV + PAST"
   )
   TPCC_BOTH_BINARIES=(
     "tpcc_bench" "-past" "NDEBUG=1 INLINED_VERSIONS=1 CU_READ_AT_PRESENT=0" " + PAST"
@@ -1134,7 +1134,7 @@ setup_wiki() {
     "wiki_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
   )
   WIKI_MVCC_BINARIES=(
-    "wiki_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "wiki_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   WIKI_BOTH_BINARIES=(
     "wiki_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -1202,7 +1202,7 @@ setup_wiki_mvcc() {
   WIKI_OCC_BINARIES=(
   )
   WIKI_MVCC_BINARIES=(
-    "wiki_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + ST"
+    "wiki_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   WIKI_BOTH_BINARIES=(
     "wiki_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -1274,7 +1274,7 @@ setup_ycsba() {
     "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
   )
   YCSB_MVCC_BINARIES=(
-    "ycsb_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   YCSB_BOTH_BINARIES=(
     "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -1384,7 +1384,7 @@ setup_ycsba_semopts() {
     "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
   )
   YCSB_MVCC_BINARIES=(
-    "ycsb_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   YCSB_BOTH_BINARIES=(
     "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -1459,7 +1459,7 @@ setup_ycsbb_semopts() {
     "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
   )
   YCSB_MVCC_BINARIES=(
-    "ycsb_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   YCSB_BOTH_BINARIES=(
     "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -1529,7 +1529,7 @@ setup_ycsba_mvcc() {
   YCSB_OCC_BINARIES=(
   )
   YCSB_MVCC_BINARIES=(
-    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + ST"
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   YCSB_BOTH_BINARIES=(
     "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -1567,7 +1567,7 @@ setup_ycsbb() {
     "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
   )
   YCSB_MVCC_BINARIES=(
-    "ycsb_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   YCSB_BOTH_BINARIES=(
     "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -1672,7 +1672,7 @@ setup_ycsbb_mvcc() {
   YCSB_OCC_BINARIES=(
   )
   YCSB_MVCC_BINARIES=(
-    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + ST"
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   YCSB_BOTH_BINARIES=(
     "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
@@ -1710,7 +1710,7 @@ setup_ycsbc() {
     "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
   )
   YCSB_MVCC_BINARIES=(
-    "ycsb_bench" "-mvcc" "NDEBUG=1 SPLIT_TABLE=1 INLINED_VERSIONS=1" " + ST"
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
   )
   YCSB_BOTH_BINARIES=(
     "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""

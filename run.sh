@@ -251,7 +251,7 @@ call_runs
 end_time=$(date +%s)
 runtime=$(($end_time - $start_time))
 
-python3 /home/yihehuang/send_email.py --exp="$EXPERIMENT_NAME" --runtime=$runtime $RFILE $DFILE
+python3 /home/ubuntu/send_email.py --exp="$EXPERIMENT_NAME" --runtime=$runtime $RFILE $DFILE
 if [ $DRY_RUN -eq 0 ]
 then
   # delay shutdown for 1 minute just in case
