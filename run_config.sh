@@ -26,11 +26,14 @@
 # setup_ycsba_occ: YCSB-A, OCC only
 # setup_ycsba_tictoc: YCSB-A, TicToc
 # setup_ycsba_mvcc: YCSB-A, OCC only
+# setup_ycsba_semopts: YCSB-A semantic optimizations comparison
 # setup_ycsbb: YCSB-B
 # setup_ycsbb_occ: YCSB-B, OCC only
 # setup_ycsbb_tictoc: YCSB-B, TicToc
 # setup_ycsbb_mvcc: YCSB-B, MVCC only
+# setup_ycsbb_semopts: YCSB-B semantic optimizations comparison
 # setup_ycsbc: YCSB-C
+# setup_ycsbc_semopts: YCSB-C semantic optimizations comparison
 
 setup_rubis() {
   EXPERIMENT_NAME="RUBiS"
