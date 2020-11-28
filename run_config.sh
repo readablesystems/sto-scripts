@@ -1729,3 +1729,43 @@ setup_ycsbc() {
     ``  # noop
   }
 }
+
+setup_ycsbc_semopts() {
+  EXPERIMENT_NAME="YCSB-C Semantic optimizations, OCC vs TTCC vs MVCC"
+  TIMEOUT=60
+
+  YCSB_OCC=(
+    "OCC + CU (C)"    "-mC -idefault -g -x"
+    "TicToc + CU (C)" "-mC -itictoc -g -x"
+    "OCC (C)"         "-mC -idefault -g"
+    "TicToc (C)"      "-mC -itictoc -g"
+  )
+
+  YCSC_MVCC=(
+    "MVCC + CU (C)" "-mC -imvcc -g -x"
+    "MVCC (C)"      "-mC -imvcc -g"
+  )
+
+  YCSB_OCC_BINARIES=(
+    "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+  )
+  YCSB_MVCC_BINARIES=(
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
+  )
+  YCSB_BOTH_BINARIES=(
+    "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${YCSB_OCC[@]}")
+  MVCC_LABELS=("${YCSB_MVCC[@]}")
+  OCC_BINARIES=("${YCSB_OCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${YCSB_MVCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
