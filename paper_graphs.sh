@@ -13,6 +13,10 @@ plots=(
   y_semopt
   w_scale_merged
   r_scale_merged
+  r_semopt
+  w_semopt
+  t_scale_m
+  t_scale_m_past
   )
 
 for plot in ${plots[@]}; do

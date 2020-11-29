@@ -27,41 +27,41 @@ tpcc_occ_sys_name_map = {
 tpcc_mvcc_sys_name_map = {
     'name': 'tpcc',
     'MVCC (W0)': 'm/0',
-    'MVCC (W0) + ST': 'm.s/0',
+    'MVCC (W0) + SV': 'm.s/0',
     'MVCC + CU (W0)': 'm.c/0',
-    'MVCC + CU (W0) + ST': 'm.c.s/0',
+    'MVCC + CU (W0) + SV': 'm.c.s/0',
     'MVCC (W1)': 'm/1',
-    'MVCC (W1) + ST': 'm.s/1',
+    'MVCC (W1) + SV': 'm.s/1',
     'MVCC + CU (W1)': 'm.c/1',
-    'MVCC + CU (W1) + ST': 'm.c.s/1',
+    'MVCC + CU (W1) + SV': 'm.c.s/1',
     'MVCC (W4)': 'm/4',
-    'MVCC (W4) + ST': 'm.s/4',
+    'MVCC (W4) + SV': 'm.s/4',
     'MVCC + CU (W4)': 'm.c/4',
-    'MVCC + CU (W4) + ST': 'm.c.s/4'
+    'MVCC + CU (W4) + SV': 'm.c.s/4'
 }
 
 # MVCC TS implemented as vertical partitioning
 tpcc_mvcc_slow_sys_name_map = {
     'name': 'tpcc',
     'MVCC (W0)': 'mvp/0',
-    'MVCC (W0) + ST': 'mvp.s/0',
+    'MVCC (W0) + SV': 'mvp.s/0',
     'MVCC + CU (W0)': 'mvp.c/0',
-    'MVCC + CU (W0) + ST': 'mvp.c.s/0',
+    'MVCC + CU (W0) + SV': 'mvp.c.s/0',
     'MVCC (W1)': 'mvp/1',
-    'MVCC (W1) + ST': 'mvp.s/1',
+    'MVCC (W1) + SV': 'mvp.s/1',
     'MVCC + CU (W1)': 'mvp.c/1',
-    'MVCC + CU (W1) + ST': 'mvp.c.s/1',
+    'MVCC + CU (W1) + SV': 'mvp.c.s/1',
     'MVCC (W4)': 'mvp/4',
-    'MVCC (W4) + ST': 'mvp.s/4',
+    'MVCC (W4) + SV': 'mvp.s/4',
     'MVCC + CU (W4)': 'mvp.c/4',
-    'MVCC + CU (W4) + ST': 'mvp.c.s/4'
+    'MVCC + CU (W4) + SV': 'mvp.c.s/4'
 }
 
 tpcc_mvcc_cupast_sys_name_map = {
     'name': 'tpcc',
-    'MVCC (W1) + ST + PAST': 'm.cp.s/1',
-    'MVCC (W4) + ST + PAST': 'm.cp.s/4',
-    'MVCC (W0) + ST + PAST': 'm.cp.s/0',
+    'MVCC (W1) + SV + PAST': 'm.cp.s/1',
+    'MVCC (W4) + SV + PAST': 'm.cp.s/4',
+    'MVCC (W0) + SV + PAST': 'm.cp.s/0',
     'MVCC (W1) + PAST': 'm.cp/1',
     'MVCC (W4) + PAST': 'm.cp/4',
     'MVCC (W0) + PAST': 'm.cp/0'
@@ -91,12 +91,12 @@ tpcc_tictoc_sys_name_map = {
     'TicToc + CU (W0)': 'tictoc.c/0',
     'TicToc + CU (W1)': 'tictoc.c/1',
     'TicToc + CU (W4)': 'tictoc.c/4',
-    'TicToc (W0) + ST': 'tictoc.s/0',
-    'TicToc (W1) + ST': 'tictoc.s/1',
-    'TicToc (W4) + ST': 'tictoc.s/4',
-    'TicToc + CU (W0) + ST': 'tictoc.c.s/0',
-    'TicToc + CU (W1) + ST': 'tictoc.c.s/1',
-    'TicToc + CU (W4) + ST': 'tictoc.c.s/4',
+    'TicToc (W0) + SV': 'tictoc.s/0',
+    'TicToc (W1) + SV': 'tictoc.s/1',
+    'TicToc (W4) + SV': 'tictoc.s/4',
+    'TicToc + CU (W0) + SV': 'tictoc.c.s/0',
+    'TicToc + CU (W1) + SV': 'tictoc.c.s/1',
+    'TicToc + CU (W4) + SV': 'tictoc.c.s/4',
 }
 
 tpcc_tictoc_wrong_sys_name_map = {
@@ -107,12 +107,12 @@ tpcc_tictoc_wrong_sys_name_map = {
     'TicToc + CU (W0)': 'ttcc-wrong.c/0',
     'TicToc + CU (W1)': 'ttcc-wrong.c/1',
     'TicToc + CU (W4)': 'ttcc-wrong.c/4',
-    'TicToc (W0) + ST': 'ttcc-wrong.s/0',
-    'TicToc (W1) + ST': 'ttcc-wrong.s/1',
-    'TicToc (W4) + ST': 'ttcc-wrong.s/4',
-    'TicToc + CU (W0) + ST': 'ttcc-wrong.c.s/0',
-    'TicToc + CU (W1) + ST': 'ttcc-wrong.c.s/1',
-    'TicToc + CU (W4) + ST': 'ttcc-wrong.c.s/4',
+    'TicToc (W0) + SV': 'ttcc-wrong.s/0',
+    'TicToc (W1) + SV': 'ttcc-wrong.s/1',
+    'TicToc (W4) + SV': 'ttcc-wrong.s/4',
+    'TicToc + CU (W0) + SV': 'ttcc-wrong.c.s/0',
+    'TicToc + CU (W1) + SV': 'ttcc-wrong.c.s/1',
+    'TicToc + CU (W4) + SV': 'ttcc-wrong.c.s/4',
 }
 
 tpcc_gc_sys_name_map = {
@@ -125,17 +125,17 @@ tpcc_gc_sys_name_map = {
 tpcc_safe_flatten_sys_name_map = {
     'name': 'tpcc',
     'MVCC (W0)': 'mf/0',
-    'MVCC (W0) + ST': 'mf.s/0',
+    'MVCC (W0) + SV': 'mf.s/0',
     'MVCC + CU (W0)': 'mf.c/0',
-    'MVCC + CU (W0) + ST': 'mf.c.s/0',
+    'MVCC + CU (W0) + SV': 'mf.c.s/0',
     'MVCC (W1)': 'mf/1',
-    'MVCC (W1) + ST': 'mf.s/1',
+    'MVCC (W1) + SV': 'mf.s/1',
     'MVCC + CU (W1)': 'mf.c/1',
-    'MVCC + CU (W1) + ST': 'mf.c.s/1',
+    'MVCC + CU (W1) + SV': 'mf.c.s/1',
     'MVCC (W4)': 'mf/4',
-    'MVCC (W4) + ST': 'mf.s/4',
+    'MVCC (W4) + SV': 'mf.s/4',
     'MVCC + CU (W4)': 'mf.c/4',
-    'MVCC + CU (W4) + ST': 'mf.c.s/4'
+    'MVCC + CU (W4) + SV': 'mf.c.s/4'
 }
 
 tpcc_factors_sys_name_map = {
@@ -238,35 +238,66 @@ tpcc_history_key_sys_name_map = {
     'TicToc + CU (W1) + TS + SEQ': 'tictoc-s.c.s/1'
 }
 
+ycsb_all_map = {
+    'name': 'ycsb',
+    'OCC ({})': 'o',
+    'MVCC ({})': 'm',
+    'TicToc ({})': 'tictoc',
+
+    'OCC + CU ({})': 'o.c',
+    'MVCC + CU ({})': 'm.c',
+    'TicToc + CU ({})': 'tictoc.c',
+
+    'OCC ({}) + SV': 'o.s',
+    'MVCC ({}) + SV': 'm.s',
+    'TicToc ({}) + SV': 'tictoc.s',
+
+    'OCC + CU ({}) + SV': 'o.c.s',
+    'MVCC + CU ({}) + SV': 'm.c.s',
+    'TicToc + CU ({}) + SV': 'tictoc.c.s',
+}
+
 ycsb_tictoc_comp_sys_name_map = {
     'name': 'ycsb_tictoc_comp',
     'OCC (A)': 'o/a',
     'OCC (B)': 'o/b',
+    'OCC (C)': 'o/c',
     'MVCC (A)': 'm/a',
     'MVCC (B)': 'm/b',
+    'MVCC (C)': 'm/c',
     'TicToc (A)': 'tictoc/a',
     'TicToc (B)': 'tictoc/b',
+    'TicToc (C)': 'tictoc/c',
 
     'OCC + CU (A)': 'o.c/a',
     'OCC + CU (B)': 'o.c/b',
+    'OCC + CU (C)': 'o.c/c',
     'MVCC + CU (A)': 'm.c/a',
     'MVCC + CU (B)': 'm.c/b',
+    'MVCC + CU (C)': 'm.c/c',
     'TicToc + CU (A)': 'tictoc.c/a',
     'TicToc + CU (B)': 'tictoc.c/b',
+    'TicToc + CU (C)': 'tictoc.c/c',
 
     'OCC (A) + SV': 'o.s/a',
     'OCC (B) + SV': 'o.s/b',
-    'MVCC (A) + ST': 'm.s/a',
-    'MVCC (B) + ST': 'm.s/b',
+    'OCC (C) + SV': 'o.s/c',
+    'MVCC (A) + SV': 'm.s/a',
+    'MVCC (B) + SV': 'm.s/b',
+    'MVCC (C) + SV': 'm.s/c',
     'TicToc (A) + SV': 'tictoc.s/a',
     'TicToc (B) + SV': 'tictoc.s/b',
+    'TicToc (C) + SV': 'tictoc.s/c',
 
     'OCC + CU (A) + SV': 'o.c.s/a',
     'OCC + CU (B) + SV': 'o.c.s/b',
-    'MVCC + CU (A) + ST': 'm.c.s/a',
-    'MVCC + CU (B) + ST': 'm.c.s/b',
+    'OCC + CU (C) + SV': 'o.c.s/c',
+    'MVCC + CU (A) + SV': 'm.c.s/a',
+    'MVCC + CU (B) + SV': 'm.c.s/b',
+    'MVCC + CU (C) + SV': 'm.c.s/c',
     'TicToc + CU (A) + SV': 'tictoc.c.s/a',
     'TicToc + CU (B) + SV': 'tictoc.c.s/b',
+    'TicToc + CU (C) + SV': 'tictoc.c.s/c',
 }
 
 wiki_sys_name_map = {
@@ -280,9 +311,9 @@ wiki_sys_name_map = {
     'TicToc + SV': 'tictoc.s/1',
     'TicToc + CU + SV': 'tictoc.c.s/1',
     'MVCC': 'm/1',
-    'MVCC + ST': 'm.s/1',
+    'MVCC + SV': 'm.s/1',
     'MVCC + CU': 'm.c/1',
-    'MVCC + CU + ST': 'm.c.s/1',
+    'MVCC + CU + SV': 'm.c.s/1',
 }
 
 rubis_sys_name_map = {
@@ -296,9 +327,9 @@ rubis_sys_name_map = {
     'TicToc + SV': 'tictoc.s/1',
     'TicToc + CU + SV': 'tictoc.c.s/1',
     'MVCC': 'm/1',
-    'MVCC + ST': 'm.s/1',
+    'MVCC + SV': 'm.s/1',
     'MVCC + CU': 'm.c/1',
-    'MVCC + CU + ST': 'm.c.s/1',
+    'MVCC + CU + SV': 'm.c.s/1',
 }
 
 tpcc_out_file = config.get_result_file(config.MVSTOConfig.NAME)
@@ -312,7 +343,7 @@ tpcc_tictoc_wrong_file = 'tpcc_tictoc_wrong_results.txt'
 tpcc_mvcc_cupast_file = 'tpcc_mvcc_cu_past_results.txt'
 tpcc_history_key_file = 'tpcc_history_key_results.txt'
 tpcc_safe_flatten_file = 'tpcc_safe_flatten_results.txt'
-ycsb_out_file = config.get_result_file(config.MVSTOYCSBConfig.NAME)
+ycsb_out_file = config.get_result_file(config.YCSBSemanticOptGraphConfig.NAME)
 ycsb_result_file = 'ycsb_results.txt'
 
 # YCSB baseline CC comparisons (convert using the generic convert() function)
@@ -495,7 +526,7 @@ def convert_ycsb_all(sys_name_map, compatible_results):
         sys_name_reverse_map[v] = k
         sys_short_names.append(v)
 
-    ycsb_types = ('a', 'b')
+    ycsb_types = ('a', 'b', 'c')
     for yt in ycsb_types:
         try:
             filename = 'ycsb_{}_results.txt'.format(yt)
@@ -511,14 +542,18 @@ def convert_ycsb_all(sys_name_map, compatible_results):
                             runner_key = br.key(d1, d2, d3, i)
                             col_key = long_name
                             if d3 == 'a':
-                                col_key = col_key.format('A')
+                                col_key = col_key.format('A', 'a')
                             elif d3 == 'b':
-                                col_key = col_key.format('B')
+                                col_key = col_key.format('B', 'b')
                             else:
-                                col_key = col_key.format('C')
+                                col_key = col_key.format('C', 'c')
                             col_key += ' [T{}]'.format(i+1)
-                            xput = float(row[col_key])
-                            compatible_results[runner_key] = (xput, 0.0, 0.0)
+                            if col_key in row:
+                                xput = float(row[col_key])
+                                compatible_results[runner_key] = (xput, 0.0, 0.0)
+                            elif d3 == yt:
+                                #print('Missing from {}: {}'.format(yt, col_key))
+                                pass
         except (FileNotFoundError, IOError):
             print('File {} not found, not processed.'.format(filename))
     return compatible_results
@@ -579,6 +614,11 @@ if __name__ == '__main__':
     results = convert(ycsb_tictoc_comp_result_file, ycsb_tictoc_comp_sys_name_map, results)
     if results:
         with open(ycsb_tictoc_comp_out_file, 'w') as wf:
+            json.dump(results, wf, indent=4, sort_keys=True)
+    results = {}
+    results = convert_ycsb_all(ycsb_all_map, results)
+    if results:
+        with open(ycsb_out_file, 'w') as wf:
             json.dump(results, wf, indent=4, sort_keys=True)
     results = {}
     results = convert(wiki_result_file, wiki_sys_name_map, results)

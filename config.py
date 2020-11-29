@@ -196,11 +196,11 @@ marker_mapping = {
     'op.c.s':  None,
     'm':       'x',
     'm.c':     'x',
-    'm.cp':    'x',
+    'm.cp':    '$p$',
     'm.s':     'x',
     'm.s.i':   'x',
     'm.c.s':   'x',
-    'm.cp.s':   'x',
+    'm.cp.s':   '$p$',
     'm.c.s.i': 'x',
     'mvp': 'x',
     'mvp.s': 'x',
@@ -395,7 +395,25 @@ class TMVGraphConfig:
     LEGENDS = [False, True, False]
     D3YMAXES = [1.6, 4.1, 5.0]
     D3TITLES = ['', '', '']
-    D3FNAMES = ['tpcc_w1_mvcc', 'tpcc_w4_mvcc', 'tpcc_part_mvcc']
+    D3FNAMES = ['tpcc_mvcc_w1', 'tpcc_mvcc_w4', 'tpcc_mvcc_part']
+
+class TMVPastGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('MSTO', 'MSTO+CU (ReadPast)', 'MSTO+CU', 'MSTO+CU+TS (ReadPast)', 'MSTO+CU+TS'),
+        'legends_on': True,
+        'legend_order': (4, 2, 3, 1, 0)
+    }
+    NAME = MVSTOConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = MVSTOConfig.DIM1
+    DIM2 = ['m','m.cp','m.c','m.cp.s','m.c.s','o-secondary','o.c-secondary','o.s-secondary','o.c.s-secondary']
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [False, True, False]
+    D3YMAXES = [1.6, 4.1, 5.0]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_mvcc_past_w1', 'tpcc_mvcc_past_w4', 'tpcc_mvcc_past_part']
 
 
 # TPCC Scalability graphs with merged subfigures
@@ -483,7 +501,7 @@ class TPCCSemanticOptGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = None
     DIM3 = ['1', '4', '0']
-    SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('mvp','m.c.s'))
+    SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
     LEGENDS = [True, True, True]
     D3YMAXES = [2.4, None, None]
     D3TITLES = ['','','']
@@ -734,17 +752,17 @@ class YCSBSemanticOptGraphConfig:
         'legends_on': True,
         'legend_order': (1,0)
     }
-    NAME = YCSBTicTocCompConfig.NAME
+    NAME = 'ycsb'
     TYPE = GraphType.LINE
     LEGEND_FONT_SIZE = 18
     DIM1 = YCSBTicTocCompConfig.DIM1
     DIM2 = None
     SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
-    DIM3 = ['a', 'b']
-    LEGENDS = [True, True]
-    D3YMAXES = [3.0, 11.0]
-    D3TITLES = ['', '']
-    D3FNAMES = ['ycsb_semopt_a', 'ycsb_semopt_b']
+    DIM3 = ['a', 'b', 'c']
+    LEGENDS = [True, True, True,]
+    D3YMAXES = [3.0, 11.0, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['ycsb_semopt_a', 'ycsb_semopt_b', 'ycsb_semopt_c']
 
 
 # YCSB Scalability OCC vs MVCC side-by-side comparison graphs
@@ -868,7 +886,7 @@ class WikiSemanticOptGraphConfig:
     SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
     DIM3 = ['1']
     LEGENDS = [True]
-    D3YMAXES = [0.6]
+    D3YMAXES = [0.8]
     D3TITLES = ['']
     D3FNAMES = ['wiki_otm']
 

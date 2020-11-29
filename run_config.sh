@@ -1442,46 +1442,6 @@ setup_ycsbb_baselines() {
   }
 }
 
-setup_ycsbb_semopts() {
-  EXPERIMENT_NAME="YCSB-B Semantic optimizations, OCC vs TTCC vs MVCC"
-  TIMEOUT=60
-
-  YCSB_OCC=(
-    "OCC + CU (B)"    "-mB -idefault -g -x"
-    "TicToc + CU (B)" "-mB -itictoc -g -x"
-    "OCC (B)"         "-mB -idefault -g"
-    "TicToc (B)"      "-mB -itictoc -g"
-  )
-
-  YCSB_MVCC=(
-    "MVCC + CU (B)" "-mB -imvcc -g -x"
-    "MVCC (B)"      "-mB -imvcc -g"
-  )
-
-  YCSB_OCC_BINARIES=(
-    "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
-  )
-  YCSB_MVCC_BINARIES=(
-    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
-  )
-  YCSB_BOTH_BINARIES=(
-    "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
-  )
-
-  OCC_LABELS=("${YCSB_OCC[@]}")
-  MVCC_LABELS=("${YCSB_MVCC[@]}")
-  OCC_BINARIES=("${YCSB_OCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
-  MVCC_BINARIES=("${YCSB_MVCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
-
-  call_runs() {
-    default_call_runs
-  }
-
-  update_cmd() {
-    ``  # noop
-  }
-}
-
 setup_ycsba_tictoc() {
   EXPERIMENT_NAME="YCSB-A, TicToc only"
   TIMEOUT=60
@@ -1625,6 +1585,46 @@ setup_ycsbb_occ() {
   }
 }
 
+setup_ycsbb_semopts() {
+  EXPERIMENT_NAME="YCSB-B Semantic optimizations, OCC vs TTCC vs MVCC"
+  TIMEOUT=60
+
+  YCSB_OCC=(
+    "OCC + CU (B)"    "-mB -idefault -g -x"
+    "TicToc + CU (B)" "-mB -itictoc -g -x"
+    "OCC (B)"         "-mB -idefault -g"
+    "TicToc (B)"      "-mB -itictoc -g"
+  )
+
+  YCSB_MVCC=(
+    "MVCC + CU (B)" "-mB -imvcc -g -x"
+    "MVCC (B)"      "-mB -imvcc -g"
+  )
+
+  YCSB_OCC_BINARIES=(
+    "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+  )
+  YCSB_MVCC_BINARIES=(
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
+  )
+  YCSB_BOTH_BINARIES=(
+    "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${YCSB_OCC[@]}")
+  MVCC_LABELS=("${YCSB_MVCC[@]}")
+  OCC_BINARIES=("${YCSB_OCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${YCSB_MVCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
 setup_ycsbb_tictoc() {
   EXPERIMENT_NAME="YCSB-B, TicToc only"
   TIMEOUT=60
@@ -1744,7 +1744,7 @@ setup_ycsbc_semopts() {
     "TicToc (C)"      "-mC -itictoc -g"
   )
 
-  YCSC_MVCC=(
+  YCSB_MVCC=(
     "MVCC + CU (C)" "-mC -imvcc -g -x"
     "MVCC (C)"      "-mC -imvcc -g"
   )

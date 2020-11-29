@@ -17,7 +17,8 @@ from config import MVSTOYCSBOCCGraphConfig, MVSTOYCSBMVCCGraphConfig, MVSTORubis
 from config import YOCCGraphConfig, YMVGraphConfig, YTOCompGraphConfig
 from config import YScalabilityMergedGraphConfig, YCSBBaselinesGraphConfig
 from config import YCSBSemanticOptGraphConfig, YCSBSemanticIndGraphConfig
-from config import TOCCGraphConfig, TMVGraphConfig, WikiOCCGraphConfig, WikiMVGraphConfig
+from config import TOCCGraphConfig, TMVGraphConfig, TMVPastGraphConfig
+from config import WikiOCCGraphConfig, WikiMVGraphConfig
 from config import RubisOCCGraphConfig, RubisMVGraphConfig
 from config import WikiSemanticOptGraphConfig, RubisSemanticOptGraphConfig
 from config import WikiBaselineGraphConfig, RubisBaselineGraphConfig
@@ -57,6 +58,7 @@ plotter_map = {
     'y_scale_merged': YScalabilityMergedGraphConfig,
     't_scale_o': TOCCGraphConfig,
     't_scale_m': TMVGraphConfig,
+    't_scale_m_past': TMVPastGraphConfig,
     't_scale_merged': TScalabilityMergedGraphConfig,
     't_base': TPCCBaselinesGraphConfig,
     't_xsys': TPCCXSystemGraphConfig,
