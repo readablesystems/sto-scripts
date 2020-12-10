@@ -40,8 +40,7 @@ class WikiConfig:
 
 class MVSTOConfig:
     NAME = 'tpcc_mvsto'
-    #DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
-    DIM1 = [1, 2, 4, 8, 16, 24, 32, 48, 64]
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['o','onr','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s','c', 'e', 'mocc']
     DIM3 = ['1', '4', '0'] # number of warehouses
 

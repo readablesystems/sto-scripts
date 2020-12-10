@@ -5,7 +5,7 @@ plots=(
   t_base
   w_base
   r_base
-  tpcc-index-contention
+  t_idxcont
   t_noncumu_o
   t_xsys
   t_semopt
