@@ -20,5 +20,5 @@ plots=(
   )
 
 for plot in ${plots[@]}; do
-  ./plotter.py $plot -tpdf -n &
+  ./plotter.py $plot -tpdf -n
 done

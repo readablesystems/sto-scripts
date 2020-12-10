@@ -40,7 +40,8 @@ class WikiConfig:
 
 class MVSTOConfig:
     NAME = 'tpcc_mvsto'
-    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    #DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM1 = [1, 2, 4, 8, 16, 24, 32, 48, 64]
     DIM2 = ['o','onr','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s','c', 'e', 'mocc']
     DIM3 = ['1', '4', '0'] # number of warehouses
 
@@ -474,7 +475,7 @@ class TPCCXSystemGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = None
     DIM3 = ['1', '0']
-    SUBFIG_DIM2S = (('o','mocc'),('tictoc',),('mvp','c','e',None))
+    SUBFIG_DIM2S = (('o','mocc'),('tictoc',),('m','c','e',None))
     LEGENDS = [True, True]
     D3YMAXES = [0.8, 5]
     D3TITLES = ['', '']
@@ -760,7 +761,7 @@ class YCSBSemanticOptGraphConfig:
     SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
     DIM3 = ['a', 'b', 'c']
     LEGENDS = [True, True, True,]
-    D3YMAXES = [3.0, 11.0, None]
+    D3YMAXES = [1.5, 11.0, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['ycsb_semopt_a', 'ycsb_semopt_b', 'ycsb_semopt_c']
 

@@ -350,9 +350,9 @@ ycsb_result_file = 'ycsb_results.txt'
 ycsb_tictoc_comp_out_file = config.get_result_file(config.YCSBTicTocCompConfig.NAME)
 ycsb_tictoc_comp_result_file = 'ycsb_tictoc_results.txt'
 
-wiki_out_file = config.get_result_file(config.MVSTOWikiConfig.NAME)
+wiki_out_file = config.get_result_file(config.WikiSemanticOptGraphConfig.NAME)
 wiki_result_file = 'wiki_results.txt'
-rubis_out_file = config.get_result_file(config.MVSTORubisConfig.NAME)
+rubis_out_file = config.get_result_file(config.RubisSemanticOptGraphConfig.NAME)
 rubis_result_file = 'rubis_results.txt'
 tpcc_stacked_factors_out_file = config.get_result_file(config.MVSTOTPCCStackedFactorsConfig.NAME)
 tpcc_stacked_factors_result_file = 'tpcc_stacked_factors_results.txt'
