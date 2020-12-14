@@ -81,14 +81,14 @@ class MVSTOTPCCIndexContentionConfig:
 
 
 class MVSTOYCSBConfig:
-    NAME = 'ycsb_mvsto'
+    NAME = 'ycsb'
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['o','o.c','o.s','o.c.s','m','m.c','m.s','m.c.s']
     DIM3 = ['a', 'b'] # workload type
 
 
 class YCSBTicTocCompConfig:
-    NAME = 'ycsb_tictoc_comp'
+    NAME = 'ycsb'
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['o','t']
     DIM3 = ['a', 'b'] # workload type
@@ -451,7 +451,7 @@ class TPCCBaselinesGraphConfig:
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['o','tictoc','mvp']
+    DIM2 = ['o','tictoc','m']
     DIM3 = ['1', '0']
     LEGENDS = [True, False]
     D3YMAXES = [None, None]
@@ -966,7 +966,7 @@ class RubisSemanticOptGraphConfig:
     SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
     DIM3 = ['1']
     LEGENDS = [True]
-    D3YMAXES = [4.5]
+    D3YMAXES = [11]
     D3TITLES = ['']
     D3FNAMES = ['rubis_otm']
 
