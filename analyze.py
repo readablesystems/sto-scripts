@@ -23,7 +23,7 @@ with open(args.file, 'r') as fin:
     for key, value in row.items():
       if key == '# Threads':
         continue
-      experiment = key[:-5]
+      experiment = key[:-5].strip()
       data[experiment] += [float(value)]
 
 results = []
