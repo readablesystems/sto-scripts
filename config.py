@@ -393,7 +393,7 @@ class TMVGraphConfig:
     DIM2 = ['m','m.c','m.s','m.c.s','o-secondary','o.c-secondary','o.s-secondary','o.c.s-secondary']
     DIM3 = ['1', '4', '0']
     LEGENDS = [False, True, False]
-    D3YMAXES = [1.6, 4.1, 5.0]
+    D3YMAXES = [2.1, 4.1, 5.0]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_mvcc_w1', 'tpcc_mvcc_w4', 'tpcc_mvcc_part']
 
@@ -452,11 +452,14 @@ class TPCCBaselinesGraphConfig:
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
     DIM2 = ['o','tictoc','m']
-    DIM3 = ['1', '0']
-    LEGENDS = [True, False]
-    D3YMAXES = [None, None]
-    D3TITLES = ['', '']
-    D3FNAMES = ['tpcc_baselines_w1', 'tpcc_baselines_part']
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [False, True, False]
+    LEGEND_SELECT = [(0, 1), (0, 1), (0, 1)]
+    D3YMAXES = [None, None, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_baselines_w1', 'tpcc_baselines_w4', 'tpcc_baselines_part']
+    LEGEND_FONT_SIZE = 24
+    FIG_SIZE = (5,5)
 
 
 # TPC-C Cross-system comparison: OCC, TicToc, MVCC, Cicada, ERMIA, MOCC
@@ -800,11 +803,14 @@ class YCSBBaselinesGraphConfig:
     TYPE = GraphType.LINE
     DIM1 = YCSBTicTocCompConfig.DIM1
     DIM2 = ['o', 'tictoc', 'm']
-    DIM3 = ['a', 'b']
-    LEGENDS = [True, True]
-    D3YMAXES = [None, None]
-    D3TITLES = ['', '']
-    D3FNAMES = ['ycsb_a_baselines', 'ycsb_b_baselines']
+    DIM3 = ['a', 'b', 'c']
+    LEGENDS = [True, False, True]
+    LEGEND_SELECT = [(1, 2), (0, 1), (2, 3)]
+    D3YMAXES = [None, None, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['ycsb_a_baselines', 'ycsb_b_baselines', 'ycsb_c_baselines']
+    LEGEND_FONT_SIZE = 24
+    FIG_SIZE = (5,5)
 
 
 # Wikipedia + RUBiS graphs
@@ -861,10 +867,12 @@ class WikiBaselineGraphConfig:
     DIM1 = MVSTOWikiConfig.DIM1
     DIM2 = ['o', 'tictoc', 'm']
     DIM3 = ['1']
-    LEGENDS = [True, True]
-    D3YMAXES = [None, None]
-    D3TITLES = ['', '']
+    LEGENDS = [False]
+    D3YMAXES = [None]
+    D3TITLES = ['']
     D3FNAMES = ['wiki_baselines']
+    LEGEND_FONT_SIZE = 24
+    FIG_SIZE = (5,5)
 
 
 # Wikipedia OCC, MVCC side-by-side comparison graphs
@@ -941,10 +949,12 @@ class RubisBaselineGraphConfig:
     DIM1 = MVSTORubisConfig.DIM1
     DIM2 = ['o', 'tictoc', 'm']
     DIM3 = ['1']
-    LEGENDS = [True, True]
-    D3YMAXES = [None, None]
-    D3TITLES = ['', '']
+    LEGENDS = [False]
+    D3YMAXES = [None]
+    D3TITLES = ['',]
     D3FNAMES = ['rubis_baselines']
+    LEGEND_FONT_SIZE = 24
+    FIG_SIZE = (5,5)
 
 
 # Rubis OCC, MVCC side-by-side comparison graphs
@@ -1066,7 +1076,7 @@ class TPCCFactorsGraphConfig:
         'x_label': 'Factors',
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('-Mem-Hash-Backoff', '-Mem', '-Backoff', '-Hash', 'Baseline (MSTO)', 'Cicada', 'MSTO+CU+TS'),
-        'legends_in': True
+        'legends_on': True
     }
     NAME = MVSTOTPCCFactorsConfig.NAME
     TYPE = GraphType.HBAR
