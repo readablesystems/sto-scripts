@@ -153,17 +153,17 @@ tpcc_noncumu_factors_sys_name_map = {
     'MVCC (W1)-NOEXC': 'm-e/1',
     'MVCC (W1)-BACKOFF': 'm-r/1',
     'MVCC (W1)-HASH': 'm-h/1',
-    'MVCC (W1)BASE': 'm/1',
+    'MVCC (W1)BASE': 'm-base/1',
     'MVCC (W4)-AL': 'm-a/4',
     'MVCC (W4)-NOEXC': 'm-e/4',
     'MVCC (W4)-BACKOFF': 'm-r/4',
     'MVCC (W4)-HASH': 'm-h/4',
-    'MVCC (W4)BASE': 'm/4',
+    'MVCC (W4)BASE': 'm-base/4',
     'MVCC (W0)-AL': 'm-a/0',
     'MVCC (W0)-NOEXC': 'm-e/0',
     'MVCC (W0)-BACKOFF': 'm-r/0',
     'MVCC (W0)-HASH': 'm-h/0',
-    'MVCC (W0)BASE': 'm/0',
+    'MVCC (W0)BASE': 'm-base/0',
 
     'OCC (W1)-AL': 'o-a/1',
     'OCC (W1)-NOEXC': 'o-e/1',
@@ -180,6 +180,22 @@ tpcc_noncumu_factors_sys_name_map = {
     'OCC (W0)-BACKOFF': 'o-r/0',
     'OCC (W0)-HASH': 'o-h/0',
     'OCC (W0)BASE': 'o-base/0',
+
+    'TicToc (W1)-AL': 't-a/1',
+    'TicToc (W1)-NOEXC': 't-e/1',
+    'TicToc (W1)-BACKOFF': 't-r/1',
+    'TicToc (W1)-HASH': 't-h/1',
+    'TicToc (W1)BASE': 't-base/1',
+    'TicToc (W4)-AL': 't-a/4',
+    'TicToc (W4)-NOEXC': 't-e/4',
+    'TicToc (W4)-BACKOFF': 't-r/4',
+    'TicToc (W4)-HASH': 't-h/4',
+    'TicToc (W4)BASE': 't-base/4',
+    'TicToc (W0)-AL': 't-a/0',
+    'TicToc (W0)-NOEXC': 't-e/0',
+    'TicToc (W0)-BACKOFF': 't-r/0',
+    'TicToc (W0)-HASH': 't-h/0',
+    'TicToc (W0)BASE': 't-base/0',
 }
 
 tpcc_stacked_factors_sys_name_map = {
@@ -383,6 +399,7 @@ def convert(infile, sys_name_map, compatible_results):
     try:
         with open(infile, 'r') as rf:
             reader = csv.DictReader(rf)
+            scalabilities = {}
             for row in reader:
                 d1 = row['# Threads']
                 for v in sys_short_names:
@@ -393,13 +410,23 @@ def convert(infile, sys_name_map, compatible_results):
                         col_key = long_name
                         col_key += ' [T{}]'.format(i+1)
                         try:
+                            if not row[col_key]:
+                              continue
                             xput = float(row[col_key])
                         except KeyError:
-                            print('key {} not found.'.format(runner_key))
+                            #print('key {} not found.'.format(runner_key))
                             continue
                         if runner_key in compatible_results:
                             print('WARNING: Overriding result runner key {}'.format(runner_key))
                         compatible_results[runner_key] = (xput, 0.0, 0.0)
+                        if d1 == '1':
+                            scalabilities[(d2, d3)] = xput
+            # Scalability lines
+            for key, t1 in scalabilities.items():
+                key64 = br.key(64, key[0] + '.scale', key[1], 0)
+                for t in (0, 1, 24, 32, 64):
+                    tkey = br.key(t, key[0] + '.scale', key[1], 0)
+                    compatible_results[tkey] = (t1 * t, 0, 0)
     except (FileNotFoundError, IOError):
         print('Input file {} not found, not processed.'.format(infile))
         return {}
@@ -532,6 +559,7 @@ def convert_ycsb_all(sys_name_map, compatible_results):
             filename = 'ycsb_{}_results.txt'.format(yt)
             with open(filename, 'r') as rf:
                 reader = csv.DictReader(rf)
+                scalabilities = {}
                 for row in reader:
                     d1 = row['# Threads']
                     d3 = yt
@@ -554,6 +582,14 @@ def convert_ycsb_all(sys_name_map, compatible_results):
                             elif d3 == yt:
                                 #print('Missing from {}: {}'.format(yt, col_key))
                                 pass
+                            if d1 == '1':
+                                scalabilities[(d2, d3)] = xput
+                # Scalability lines
+                for key, t1 in scalabilities.items():
+                    key64 = br.key(64, key[0] + '.scale', key[1], 0)
+                    for t in (0, 1, 24, 32, 64):
+                        tkey = br.key(t, key[0] + '.scale', key[1], 0)
+                        compatible_results[tkey] = (t1 * t, 0, 0)
         except (FileNotFoundError, IOError):
             print('File {} not found, not processed.'.format(filename))
     return compatible_results

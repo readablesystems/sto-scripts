@@ -124,6 +124,7 @@ color_mapping = {
     'o.c': 2,
     'o.c.s': 6,
     'o-s.c.s': 7,
+    'o.scale': (35, 255, 255),
     'onr': 9,
     'm': (16, 76, 100),
     'm.c': 2,
@@ -133,6 +134,7 @@ color_mapping = {
     'm.c.s': 6,
     'm.cp.s': 7,
     'm.c.s.i': 6,
+    'm.scale': (24, 114, 150),
     'mvp': (16, 76, 100),
     'mvp.s': 5,
     'mvp.c.s': 7,
@@ -145,6 +147,7 @@ color_mapping = {
     'tictoc.s': 4,
     'tictoc.c.s': 6,
     'tictoc-s.c.s': 7,
+    'tictoc.scale': (47, 180, 255),
     'ttcc-wrong':  3,
     'ttcc-wrong.s': 5,
     'ttcc-wrong.c': 7,
@@ -166,6 +169,7 @@ color_mapping = {
     'm-e': 4,
     'm-r': 6,
     'm-h': 8,
+    'm-base': 18,
     'on.a': 4,
     'on.a.e': 6,
     'on.a.r.e': 8,
@@ -175,6 +179,15 @@ color_mapping = {
     'o-r': 6,
     'o-h': 8,
     'o-base': 18,
+    'tn.a': 4,
+    'tn.a.e': 6,
+    'tn.a.r.e': 8,
+    'tn.a.r.e.h': 0,
+    't-a': 2,
+    't-e': 4,
+    't-r': 6,
+    't-h': 8,
+    't-base': 18,
     # index contention graph
     'on': 2,
     # GC graph
@@ -194,6 +207,7 @@ marker_mapping = {
     'op.s':    None,
     'o.c.s':   None,
     'op.c.s':  None,
+    'o.scale': None,
     'm':       'x',
     'm.c':     'x',
     'm.cp':    '$p$',
@@ -202,6 +216,7 @@ marker_mapping = {
     'm.c.s':   'x',
     'm.cp.s':   '$p$',
     'm.c.s.i': 'x',
+    'm.scale': None,
     'mvp': 'x',
     'mvp.s': 'x',
     'mvp.c': 'x',
@@ -215,6 +230,7 @@ marker_mapping = {
     'tictoc.c': '$T$',
     'tictoc.c.s': '$T$',
     'tictoc-s.c.s': '$T$',
+    'tictoc.scale': None,
     'ttcc-wrong':  '$T$',
     'ttcc-wrong.s': '$T$',
     'ttcc-wrong.c': '$T$',
@@ -236,11 +252,17 @@ marker_mapping = {
     'm-e': 'p',
     'm-r': 'p',
     'm-h': 'p',
+    'm-base': 'p',
     'o-a': 'o',
     'o-e': '^',
     'o-r': 'v',
     'o-h': 's',
     'o-base': None,
+    't-a': '$T$',
+    't-e': '$T$',
+    't-r': '$T$',
+    't-h': '$T$',
+    't-base': '$T$',
     # index contention graph
     'on': 'o',
     # gc graph
@@ -251,12 +273,14 @@ marker_mapping = {
 
 linestyle_mapping = {
     'o.c': 'dashed',
+    'o.scale': 'dotted',
     'op.c': 'dashed',
     'm.c': 'dashed',
     'm.cp': 'dashed',
     'o.s': 'dotted',
     'op.s': 'dotted',
     'm.s': 'dotted',
+    'm.scale': 'dotted',
     'mvp.s': 'dotted',
     'o.c.s': 'dashdot',
     'o-s.c.s': 'dashdot',
@@ -273,6 +297,7 @@ linestyle_mapping = {
     'tictoc.c': 'dashed',
     'tictoc.c.s': 'dashdot',
     'tictoc-s.c.s': 'dashdot',
+    'tictoc.scale': 'dotted',
     'ttcc-wrong.s': 'dotted',
     'ttcc-wrong.c': 'dotted',
     'ttcc-wrong.c.s': 'dotted',
@@ -289,7 +314,10 @@ linewidth_mapping = {
 
 errorbar_mapping = {
     'default': True,
-    'secondary': False
+    'secondary': False,
+    'm.scale': False,
+    'o.scale': False,
+    'tictoc.scale': False,
 }
 
 
@@ -446,16 +474,16 @@ class TPCCBaselinesGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('OSTO', 'TSTO', 'MSTO'),
-        'legends_on': True
+        'legends_on': True,
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['o','tictoc','m']
+    DIM2 = ['o','tictoc','m', 'o.scale', 'tictoc.scale', 'm.scale']
     DIM3 = ['1', '4', '0']
-    LEGENDS = [False, True, False]
+    LEGENDS = [False, False, False]
     LEGEND_SELECT = [(0, 1), (0, 1), (0, 1)]
-    D3YMAXES = [None, None, None]
+    D3YMAXES = [0.8, 2, 5]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_baselines_w1', 'tpcc_baselines_w4', 'tpcc_baselines_part']
     LEGEND_FONT_SIZE = 24
@@ -802,11 +830,11 @@ class YCSBBaselinesGraphConfig:
     NAME = YCSBTicTocCompConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = YCSBTicTocCompConfig.DIM1
-    DIM2 = ['o', 'tictoc', 'm']
+    DIM2 = ['o','tictoc','m', 'o.scale', 'tictoc.scale', 'm.scale']
     DIM3 = ['a', 'b', 'c']
-    LEGENDS = [True, False, True]
+    LEGENDS = [False, False, False]
     LEGEND_SELECT = [(1, 2), (0, 1), (2, 3)]
-    D3YMAXES = [None, None, None]
+    D3YMAXES = [0.6, 9, 60]
     D3TITLES = ['', '', '']
     D3FNAMES = ['ycsb_a_baselines', 'ycsb_b_baselines', 'ycsb_c_baselines']
     LEGEND_FONT_SIZE = 24
@@ -865,10 +893,10 @@ class WikiBaselineGraphConfig:
     NAME = MVSTOWikiConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOWikiConfig.DIM1
-    DIM2 = ['o', 'tictoc', 'm']
+    DIM2 = ['o','tictoc','m', 'o.scale', 'tictoc.scale', 'm.scale']
     DIM3 = ['1']
     LEGENDS = [False]
-    D3YMAXES = [None]
+    D3YMAXES = [0.7]
     D3TITLES = ['']
     D3FNAMES = ['wiki_baselines']
     LEGEND_FONT_SIZE = 24
@@ -947,10 +975,10 @@ class RubisBaselineGraphConfig:
     NAME = MVSTORubisConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTORubisConfig.DIM1
-    DIM2 = ['o', 'tictoc', 'm']
+    DIM2 = ['o','tictoc','m', 'o.scale', 'tictoc.scale', 'm.scale']
     DIM3 = ['1']
     LEGENDS = [False]
-    D3YMAXES = [None]
+    D3YMAXES = [7]
     D3TITLES = ['',]
     D3FNAMES = ['rubis_baselines']
     LEGEND_FONT_SIZE = 24
@@ -1094,21 +1122,30 @@ class TPCCNonCumuFactorsMVCCGraphConfig:
     INFO = {
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
-        'series_names': ('-RPMalloc', '-NoExcept', '-Backoff', '-HashIdx', 'MSTO'),
-        'legends_on': True
+        'series_names': ('Slow allocator', 'Inefficient aborts', 'No contention\nregulation', 'No hash indexes', 'MSTO Baseline                      '),
+        'legends_on': True,
+        'legend_order': (4,2,0,1,3),
+        'markevery': {
+            'm-base': 5,
+            'm-a': 5,
+            'm-e': 5,
+            'm-r': 5,
+            'm-h': 5
+        },
     }
     NAME = MVSTOTPCCNonCumuFactorsConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
-    DIM2 = ['m-a', 'm-e', 'm-r', 'm-h', 'm']
+    DIM2 = ['m-a', 'm-e', 'm-r', 'm-h', 'm-base']
     DIM3 = ['1', '4', '0']
-    LEGENDS = [True, True, True]
+    LEGENDS = [False, False, False]
+    LEGEND_SELECT = [(0, 2), (2, 4), (4, 5)]
     D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_noncumu_factors_mvcc_w1',
                 'tpcc_noncumu_factors_mvcc_w4',
                 'tpcc_noncumu_factors_mvcc_part']
-    FIG_SIZE = (6, 6)
+    #FIG_SIZE = (6, 6)
 
 
 class TPCCNonCumuFactorsOCCGraphConfig:
@@ -1130,13 +1167,43 @@ class TPCCNonCumuFactorsOCCGraphConfig:
     TYPE = GraphType.LINE
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['o-a', 'o-e', 'o-r', 'o-h', 'o-base']
-    DIM3 = ['1', '0']
-    LEGENDS = [True, True]
-    LEGEND_SELECT = [(0,3), (3,5)]
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [False, False, False]
+    LEGEND_SELECT = [(0, 2), (2, 4), (4, 5)]
     D3YMAXES = [None, None, None]
-    D3TITLES = ['', '']
+    D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_noncumu_factors_occ_w1',
+                'tpcc_noncumu_factors_occ_w4',
                 'tpcc_noncumu_factors_occ_part']
+    #FIG_SIZE = (6, 6)
+
+class TPCCNonCumuFactorsTTCCGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'series_names': ('Slow allocator', 'Inefficient aborts', 'No contention\nregulation', 'No hash indexes', 'TSTO Baseline                      '),
+        'legends_on': True,
+        'legend_order': (4,2,0,1,3),
+        'markevery': {
+            't-base': 5,
+            't-a': 5,
+            't-e': 5,
+            't-r': 5,
+            't-h': 5
+        },
+    }
+    NAME = MVSTOTPCCNonCumuFactorsConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
+    DIM2 = ['t-a', 't-e', 't-r', 't-h', 't-base']
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [False, False, False]
+    LEGEND_SELECT = [(0, 2), (2, 4), (4, 5)]
+    D3YMAXES = [None, None, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_noncumu_factors_ttcc_w1',
+                'tpcc_noncumu_factors_ttcc_w4',
+                'tpcc_noncumu_factors_ttcc_part']
     #FIG_SIZE = (6, 6)
 
 

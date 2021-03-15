@@ -25,7 +25,7 @@ from config import WikiBaselineGraphConfig, RubisBaselineGraphConfig
 from config import TW1OCCZoomedGraphConfig, TW1MVZoomedGraphConfig
 from config import TWPOCCGraphConfig, TWPMVGraphConfig
 from config import TPCCFactorsGraphConfig, TPCCStackedFactorsGraphConfig, TPCCOCCStackedFactorsGraphConfig
-from config import TPCCNonCumuFactorsMVCCGraphConfig, TPCCNonCumuFactorsOCCGraphConfig, OldTPCCNonCumuFactorsOCCGraphConfig
+from config import TPCCNonCumuFactorsMVCCGraphConfig, TPCCNonCumuFactorsOCCGraphConfig, TPCCNonCumuFactorsTTCCGraphConfig, OldTPCCNonCumuFactorsOCCGraphConfig
 from config import TPCCIndexContentionGraphConfig
 
 from config import TScalabilityMergedGraphConfig
@@ -85,6 +85,7 @@ plotter_map = {
     'tpccfactors': TPCCFactorsGraphConfig,
     't_noncumu_m': TPCCNonCumuFactorsMVCCGraphConfig,
     't_noncumu_o': TPCCNonCumuFactorsOCCGraphConfig,
+    't_noncumu_t': TPCCNonCumuFactorsTTCCGraphConfig,
     'old_t_noncumu_o': OldTPCCNonCumuFactorsOCCGraphConfig,
     'tpcc-stacked-factors': TPCCStackedFactorsGraphConfig,
     'tpcc-stacked-factors-occ': TPCCOCCStackedFactorsGraphConfig,
@@ -425,7 +426,7 @@ class BenchPlotter:
             markevery = None
             if markevery_map is not None:
                 sutd3 = '{}/{}'.format(sut, meta_info['d3'])
-                print(sutd3)
+                print('sutd3:', sutd3)
                 if sutd3 in markevery_map:
                     markevery = markevery_map[sutd3]
                 elif sut in markevery_map:
@@ -435,12 +436,17 @@ class BenchPlotter:
                 else:
                     markevery = markevery_map.get('default')
 
+            args = {
+                'marker': l_marker,
+                'color': l_color,
+                'linewidth': l_width,
+                'linestyle': l_style,
+                'markevery': markevery,
+                }
             if prop_mapping(errorbar_mapping, sut):
-                l = ax.errorbar(p_x, p_y, marker=l_marker, color=l_color, yerr=p_err, ecolor=l_color, capsize=4,
-                                linewidth=l_width, linestyle=l_style, markevery=markevery)
+                l = ax.errorbar(p_x, p_y, yerr=p_err, ecolor=l_color, capsize=4, **args)
             else:
-                l = ax.plot(p_x, p_y, marker=l_marker, color=l_color, linewidth=l_width, linestyle=l_style,
-                            markevery=markevery)
+                l = ax.plot(p_x, p_y, **args)
             lines.append(l)
 
         if meta_info['graph_title'] != '':
