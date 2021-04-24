@@ -479,7 +479,7 @@ class TPCCBaselinesGraphConfig:
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['o','tictoc','m', 'o.scale', 'tictoc.scale', 'm.scale']
+    DIM2 = ['o','tictoc','m']
     DIM3 = ['1', '4', '0']
     LEGENDS = [False, False, False]
     LEGEND_SELECT = [(0, 1), (0, 1), (0, 1)]
@@ -830,7 +830,7 @@ class YCSBBaselinesGraphConfig:
     NAME = YCSBTicTocCompConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = YCSBTicTocCompConfig.DIM1
-    DIM2 = ['o','tictoc','m', 'o.scale', 'tictoc.scale', 'm.scale']
+    DIM2 = ['o','tictoc','m']
     DIM3 = ['a', 'b', 'c']
     LEGENDS = [False, False, False]
     LEGEND_SELECT = [(1, 2), (0, 1), (2, 3)]
@@ -893,7 +893,7 @@ class WikiBaselineGraphConfig:
     NAME = MVSTOWikiConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOWikiConfig.DIM1
-    DIM2 = ['o','tictoc','m', 'o.scale', 'tictoc.scale', 'm.scale']
+    DIM2 = ['o','tictoc','m']
     DIM3 = ['1']
     LEGENDS = [False]
     D3YMAXES = [0.7]
@@ -975,7 +975,7 @@ class RubisBaselineGraphConfig:
     NAME = MVSTORubisConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTORubisConfig.DIM1
-    DIM2 = ['o','tictoc','m', 'o.scale', 'tictoc.scale', 'm.scale']
+    DIM2 = ['o','tictoc','m']
     DIM3 = ['1']
     LEGENDS = [False]
     D3YMAXES = [7]

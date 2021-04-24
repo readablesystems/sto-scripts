@@ -12,9 +12,9 @@ datasets ={
         'o': 'OSTO',
         'tictoc': 'TSTO',
         'm': 'MSTO',
-        'o.scale': 'OSTO perfect scalability',
-        'tictoc.scale': 'TSTO perfect scalability',
-        'm.scale': 'MSTO perfect scalability',
+        #'o.scale': 'OSTO perfect scalability',
+        #'tictoc.scale': 'TSTO perfect scalability',
+        #'m.scale': 'MSTO perfect scalability',
         },
     'factors': {
         'o-base': 'Baseline',
@@ -24,12 +24,12 @@ datasets ={
         'o-h': 'No hash indexes',
         },
     }
-dataset = datasets['baselines']
-columns = 2
+dataset = datasets['factors']
+columns = 5
 
 handles = [
     plt.plot(
-      [], [], marker=None,
+      [], [], marker=config.marker_mapping[key],
       color=GraphGlobalConstants.color(config.color_mapping[key]),
       ls='dotted' if key[-len('scale'):] == 'scale' else 'solid')[0]
     for key in dataset.keys()]

@@ -7,6 +7,8 @@ plots=(
   r_base
   t_idxcont
   t_noncumu_o
+  t_noncumu_t
+  t_noncumu_m
   t_xsys
   t_semopt
   t_semind
