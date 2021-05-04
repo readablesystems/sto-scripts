@@ -13,8 +13,7 @@ plots=(
   t_semopt
   t_semind
   y_semopt
-  w_scale_merged
-  r_scale_merged
+  y_collapse
   r_semopt
   w_semopt
   t_scale_m
@@ -24,3 +23,5 @@ plots=(
 for plot in ${plots[@]}; do
   ./plotter.py $plot -tpdf -n
 done
+
+./legend.py

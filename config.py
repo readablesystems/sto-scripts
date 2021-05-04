@@ -210,7 +210,7 @@ marker_mapping = {
     'o.scale': None,
     'm':       'x',
     'm.c':     'x',
-    'm.cp':    '$p$',
+    'm.cp':    'x',
     'm.s':     'x',
     'm.s.i':   'x',
     'm.c.s':   'x',
@@ -248,15 +248,15 @@ marker_mapping = {
     'on.a.e': 'p',
     'on.a.r.e': 'p',
     'on.a.r.e.h': 'x',
-    'm-a': 'p',
-    'm-e': 'p',
-    'm-r': 'p',
-    'm-h': 'p',
-    'm-base': 'p',
-    'o-a': 'o',
-    'o-e': '^',
-    'o-r': 'v',
-    'o-h': 's',
+    'm-a': 'x',
+    'm-e': 'x',
+    'm-r': 'x',
+    'm-h': 'x',
+    'm-base': 'x',
+    'o-a': None,
+    'o-e': None,
+    'o-r': None,
+    'o-h': None,
     'o-base': None,
     't-a': '$T$',
     't-e': '$T$',
@@ -278,6 +278,7 @@ linestyle_mapping = {
     'm.c': 'dashed',
     'm.cp': 'dashed',
     'o.s': 'dotted',
+    'on': 'dashed',
     'op.s': 'dotted',
     'm.s': 'dotted',
     'm.scale': 'dotted',
@@ -301,6 +302,21 @@ linestyle_mapping = {
     'ttcc-wrong.s': 'dotted',
     'ttcc-wrong.c': 'dotted',
     'ttcc-wrong.c.s': 'dotted',
+    'm-a': 'dotted',
+    'm-e': (0, (5, 10)),
+    'm-r': 'dashdot',
+    'm-h': (0, (5, 1)),
+    'm-base': 'solid',
+    'o-a': 'dotted',
+    'o-e': (0, (5, 10)),
+    'o-r': 'dashdot',
+    'o-h': (0, (5, 1)),
+    'o-base': 'solid',
+    't-a': 'dotted',
+    't-e': (0, (5, 10)),
+    't-r': 'dashdot',
+    't-h': (0, (5, 1)),
+    't-base': 'solid',
 }
 
 linewidth_mapping = {
@@ -418,10 +434,10 @@ class TMVGraphConfig:
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
     DIM1 = MVSTOConfig.DIM1
-    DIM2 = ['m','m.c','m.s','m.c.s','o-secondary','o.c-secondary','o.s-secondary','o.c.s-secondary']
+    DIM2 = ['m','m.c','m.s','m.c.s']#,'o-secondary','o.c-secondary','o.s-secondary','o.c.s-secondary']
     DIM3 = ['1', '4', '0']
-    LEGENDS = [False, True, False]
-    D3YMAXES = [2.1, 4.1, 5.0]
+    LEGENDS = [False, False, False]
+    D3YMAXES = [None, None, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['tpcc_mvcc_w1', 'tpcc_mvcc_w4', 'tpcc_mvcc_part']
 
@@ -475,6 +491,11 @@ class TPCCBaselinesGraphConfig:
         'y_label': 'Throughput (Mtxns/sec)',
         'series_names': ('OSTO', 'TSTO', 'MSTO'),
         'legends_on': True,
+#        'markevery': {
+#            'o': 5,
+#            'tictoc': 5,
+#            'm': 5,
+#        },
     }
     NAME = MVSTOConfig.NAME
     TYPE = GraphType.LINE
@@ -532,8 +553,9 @@ class TPCCSemanticOptGraphConfig:
     DIM1 = MVSTOConfig.DIM1
     DIM2 = None
     DIM3 = ['1', '4', '0']
-    SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
-    LEGENDS = [True, True, True]
+    #SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
+    SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('tictoc','tictoc.c','tictoc.s','tictoc.c.s'),('m','m.c','m.s','m.c.s'))
+    LEGENDS = [False, False, False]
     D3YMAXES = [2.4, None, None]
     D3TITLES = ['','','']
     D3FNAMES = ['tpcc_semopt_w1','tpcc_semopt_w4','tpcc_semopt_part']
@@ -778,7 +800,8 @@ class YCSBSemanticOptGraphConfig:
         'x_label': '# threads',
         'y_label': 'Throughput (Mtxns/sec)',
         'combine_subfigures': 'share-y',
-        'subfigure_series_names': (('OSTO', 'OSTO+CU+TS'), ('TSTO', 'TSTO+CU+TS'),
+        'subfigure_series_names': (('OSTO', 'OSTO+CU+TS'),
+                                   ('TSTO', 'TSTO+CU+TS'),
                                    ('MSTO', 'MSTO+CU+TS')),
         'legends_on': True,
         'legend_order': (1,0)
@@ -788,9 +811,9 @@ class YCSBSemanticOptGraphConfig:
     LEGEND_FONT_SIZE = 18
     DIM1 = YCSBTicTocCompConfig.DIM1
     DIM2 = None
-    SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
+    SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('tictoc','tictoc.c','tictoc.s','tictoc.c.s'),('m','m.c','m.s','m.c.s'))
     DIM3 = ['a', 'b', 'c']
-    LEGENDS = [True, True, True,]
+    LEGENDS = [False, False, False]
     D3YMAXES = [1.5, 11.0, None]
     D3TITLES = ['', '', '']
     D3FNAMES = ['ycsb_semopt_a', 'ycsb_semopt_b', 'ycsb_semopt_c']
@@ -817,6 +840,31 @@ class YCSBSemanticIndGraphConfig:
     D3YMAXES = [3.0, 11.0]
     D3TITLES = ['', '']
     D3FNAMES = ['ycsb_semind_a', 'ycsb_semind_b']
+
+# YCSB OCC vs TTCC vs MVCC at OCC collapse
+class YCSBCollapseGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Mtxns/sec)',
+        'combine_subfigures': 'share-y',
+        'subfigure_series_names': (('OSTO', 'OSTO+CU', 'OSTO+TS', 'OSTO+CU+TS'),
+                                   ('TSTO', 'TSTO+CU', 'TSTO+TS', 'TSTO+CU+TS'),
+                                   ('MSTO', 'MSTO+CU', 'MSTO+TS', 'MSTO+CU+TS')),
+        'legends_on': True,
+        'legend_order': (0, 1, 2, 3),
+    }
+    NAME = 'ycsb'
+    TYPE = GraphType.LINE
+    LEGEND_FONT_SIZE = 18
+    DIM1 = YCSBTicTocCompConfig.DIM1
+    DIM2 = None
+    SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('tictoc','tictoc.c','tictoc.s','tictoc.c.s'),('m','m.c','m.s','m.c.s'))
+    DIM3 = ['x']
+    LEGENDS = [True]
+    D3YMAXES = [.5]
+    D3TITLES = ['']
+    D3FNAMES = ['ycsb_collapse']
+
 
 
 # YCSB baseline graphs OCC vs TicToc vs MVCC
@@ -919,9 +967,10 @@ class WikiSemanticOptGraphConfig:
     TYPE = GraphType.LINE
     DIM1 = MVSTOWikiConfig.DIM1
     DIM2 = None
-    SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
+    #SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
+    SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('tictoc','tictoc.c','tictoc.s','tictoc.c.s'),('m','m.c','m.s','m.c.s'))
     DIM3 = ['1']
-    LEGENDS = [True]
+    LEGENDS = [False]
     D3YMAXES = [0.8]
     D3TITLES = ['']
     D3FNAMES = ['wiki_otm']
@@ -1001,9 +1050,10 @@ class RubisSemanticOptGraphConfig:
     TYPE = GraphType.LINE
     DIM1 = MVSTORubisConfig.DIM1
     DIM2 = None
-    SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
+    #SUBFIG_DIM2S = (('o','o.c.s'),('tictoc','tictoc.c.s'),('m','m.c.s'))
+    SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('tictoc','tictoc.c','tictoc.s','tictoc.c.s'),('m','m.c','m.s','m.c.s'))
     DIM3 = ['1']
-    LEGENDS = [True]
+    LEGENDS = [False]
     D3YMAXES = [11]
     D3TITLES = ['']
     D3FNAMES = ['rubis_otm']
@@ -1284,18 +1334,22 @@ class TPCCIndexContentionGraphConfig:
         'scale_factor': 1000.0,
         'series_names': ('Index contention', 'OSTO'),
         'legends_on': True,
-        'legend_order': (1, 0)
+        'legend_order': (1, 0),
+        'markevery': {
+            'on': 5,
+            'o': 5,
+        },
     }
     NAME = MVSTOTPCCIndexContentionConfig.NAME
     TYPE = GraphType.LINE
     #LEGEND_FONT_SIZE = 24
     DIM1 = [1, 2, 4, 12, 24, 32, 40, 48, 64]
     DIM2 = ['on', 'o']
-    DIM3 = ['1', '0']
-    LEGENDS = [True, True]
-    D3YMAXES = [None, None]
-    D3TITLES = ['', '']
-    D3FNAMES = ['tpcc_index_contention_w1', 'tpcc_index_contention_part']
+    DIM3 = ['1', '4', '0']
+    LEGENDS = [True, True, True]
+    D3YMAXES = [None, None, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['tpcc_index_contention_w1', 'tpcc_index_contention_w4', 'tpcc_index_contention_part']
     #FIG_SIZE = (8,5)
 
 

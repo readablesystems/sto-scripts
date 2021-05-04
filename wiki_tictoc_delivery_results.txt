@@ -1,0 +1,10 @@
+# Threads,TicToc + SV [T1],TicToc + SV [T2],TicToc + SV [T3],TicToc + SV [T4],TicToc + SV [T5],TicToc + CU + SV [T1],TicToc + CU + SV [T2],TicToc + CU + SV [T3],TicToc + CU + SV [T4],TicToc + CU + SV [T5],TicToc [T1],TicToc [T2],TicToc [T3],TicToc [T4],TicToc [T5],TicToc + CU [T1],TicToc + CU [T2],TicToc + CU [T3],TicToc + CU [T4],TicToc + CU [T5]
+1,,,,,,,,,,,,,,,,,,,,
+2,,,,,,,,,,,,,,,,,,,,
+4,,,,,,,,,,,,,,,,,,,,
+12,,,,,,,,,,,,,,,,,,,,
+24,,,,,,,,,,,,,,,,,,,,
+32,,,,,,,,,,,,,,,,,,,,
+40,,,,,,,,,,,,,,,,,,,,
+48,,,,,,,,,,,,,,,,,,,,
+64,,,,,,,,,,,,,,,,,,,,

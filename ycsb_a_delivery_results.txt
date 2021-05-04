@@ -1,0 +1,10 @@
+# Threads,MVCC + CU (A) + SV [T1],MVCC + CU (A) + SV [T2],MVCC + CU (A) + SV [T3],MVCC + CU (A) + SV [T4],MVCC + CU (A) + SV [T5],MVCC (A) + SV [T1],MVCC (A) + SV [T2],MVCC (A) + SV [T3],MVCC (A) + SV [T4],MVCC (A) + SV [T5],MVCC + CU (A) [T1],MVCC + CU (A) [T2],MVCC + CU (A) [T3],MVCC + CU (A) [T4],MVCC + CU (A) [T5],MVCC (A) [T1],MVCC (A) [T2],MVCC (A) [T3],MVCC (A) [T4],MVCC (A) [T5],OCC + CU (A) + SV [T1],OCC + CU (A) + SV [T2],OCC + CU (A) + SV [T3],OCC + CU (A) + SV [T4],OCC + CU (A) + SV [T5],TicToc + CU (A) + SV [T1],TicToc + CU (A) + SV [T2],TicToc + CU (A) + SV [T3],TicToc + CU (A) + SV [T4],TicToc + CU (A) + SV [T5],OCC (A) + SV [T1],OCC (A) + SV [T2],OCC (A) + SV [T3],OCC (A) + SV [T4],OCC (A) + SV [T5],TicToc (A) + SV [T1],TicToc (A) + SV [T2],TicToc (A) + SV [T3],TicToc (A) + SV [T4],TicToc (A) + SV [T5],OCC + CU (A) [T1],OCC + CU (A) [T2],OCC + CU (A) [T3],OCC + CU (A) [T4],OCC + CU (A) [T5],TicToc + CU (A) [T1],TicToc + CU (A) [T2],TicToc + CU (A) [T3],TicToc + CU (A) [T4],TicToc + CU (A) [T5],OCC (A) [T1],OCC (A) [T2],OCC (A) [T3],OCC (A) [T4],OCC (A) [T5],TicToc (A) [T1],TicToc (A) [T2],TicToc (A) [T3],TicToc (A) [T4],TicToc (A) [T5]
+1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+12,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+24,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+32,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+40,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+48,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+64,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

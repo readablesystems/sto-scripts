@@ -1,0 +1,10 @@
+# Threads,MVCC (W1) + SV [T1],MVCC (W1) + SV [T2],MVCC (W1) + SV [T3],MVCC (W1) + SV [T4],MVCC (W1) + SV [T5],MVCC + CU (W1) + SV [T1],MVCC + CU (W1) + SV [T2],MVCC + CU (W1) + SV [T3],MVCC + CU (W1) + SV [T4],MVCC + CU (W1) + SV [T5],MVCC (W4) + SV [T1],MVCC (W4) + SV [T2],MVCC (W4) + SV [T3],MVCC (W4) + SV [T4],MVCC (W4) + SV [T5],MVCC + CU (W4) + SV [T1],MVCC + CU (W4) + SV [T2],MVCC + CU (W4) + SV [T3],MVCC + CU (W4) + SV [T4],MVCC + CU (W4) + SV [T5],MVCC (W0) + SV [T1],MVCC (W0) + SV [T2],MVCC (W0) + SV [T3],MVCC (W0) + SV [T4],MVCC (W0) + SV [T5],MVCC + CU (W0) + SV [T1],MVCC + CU (W0) + SV [T2],MVCC + CU (W0) + SV [T3],MVCC + CU (W0) + SV [T4],MVCC + CU (W0) + SV [T5],MVCC (W1) [T1],MVCC (W1) [T2],MVCC (W1) [T3],MVCC (W1) [T4],MVCC (W1) [T5],MVCC + CU (W1) [T1],MVCC + CU (W1) [T2],MVCC + CU (W1) [T3],MVCC + CU (W1) [T4],MVCC + CU (W1) [T5],MVCC (W4) [T1],MVCC (W4) [T2],MVCC (W4) [T3],MVCC (W4) [T4],MVCC (W4) [T5],MVCC + CU (W4) [T1],MVCC + CU (W4) [T2],MVCC + CU (W4) [T3],MVCC + CU (W4) [T4],MVCC + CU (W4) [T5],MVCC (W0) [T1],MVCC (W0) [T2],MVCC (W0) [T3],MVCC (W0) [T4],MVCC (W0) [T5],MVCC + CU (W0) [T1],MVCC + CU (W0) [T2],MVCC + CU (W0) [T3],MVCC + CU (W0) [T4],MVCC + CU (W0) [T5]
+1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+4,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+12,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+24,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+32,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+40,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+48,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,
+64,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,

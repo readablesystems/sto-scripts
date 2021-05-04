@@ -553,7 +553,7 @@ def convert_ycsb_all(sys_name_map, compatible_results):
         sys_name_reverse_map[v] = k
         sys_short_names.append(v)
 
-    ycsb_types = ('a', 'b', 'c')
+    ycsb_types = ('a', 'b', 'c', 'x')
     for yt in ycsb_types:
         try:
             filename = 'ycsb_{}_results.txt'.format(yt)
@@ -569,12 +569,7 @@ def convert_ycsb_all(sys_name_map, compatible_results):
                         for i in range(WILLIAM_TRIALS):
                             runner_key = br.key(d1, d2, d3, i)
                             col_key = long_name
-                            if d3 == 'a':
-                                col_key = col_key.format('A', 'a')
-                            elif d3 == 'b':
-                                col_key = col_key.format('B', 'b')
-                            else:
-                                col_key = col_key.format('C', 'c')
+                            col_key = col_key.format(d3.upper(), d3)
                             col_key += ' [T{}]'.format(i+1)
                             if col_key in row:
                                 xput = float(row[col_key])

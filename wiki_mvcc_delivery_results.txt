@@ -1,0 +1,10 @@
+# Threads,MVCC + SV [T1],MVCC + SV [T2],MVCC + SV [T3],MVCC + SV [T4],MVCC + SV [T5],MVCC + CU + SV [T1],MVCC + CU + SV [T2],MVCC + CU + SV [T3],MVCC + CU + SV [T4],MVCC + CU + SV [T5],MVCC [T1],MVCC [T2],MVCC [T3],MVCC [T4],MVCC [T5],MVCC + CU [T1],MVCC + CU [T2],MVCC + CU [T3],MVCC + CU [T4],MVCC + CU [T5]
+1,,,,,,,,,,,,,,,,,,,,
+2,,,,,,,,,,,,,,,,,,,,
+4,,,,,,,,,,,,,,,,,,,,
+12,,,,,,,,,,,,,,,,,,,,
+24,,,,,,,,,,,,,,,,,,,,
+32,,,,,,,,,,,,,,,,,,,,
+40,,,,,,,,,,,,,,,,,,,,
+48,,,,,,,,,,,,,,,,,,,,
+64,,,,,,,,,,,,,,,,,,,,
