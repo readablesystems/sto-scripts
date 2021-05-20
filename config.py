@@ -845,26 +845,46 @@ class YCSBSemanticIndGraphConfig:
 class YCSBCollapseGraphConfig:
     INFO = {
         'x_label': '# threads',
-        'y_label': 'Throughput (Mtxns/sec)',
+        'y_label': 'Throughput (Ktxns/sec)',
         'combine_subfigures': 'share-y',
         'subfigure_series_names': (('OSTO', 'OSTO+CU', 'OSTO+TS', 'OSTO+CU+TS'),
                                    ('TSTO', 'TSTO+CU', 'TSTO+TS', 'TSTO+CU+TS'),
                                    ('MSTO', 'MSTO+CU', 'MSTO+TS', 'MSTO+CU+TS')),
         'legends_on': True,
         'legend_order': (0, 1, 2, 3),
+        'scale_factor': 1000,
     }
     NAME = 'ycsb'
     TYPE = GraphType.LINE
-    LEGEND_FONT_SIZE = 18
     DIM1 = YCSBTicTocCompConfig.DIM1
     DIM2 = None
     SUBFIG_DIM2S = (('o','o.c','o.s','o.c.s'),('tictoc','tictoc.c','tictoc.s','tictoc.c.s'),('m','m.c','m.s','m.c.s'))
-    DIM3 = ['x']
-    LEGENDS = [True]
-    D3YMAXES = [.5]
-    D3TITLES = ['']
-    D3FNAMES = ['ycsb_collapse']
+    DIM3 = ['x', 'y', 'z']
+    LEGENDS = [True, True, True]
+    D3YMAXES = [.09, None, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['ycsb_collapse_x', 'ycsb_collapse_y', 'ycsb_collapse_z']
 
+    WIDE_FIG_SIZE = (16, 5)
+
+# YCSB baseline graphs OCC vs TicToc vs MVCC with OCC collapse
+class YCSBCollapseBaselinesGraphConfig:
+    INFO = {
+        'x_label': '# threads',
+        'y_label': 'Throughput (Ktxns/sec)',
+        'series_names': ('OSTO', 'TSTO', 'MSTO'),
+        'legends_on': True,
+        'scale_factor': 1000,
+    }
+    NAME = YCSBTicTocCompConfig.NAME
+    TYPE = GraphType.LINE
+    DIM1 = YCSBTicTocCompConfig.DIM1
+    DIM2 = ['o','tictoc','m']
+    DIM3 = ['x', 'y', 'z']
+    LEGENDS = [True, True, True]
+    D3YMAXES = [None, None, None]
+    D3TITLES = ['', '', '']
+    D3FNAMES = ['ycsb_collapse_x_base', 'ycsb_collapse_y_base', 'ycsb_collapse_z_base']
 
 
 # YCSB baseline graphs OCC vs TicToc vs MVCC

@@ -553,7 +553,7 @@ def convert_ycsb_all(sys_name_map, compatible_results):
         sys_name_reverse_map[v] = k
         sys_short_names.append(v)
 
-    ycsb_types = ('a', 'b', 'c', 'x')
+    ycsb_types = ('a', 'b', 'c', 'x', 'y', 'z')
     for yt in ycsb_types:
         try:
             filename = 'ycsb_{}_results.txt'.format(yt)
@@ -562,6 +562,9 @@ def convert_ycsb_all(sys_name_map, compatible_results):
                 scalabilities = {}
                 for row in reader:
                     d1 = row['# Threads']
+                    # Skip 1-thread 
+                    if yt in ('x', 'y', 'z') and d1 == '1':
+                      continue
                     d3 = yt
                     for v in sys_short_names:
                         d2 = v

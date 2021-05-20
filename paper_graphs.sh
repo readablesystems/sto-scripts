@@ -14,6 +14,7 @@ plots=(
   t_semind
   y_semopt
   y_collapse
+  y_collapse_base
   r_semopt
   w_semopt
   t_scale_m
