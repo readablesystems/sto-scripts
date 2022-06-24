@@ -4,6 +4,9 @@
 #
 # (Sorted in lexicographical order by setup function name)
 #
+# setup_adapting_100opt: Adapting microbenchmark (100 ops/txn)
+# setup_adapting_1000opt: Adapting microbenchmark (1000 ops/txn)
+# setup_like: LIKE
 # setup_rubis: RUBiS
 # setup_tpcc: TPC-C, 1, 4, and scaling (#wh = #th) warehouses, OCC and MVCC
 # setup_tpcc_gc: TPC-C, 1 and scaling warehouses, gc cycle of 1ms, 100ms, 10s (off)
@@ -21,6 +24,7 @@
 # setup_tpcc_stacked_factors_occ: (see below)
 # setup_tpcc_stacked_factors_mvcc: TPC-C factor analysis experiments.
 # setup_tpcc_occ_idx_cont: TPC-C OCC index contention.
+# setup_tpcc_idx_cont: TPC-C index contention.
 # setup_wiki: Wikipedia
 # setup_ycsba: YCSB-A
 # setup_ycsba_occ: YCSB-A, OCC only
@@ -34,6 +38,135 @@
 # setup_ycsbb_semopts: YCSB-B semantic optimizations comparison
 # setup_ycsbc: YCSB-C
 # setup_ycsbc_semopts: YCSB-C semantic optimizations comparison
+# setup_ycsbx_semopts: YCSB Collapse on Writers + R/O semantic optimizations comparison
+# setup_ycsby_semopts: YCSB Collapse on Writers + R/W semantic optimizations comparison
+# setup_ycsbz_semopts: YCSB Collapse on R/W + Writers semantic optimizations comparison
+
+setup_adapting_100opt() {
+  EXPERIMENT_NAME="Adapting (100 ops/txn)"
+  ITERS=5
+
+  Adapting_OCC=(
+    "OCC"                "-idefault -g -v4 -snone -o100"
+    "OCC + DU"           "-idefault -g -v4 -snone -o100 -x"
+    "OCC + STS"          "-idefault -g -v4 -sstatic -o100"
+    "OCC + STS + DU"     "-idefault -g -v4 -sstatic -o100 -x"
+    "OCC + ATS"          "-idefault -g -v4 -sadaptive -o100"
+    "OCC + ATS + DU"     "-idefault -g -v4 -sadaptive -o100 -x"
+    "TicToc"             "-itictoc -g -v4 -snone -o100"
+    "TicToc + DU"        "-itictoc -g -v4 -snone -o100 -x"
+    "TicToc + STS"       "-itictoc -g -v4 -sstatic -o100"
+    "TicToc + STS + DU"  "-itictoc -g -v4 -sstatic -o100 -x"
+    "TicToc + ATS"       "-itictoc -g -v4 -sadaptive -o100"
+    "TicToc + ATS + DU"  "-itictoc -g -v4 -sadaptive -o100 -x"
+  )
+
+  Adapting_MVCC=(
+    "MVCC"               "-imvcc -g -v4 -snone -o100"
+    "MVCC + DU"          "-imvcc -g -v4 -snone -o100 -x"
+    "MVCC + STS"         "-imvcc -g -v4 -sstatic -o100"
+    "MVCC + STS + DU"    "-imvcc -g -v4 -sstatic -o100 -x"
+    "MVCC + ATS"         "-imvcc -g -v4 -sadaptive -o100"
+    "MVCC + ATS + DU"    "-imvcc -g -v4 -sadaptive -o100 -x"
+  )
+
+  OCC_LABELS=("${Adapting_OCC[@]}")
+  MVCC_LABELS=("${Adapting_MVCC[@]}")
+  OCC_BINARIES=("adapting_bench" "" "NDEBUG=1 INLINED_VERSIONS=1" "")
+  MVCC_BINARIES=("${OCC_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
+setup_adapting_1000opt() {
+  EXPERIMENT_NAME="Adapting (1000 ops/txn)"
+  ITERS=5
+
+  Adapting_OCC=(
+    "OCC"                "-idefault -g -v4 -snone -o1000"
+    "OCC + DU"           "-idefault -g -v4 -snone -o1000 -x"
+    "OCC + STS"          "-idefault -g -v4 -sstatic -o1000"
+    "OCC + STS + DU"     "-idefault -g -v4 -sstatic -o1000 -x"
+    "OCC + ATS"          "-idefault -g -v4 -sadaptive -o1000"
+    "OCC + ATS + DU"     "-idefault -g -v4 -sadaptive -o1000 -x"
+    "TicToc"             "-itictoc -g -v4 -snone -o1000"
+    "TicToc + DU"        "-itictoc -g -v4 -snone -o1000 -x"
+    "TicToc + STS"       "-itictoc -g -v4 -sstatic -o1000"
+    "TicToc + STS + DU"  "-itictoc -g -v4 -sstatic -o1000 -x"
+    "TicToc + ATS"       "-itictoc -g -v4 -sadaptive -o1000"
+    "TicToc + ATS + DU"  "-itictoc -g -v4 -sadaptive -o1000 -x"
+  )
+
+  Adapting_MVCC=(
+    "MVCC"               "-imvcc -g -v4 -snone -o1000"
+    "MVCC + DU"          "-imvcc -g -v4 -snone -o1000 -x"
+    "MVCC + STS"         "-imvcc -g -v4 -sstatic -o1000"
+    "MVCC + STS + DU"    "-imvcc -g -v4 -sstatic -o1000 -x"
+    "MVCC + ATS"         "-imvcc -g -v4 -sadaptive -o1000"
+    "MVCC + ATS + DU"    "-imvcc -g -v4 -sadaptive -o1000 -x"
+  )
+
+  OCC_LABELS=("${Adapting_OCC[@]}")
+  MVCC_LABELS=("${Adapting_MVCC[@]}")
+  OCC_BINARIES=("adapting_bench" "" "NDEBUG=1 INLINED_VERSIONS=1" "")
+  MVCC_BINARIES=("${OCC_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
+setup_like() {
+  EXPERIMENT_NAME="LIKE"
+  ITERS=5
+
+  LIKE_OCC=(
+    "OCC"                "-idefault -g -n0 -r10 -azipf -k1.4 -snone"
+    "OCC + DU"           "-idefault -g -n0 -r10 -azipf -k1.4 -snone -x"
+    "OCC + STS"          "-idefault -g -n0 -r10 -azipf -k1.4 -sstatic"
+    "OCC + STS + DU"     "-idefault -g -n0 -r10 -azipf -k1.4 -sstatic -x"
+    "OCC + ATS"          "-idefault -g -n0 -r10 -azipf -k1.4 -sadaptive"
+    "OCC + ATS + DU"     "-idefault -g -n0 -r10 -azipf -k1.4 -sadaptive -x"
+    "TicToc"             "-itictoc -g -n0 -r10 -azipf -k1.4 -snone"
+    "TicToc + DU"        "-itictoc -g -n0 -r10 -azipf -k1.4 -snone -x"
+    "TicToc + STS"       "-itictoc -g -n0 -r10 -azipf -k1.4 -sstatic"
+    "TicToc + STS + DU"  "-itictoc -g -n0 -r10 -azipf -k1.4 -sstatic -x"
+    "TicToc + ATS"       "-itictoc -g -n0 -r10 -azipf -k1.4 -sadaptive"
+    "TicToc + ATS + DU"  "-itictoc -g -n0 -r10 -azipf -k1.4 -sadaptive -x"
+  )
+
+  LIKE_MVCC=(
+    "MVCC"               "-imvcc -g -n0 -r10 -azipf -k1.4 -snone"
+    "MVCC + DU"          "-imvcc -g -n0 -r10 -azipf -k1.4 -snone -x"
+    "MVCC + STS"         "-imvcc -g -n0 -r10 -azipf -k1.4 -sstatic"
+    "MVCC + STS + DU"    "-imvcc -g -n0 -r10 -azipf -k1.4 -sstatic -x"
+    "MVCC + ATS"         "-imvcc -g -n0 -r10 -azipf -k1.4 -sadaptive"
+    "MVCC + ATS + DU"  "-imvcc -g -n0 -r10 -azipf -k1.4 -sadaptive -x"
+  )
+
+  OCC_LABELS=("${LIKE_OCC[@]}")
+  MVCC_LABELS=("${LIKE_MVCC[@]}")
+  OCC_BINARIES=("like_bench" "" "NDEBUG=1 INLINED_VERSIONS=1" "")
+  MVCC_BINARIES=("${OCC_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
 
 setup_rubis() {
   EXPERIMENT_NAME="RUBiS"
@@ -796,6 +929,9 @@ setup_tpcc_noncumu_factors() {
     "OCC (W1)" "-idefault -g -w1"
     "OCC (W4)" "-idefault -g -w4"
     "OCC (W0)" "-idefault -g"
+    "TicToc (W1)"      "-itictoc -g -w1"
+    "TicToc (W4)"      "-itictoc -g -w4"
+    "TicToc (W0)"      "-itictoc -g"
   )
 
   TPCC_MVCC=(
@@ -1107,6 +1243,50 @@ setup_tpcc_occ_idx_cont() {
   MVCC_LABELS=()
   OCC_BINARIES=("${TPCC_OCC_BINARIES[@]}")
   MVCC_BINARIES=()
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    if [[ $cmd != *"-w"* ]]
+    then
+      cmd="$cmd -w$i"
+    fi
+  }
+}
+
+setup_tpcc_idx_cont() {
+  EXPERIMENT_NAME="TPC-C Contention-aware Indexing"
+
+  TPCC_OCC=(
+    "OCC (W1)" "-idefault -g -w1 -r1000"
+    "OCC (W4)" "-idefault -g -w4 -r1000"
+    "OCC (W0)" "-idefault -g -r1000"
+    "TicToc (W1)"      "-itictoc -g -w1 -r1000"
+    "TicToc (W4)"      "-itictoc -g -w4 -r1000"
+    "TicToc (W0)"      "-itictoc -g -r1000"
+  )
+
+  TPCC_MVCC=(
+    "MVCC (W1)" "-imvcc -g -w1 -r1000"
+    "MVCC (W4)" "-imvcc -g -w4 -r1000"
+    "MVCC (W0)" "-imvcc -g -r1000"
+  )
+
+  TPCC_OCC_BINARIES=(
+  )
+  TPCC_MVCC_BINARIES=(
+  )
+  TPCC_BOTH_BINARIES=(
+    "tpcc_bench" "-cont-index" "PROFILE_COUNTERS=2 NDEBUG=1 INLINED_VERSIONS=1 CONTENTION_AWARE_IDX=0" "-CONT-AWARE-IDX"
+    "tpcc_bench" "-base"       "PROFILE_COUNTERS=2 NDEBUG=1 INLINED_VERSIONS=1" "BASE"
+  )
+
+  OCC_LABELS=("${TPCC_OCC[@]}")
+  MVCC_LABELS=("${TPCC_MVCC[@]}")
+  OCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${TPCC_BOTH_BINARIES[@]}")
 
   call_runs() {
     default_call_runs
@@ -1747,6 +1927,126 @@ setup_ycsbc_semopts() {
   YCSB_MVCC=(
     "MVCC + CU (C)" "-mC -imvcc -g -x"
     "MVCC (C)"      "-mC -imvcc -g"
+  )
+
+  YCSB_OCC_BINARIES=(
+    "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+  )
+  YCSB_MVCC_BINARIES=(
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
+  )
+  YCSB_BOTH_BINARIES=(
+    "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${YCSB_OCC[@]}")
+  MVCC_LABELS=("${YCSB_MVCC[@]}")
+  OCC_BINARIES=("${YCSB_OCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${YCSB_MVCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
+setup_ycsbx_semopts() {
+  EXPERIMENT_NAME="YCSB-X Semantic optimizations, OCC vs TTCC vs MVCC"
+  TIMEOUT=60
+
+  YCSB_OCC=(
+    "OCC + CU (X)"    "-mX -idefault -g -x"
+    "TicToc + CU (X)" "-mX -itictoc -g -x"
+    "OCC (X)"         "-mX -idefault -g"
+    "TicToc (X)"      "-mX -itictoc -g"
+  )
+
+  YCSB_MVCC=(
+    "MVCC + CU (X)" "-mX -imvcc -g -x"
+    "MVCC (X)"      "-mX -imvcc -g"
+  )
+
+  YCSB_OCC_BINARIES=(
+    "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+  )
+  YCSB_MVCC_BINARIES=(
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
+  )
+  YCSB_BOTH_BINARIES=(
+    "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${YCSB_OCC[@]}")
+  MVCC_LABELS=("${YCSB_MVCC[@]}")
+  OCC_BINARIES=("${YCSB_OCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${YCSB_MVCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
+setup_ycsby_semopts() {
+  EXPERIMENT_NAME="YCSB-Y Semantic optimizations, OCC vs TTCC vs MVCC"
+  TIMEOUT=60
+
+  YCSB_OCC=(
+    "OCC + CU (Y)"    "-mY -idefault -g -x"
+    "TicToc + CU (Y)" "-mY -itictoc -g -x"
+    "OCC (Y)"         "-mY -idefault -g"
+    "TicToc (Y)"      "-mY -itictoc -g"
+  )
+
+  YCSB_MVCC=(
+    "MVCC + CU (Y)" "-mY -imvcc -g -x"
+    "MVCC (Y)"      "-mY -imvcc -g"
+  )
+
+  YCSB_OCC_BINARIES=(
+    "ycsb_bench" "-occ" "NDEBUG=1 FINE_GRAINED=1" " + SV"
+  )
+  YCSB_MVCC_BINARIES=(
+    "ycsb_bench" "-mvcc" "NDEBUG=1 FINE_GRAINED=1 INLINED_VERSIONS=1" " + SV"
+  )
+  YCSB_BOTH_BINARIES=(
+    "ycsb_bench" "-both" "NDEBUG=1 INLINED_VERSIONS=1" ""
+  )
+
+  OCC_LABELS=("${YCSB_OCC[@]}")
+  MVCC_LABELS=("${YCSB_MVCC[@]}")
+  OCC_BINARIES=("${YCSB_OCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+  MVCC_BINARIES=("${YCSB_MVCC_BINARIES[@]}" "${YCSB_BOTH_BINARIES[@]}")
+
+  call_runs() {
+    default_call_runs
+  }
+
+  update_cmd() {
+    ``  # noop
+  }
+}
+
+setup_ycsbz_semopts() {
+  EXPERIMENT_NAME="YCSB-Z Semantic optimizations, OCC vs TTCC vs MVCC"
+  TIMEOUT=60
+
+  YCSB_OCC=(
+    "OCC + CU (Z)"    "-mZ -idefault -g -x"
+    "TicToc + CU (Z)" "-mZ -itictoc -g -x"
+    "OCC (Z)"         "-mZ -idefault -g"
+    "TicToc (Z)"      "-mZ -itictoc -g"
+  )
+
+  YCSB_MVCC=(
+    "MVCC + CU (Z)" "-mZ -imvcc -g -x"
+    "MVCC (Z)"      "-mZ -imvcc -g"
   )
 
   YCSB_OCC_BINARIES=(
