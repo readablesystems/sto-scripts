@@ -18,9 +18,9 @@ datasets ={
         },
     'tpcc_mvcc': {
         'm': 'MSTO',
-        'm.c': 'MSTO+CU',
+        'm.c': 'MSTO+DU',
         'm.s': 'MSTO+TS',
-        'm.c.s': 'MSTO+CU+TS',
+        'm.c.s': 'MSTO+DU+TS',
         },
     'tpcc_noncumu_factors': {
         'o-base': 'Baseline',
@@ -31,17 +31,17 @@ datasets ={
         },
     'semopt': {
         'o': 'OSTO',
-        'o.c': 'OSTO+CU',
+        'o.c': 'OSTO+DU',
         'o.s': 'OSTO+TS',
-        'o.c.s': 'OSTO+CU+TS',
+        'o.c.s': 'OSTO+DU+TS',
         'tictoc': 'TSTO',
-        'tictoc.c': 'TSTO+CU',
+        'tictoc.c': 'TSTO+DU',
         'tictoc.s': 'TSTO+TS',
-        'tictoc.c.s': 'TSTO+CU+TS',
+        'tictoc.c.s': 'TSTO+DU+TS',
         'm': 'MSTO',
-        'm.c': 'MSTO+CU',
+        'm.c': 'MSTO+DU',
         'm.s': 'MSTO+TS',
-        'm.c.s': 'MSTO+CU+TS',
+        'm.c.s': 'MSTO+DU+TS',
         },
     }
 columns = {
