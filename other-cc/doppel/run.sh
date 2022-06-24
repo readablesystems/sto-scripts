@@ -21,7 +21,7 @@ do
   printf "# Threads" >> $OUTFILE
   for k in {1..5}
   do
-    printf ",Doppel ($p phases) [T$k]" >> $OUTFILE
+    printf ",Doppel + ${p}phases [T$k]" >> $OUTFILE
   done
   printf "\n" >> $OUTFILE
   for i in 1 2 4 12 24 32 40 48 64
